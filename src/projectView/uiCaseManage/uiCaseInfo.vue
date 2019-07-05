@@ -1,5 +1,5 @@
 <template>
-    <div class="uiCaseManager" v-loading="this.loading">
+    <div class="uiCaseStepManager" v-loading="this.loading">
 
         <el-form :inline="true" class="demo-form-inline search-style" size="small">
             <el-form-item label="项目" labelWidth="80px">
@@ -41,7 +41,7 @@
             </el-form-item>
         </el-form>
         <el-tabs v-model="numTab" class="table_padding" @tab-click="tabChange">
-            <el-tab-pane label="case信息" name="first">
+            <el-tab-pane label="case步骤" name="first">
                 <el-row>
                     <el-col :span="3"
                             style="border:1px solid;border-color: #ffffff rgb(234, 234, 234) #ffffff #ffffff;">
@@ -219,7 +219,7 @@
             configEdit: configEdit,
 
         },
-        name: 'uiCaseManager',
+        name: 'uiCaseStepManager',
         data() {
             return {
                 apiEditViewStatus: false,//  case配置组件显示控制
@@ -443,7 +443,7 @@
             },
             tabChange(tab) {
                 //  当tab切换到接口信息时，刷新列表
-                if (tab.label === 'case信息') {
+                if (tab.label === 'case步骤') {
                     this.findCases()
                 }
             },

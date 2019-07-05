@@ -143,6 +143,9 @@
                 else if (path === '/manage/buildInFunc') {
                     this.title = ['接口管理', '内置函数']
                 }
+                else if (path === '/manage/uiCaseStepManager') {
+                    this.title = ['UIcase管理', 'case步骤']
+                }
                 else if (path === '/manage/uiCaseManager') {
                     this.title = ['UIcase管理', 'case信息']
                 }

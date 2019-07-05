@@ -5,7 +5,8 @@ import store from './store/store'
 import * as types from './store/types'
 import Header from './projectView/header.vue'
 import caseManage from './projectView/apiMessage/apiMsg.vue'
-import uiCaseManager from './projectView/uiCaseManage/uiCaseIndex.vue'
+import uiCaseStepManager from './projectView/uiCaseManage/uiCaseStepInfo.vue'
+import uiCaseManager from './projectView/uiCaseManage/uiCaseInfo.vue'
 import manage from './projectView/manage.vue'
 import projectManage from './projectView/project/project.vue'
 import platformManage from './projectView/project/platform.vue'
@@ -88,11 +89,20 @@ const routes = [
                 }
             },
             {
+                path: 'uiCaseStepManager',
+                meta: {
+                    requireAuth: true,
+                },
+                components: {
+                    Header: Header,
+                    Manage: uiCaseStepManager,
+                }
+            },
+            {
                 path: 'uiCaseManager',
                 meta: {
                     requireAuth: true,
                 },
-                // component:uiCaseManager,
                 components: {
                     Header: Header,
                     Manage: uiCaseManager,
