@@ -30,7 +30,7 @@
             </el-form-item>
 
             <el-form-item label="case名称" v-if="numTab !== 'third'">
-                <el-input placeholder="请输入" v-model="form.caseName" clearable style="width: 150px">
+                <el-input placeholder="请输入" v-model="form.caseStepName" clearable style="width: 150px">
                 </el-input>
             </el-form-item>
 
@@ -265,7 +265,7 @@
                     projectId: null,
                     suiteName: null,
                     apiName: null,
-                    caseName:null,
+                    caseStepName:null,
 
                 },
             }
@@ -342,7 +342,7 @@
                 this.$axios.post(this.$api.findUIcaseApi, {
                     'platform': this.form.platformId,
                     'projectName': this.form.projectName,
-                    'caseName': this.form.caseName,
+                    'caseStepName': this.form.caseStepName,
                     'moduleId': this.form.module.moduleId,
                     'page': this.apiMsgPage.currentPage,
                     'sizePage': this.apiMsgPage.sizePage,

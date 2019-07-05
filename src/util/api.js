@@ -73,10 +73,10 @@ const delPlatformApi = '/api/platform/delete';
 const findPlatformApi = '/api/platform/list';
 
 const findActionsApi = '/api/action/list';
-const editUIcaseApi = '/api/uicase/editAndCopy';
-const delUIcaseApi = '/api/uicase/delete';
-const findUIcaseApi = '/api/uicase/list';
-const addUIcaseApi = '/api/uicase/add';
+const editUIcaseApi = '/api/uicasestep/editAndCopy';
+const delUIcaseApi = '/api/uicasestep/delete';
+const findUIcaseApi = '/api/uicasestep/list';
+const addUIcaseApi = '/api/uicasestep/add';
 
 export default {
     baseDataApi,
