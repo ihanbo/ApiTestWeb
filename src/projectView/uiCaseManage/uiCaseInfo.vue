@@ -152,7 +152,7 @@
                 </el-row>
 
             </el-tab-pane>
-            <el-tab-pane label="case配置" name="second" v-if="apiEditViewStatus"
+            <el-tab-pane label="编辑" name="second" v-if="apiEditViewStatus"
                          style="background-color: rgb(250, 250, 250);min-height: 780px">
                 <apiEdit
                         :projectName="form.projectName"
@@ -222,7 +222,7 @@
         name: 'uiCaseStepManager',
         data() {
             return {
-                apiEditViewStatus: false,//  case配置组件显示控制
+                apiEditViewStatus: false,//  编辑组件显示控制
                 numTab: 'first',
                 loading: false,  //  页面加载状态开关
                 proModelData: '',
