@@ -37,7 +37,6 @@
             <el-form-item>
                 <el-button type="primary" icon="el-icon-search" @click.native="handleCurrentChange(1)">搜索</el-button>
                 <el-button type="primary" @click.native="initData()">录入信息</el-button>
-                <el-button type="primary" @click.native="$refs.importApiFunc.initData()">导入信息</el-button>
             </el-form-item>
         </el-form>
         <el-tabs v-model="numTab" class="table_padding" @tab-click="tabChange">
@@ -180,13 +179,6 @@
             </div>
         </el-dialog>
 
-        <importApi
-                :projectName="form.projectName"
-                :moduleData="form.module"
-                ref="importApiFunc">
-
-        </importApi>
-
         <result ref="resultFunc">
         </result>
 
@@ -205,7 +197,6 @@
 
 <script>
     // import result from './result.vue'
-    import importApi from './importApi.vue'
     import apiEdit from './apiEdit.vue'
     import errorView from '../common/errorView.vue'
     import configEdit from '../config/configEdit.vue'
@@ -213,7 +204,6 @@
     export default {
         components: {
             // result: result,
-            importApi: importApi,
             apiEdit: apiEdit,
             errorView: errorView,
             configEdit: configEdit,
