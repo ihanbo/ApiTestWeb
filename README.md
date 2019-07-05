@@ -1,9 +1,8 @@
 # ApiTestWeb
 感觉项目不错的点个star，你的支持是作者源源不断的动力~谢谢！！如有疑问可联系qq：362508572   或q群：700387899 或issue
 
-后端传送门：https://github.com/pencil1/ApiTestManage
+后端传送门：https://github.com/ihanbo/ApiTestManage
 
-线上demo地址：http://47.107.147.188/#/login （账号：ceshi 密码：123456）
 
 ## Environment
 
