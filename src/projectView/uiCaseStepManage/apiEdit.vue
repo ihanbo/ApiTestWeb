@@ -254,7 +254,7 @@
                     return
                 }
 
-                return this.$axios.post(this.$api.addUIcaseApi, {
+                return this.$axios.post(this.$api.addUIcaseStepApi, {
                     'moduleId': this.form.module.moduleId,
                     'projectName': this.form.projectName,
                     'caseStepId': this.caseStepData.id,
@@ -282,7 +282,7 @@
                 )
             },
             editCopyApiMsg(apiMsgId, status) {
-                this.$axios.post(this.$api.editUIcaseApi, {'id': apiMsgId}).then((response) => {
+                this.$axios.post(this.$api.editUIcaseStepApi, {'id': apiMsgId}).then((response) => {
                         this.caseStepData.name = response.data['data']['name'];
                         if (status === 'edit') {
                             this.caseStepData.num = response.data['data']['num'];

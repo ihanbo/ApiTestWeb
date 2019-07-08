@@ -73,10 +73,17 @@ const delPlatformApi = '/api/platform/delete';
 const findPlatformApi = '/api/platform/list';
 
 const findActionsApi = '/api/action/list';
-const editUIcaseApi = '/api/uicasestep/editAndCopy';
-const delUIcaseApi = '/api/uicasestep/delete';
-const findUIcaseApi = '/api/uicasestep/list';
-const addUIcaseApi = '/api/uicasestep/add';
+const editUIcaseStepApi = '/api/uicasestep/editAndCopy';
+const delUIcaseStepApi = '/api/uicasestep/delete';
+const findUIcaseStepApi = '/api/uicasestep/list';
+const addUIcaseStepApi = '/api/uicasestep/add';
+
+const editUIcaseApi = '/api/uicases/editAndCopy';
+const delUIcaseApi = '/api/uicases/delete';
+const findUIcaseApi = '/api/uicases/list';
+const addUIcaseApi = '/api/uicases/add';
+const delStepInCaseApi = '/api/uicases/delStep';
+
 
 export default {
     baseDataApi,
@@ -153,8 +160,15 @@ export default {
     findPlatformApi,
 
     findActionsApi,
+    editUIcaseStepApi ,
+    addUIcaseStepApi,
+    findUIcaseStepApi,
+    delUIcaseStepApi,
+
+
     editUIcaseApi ,
     addUIcaseApi,
     findUIcaseApi,
     delUIcaseApi,
+    delStepInCaseApi,
 }

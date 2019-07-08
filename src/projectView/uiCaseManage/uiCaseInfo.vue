@@ -1,5 +1,5 @@
 <template>
-    <div class="uiCaseStepManager" v-loading="this.loading">
+    <div class="uiCaseManager" v-loading="this.loading">
 
         <el-form :inline="true" class="demo-form-inline search-style" size="small">
             <el-form-item label="项目" labelWidth="80px">
@@ -30,18 +30,17 @@
             </el-form-item>
 
             <el-form-item label="case名称" v-if="numTab !== 'third'">
-                <el-input placeholder="请输入" v-model="form.caseStepName" clearable style="width: 150px">
+                <el-input placeholder="请输入" v-model="form.caseName" clearable style="width: 150px">
                 </el-input>
             </el-form-item>
 
             <el-form-item>
                 <el-button type="primary" icon="el-icon-search" @click.native="handleCurrentChange(1)">搜索</el-button>
                 <el-button type="primary" @click.native="initData()">录入信息</el-button>
-                <el-button type="primary" @click.native="$refs.importApiFunc.initData()">导入信息</el-button>
             </el-form-item>
         </el-form>
         <el-tabs v-model="numTab" class="table_padding" @tab-click="tabChange">
-            <el-tab-pane label="case步骤" name="first">
+            <el-tab-pane label="case信息" name="first">
                 <el-row>
                     <el-col :span="3"
                             style="border:1px solid;border-color: #ffffff rgb(234, 234, 234) #ffffff #ffffff;">
@@ -180,13 +179,6 @@
             </div>
         </el-dialog>
 
-        <importApi
-                :projectName="form.projectName"
-                :moduleData="form.module"
-                ref="importApiFunc">
-
-        </importApi>
-
         <result ref="resultFunc">
         </result>
 
@@ -205,24 +197,22 @@
 
 <script>
     // import result from './result.vue'
-    import importApi from './importApi.vue'
-    import apiEdit from './apiEdit.vue'
+    import apiEdit from './caseEdit.vue'
     import errorView from '../common/errorView.vue'
     import configEdit from '../config/configEdit.vue'
 
     export default {
         components: {
             // result: result,
-            importApi: importApi,
             apiEdit: apiEdit,
             errorView: errorView,
             configEdit: configEdit,
 
         },
-        name: 'uiCaseStepManager',
+        name: 'uiCaseManager',
         data() {
             return {
-                apiEditViewStatus: false,//  编辑组件显示控制
+                apiEditViewStatus: false,// 编辑组件显示控制
                 numTab: 'first',
                 loading: false,  //  页面加载状态开关
                 proModelData: '',
@@ -265,7 +255,7 @@
                     projectId: null,
                     suiteName: null,
                     apiName: null,
-                    caseStepName:null,
+                    caseName:null,
 
                 },
             }
@@ -342,7 +332,7 @@
                 this.$axios.post(this.$api.findUIcaseApi, {
                     'platform': this.form.platformId,
                     'projectName': this.form.projectName,
-                    'caseStepName': this.form.caseStepName,
+                    'caseName': this.form.caseName,
                     'moduleId': this.form.module.moduleId,
                     'page': this.apiMsgPage.currentPage,
                     'sizePage': this.apiMsgPage.sizePage,
@@ -382,7 +372,7 @@
 
             delApi(apiMsgId) {
                 //  删除接口信息
-                this.$axios.post(this.$api.delUIcaseApi, {'id': apiMsgId}).then((response) => {
+                this.$axios.post(this.$api.delUIcaseStepApi, {'id': apiMsgId}).then((response) => {
                         this.messageShow(this, response);
                         this.form.apiName = null;
                         if ((this.apiMsgPage.currentPage - 1) * this.apiMsgPage.sizePage + 1 === this.apiMsgPage.total) {
