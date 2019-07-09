@@ -84,7 +84,6 @@ const findUIcaseApi = '/api/uicases/list';
 const addUIcaseApi = '/api/uicases/add';
 const delStepInCaseApi = '/api/uicases/delStep';
 
-
 export default {
     baseDataApi,
     getFuncAddressApi,

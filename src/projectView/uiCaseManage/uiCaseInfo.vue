@@ -372,7 +372,7 @@
 
             delApi(apiMsgId) {
                 //  删除接口信息
-                this.$axios.post(this.$api.delUIcaseStepApi, {'id': apiMsgId}).then((response) => {
+                this.$axios.post(this.$api.delUIcaseApi, {'id': apiMsgId}).then((response) => {
                         this.messageShow(this, response);
                         this.form.apiName = null;
                         if ((this.apiMsgPage.currentPage - 1) * this.apiMsgPage.sizePage + 1 === this.apiMsgPage.total) {
