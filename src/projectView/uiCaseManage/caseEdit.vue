@@ -185,13 +185,13 @@
 </template>
 
 <script>
-import result from "./result.vue";
+// import result from "./result.vue";
 import errorView from "../common/errorView.vue";
 
 export default {
   components: {
     editor: require("vue2-ace-editor"),
-    result: result,
+    // result: result,
     errorView: errorView
   },
   name: "uiCaseEdit",
