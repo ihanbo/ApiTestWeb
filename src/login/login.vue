@@ -88,6 +88,7 @@
                                 type: 'warning',
                             });
                         } else {
+                            alert(response)
                             this.token = response.data['token'];
                             if (this.token) {
                                 this.$store.commit(types.LOGIN, this.token);

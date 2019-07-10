@@ -190,7 +190,7 @@ const routes = [
     {
         path: '',
         // component:caseManage,
-        component: login,
+        component: manage,
     },
 
 ];

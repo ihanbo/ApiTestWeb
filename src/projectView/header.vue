@@ -18,10 +18,10 @@
                                  @command="logOut">
                         <span class="el-dropdown-link">{{userName}}<i
                                 class="el-icon-arrow-down el-icon--right"></i></span>
-                        <el-dropdown-menu slot="dropdown" style="line-height:10px">
+                        <!-- <el-dropdown-menu slot="dropdown" style="line-height:10px">
                             <el-dropdown-item command="b">修改密码</el-dropdown-item>
                             <el-dropdown-item command="a">退出系统</el-dropdown-item>
-                        </el-dropdown-menu>
+                        </el-dropdown-menu> -->
                     </el-dropdown>
                 </el-header>
 
