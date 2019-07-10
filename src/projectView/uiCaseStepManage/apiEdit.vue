@@ -107,7 +107,7 @@
 
     export default {
         components: {
-            editor: require('vue2-ace-editor'),
+            // editor: require('vue2-ace-editor'),
             result: result,
             errorView: errorView,
         },
