@@ -405,7 +405,7 @@ export default {
     },
     editCopyApiMsg(apiMsgId, status) {
       this.$axios
-        .post(this.$api.editUIcaseStepApi, { id: apiMsgId })
+        .post(this.$api.editUIcaseApi, { id: apiMsgId })
         .then(response => {
           this.caseStepData.name = response.data["data"]["name"];
           if (status === "edit") {
