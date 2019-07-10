@@ -13,7 +13,7 @@
         </el-select>
 
         <el-select
-          v-model="caseData.module"
+          v-model="form.module"
           placeholder="请选择模块"
           value-key="moduleId"
           size="small"
@@ -33,8 +33,7 @@
           size="small"
           style="width: 120px;padding-right:5px"
         >
-          <el-option v-for="item in platformData"
-           :key="item.id" :label="item.name" :value="item"></el-option>
+          <el-option v-for="item in platformData" :key="item.id" :label="item.name" :value="item"></el-option>
         </el-select>
 
         <el-form-item prop="name" style="margin-bottom: 5px">
@@ -73,22 +72,20 @@
             :options="{group:'apiData',animation:300}"
             style="width: 99%;min-height: 10px;"
           >
-            <div
-              v-for="(_data, index) in caseData.steps"
-              :key="index"
-              class="list-complete-item"
-            >
+            <div v-for="(_data, index) in caseData.steps" :key="index" class="list-complete-item">
               <el-row :gutter="12">
-                <el-col :span="2"
-                    style="padding-top: 3px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{ _data.num}}
-                </el-col>
+                <el-col
+                  :span="2"
+                  style="padding-top: 3px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"
+                >{{ _data.num}}</el-col>
                 <el-col
                   :span="8"
                   style="padding-top: 3px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"
                 >{{ _data.name }}</el-col>
-                <el-col :span="7"
-                    style="padding-top: 3px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{ _data.desc }}
-                </el-col>
+                <el-col
+                  :span="7"
+                  style="padding-top: 3px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"
+                >{{ _data.desc }}</el-col>
                 <el-col :span="3" style="padding-left: 50px;padding-top: 3px">
                   <el-button type="danger" size="mini" @click.native="delStepInCase(index)">删除</el-button>
                 </el-col>
@@ -101,7 +98,7 @@
           <el-form :inline="true" style="padding-top: 10px;" size="small">
             <el-form-item label=" " labelWidth="10px">
               <el-select
-                v-model="form.apiMesProjectName"
+                v-model="stepsInfo.apiMesProjectName"
                 style="width: 150px;padding-right:5px"
                 placeholder="请选择项目"
                 @change="changeModuleChoice()"
@@ -110,13 +107,13 @@
               </el-select>
 
               <el-select
-                v-model="form.module"
+                v-model="stepsInfo.module"
                 value-key="moduleId"
                 style="width: 150px;padding-right:5px"
                 placeholder="请选择模块"
               >
                 <el-option
-                  v-for="item in proModelData[this.form.apiMesProjectName]"
+                  v-for="item in proModelData[this.stepsInfo.apiMesProjectName]"
                   :key="item.moduleId"
                   :label="item.name"
                   :value="item"
@@ -124,7 +121,7 @@
               </el-select>
             </el-form-item>
             <el-form-item label>
-              <el-input placeholder="请输入用例" v-model="form.apiName" style="width: 150px"></el-input>
+              <el-input placeholder="请输入用例" v-model="stepsInfo.apiName" style="width: 150px"></el-input>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click.native="handleCurrentCase(1)" size="mini">搜索</el-button>
@@ -144,7 +141,7 @@
             <el-col :span="8">用例名称</el-col>
             <el-col :span="8">用例描述</el-col>
           </el-row>
-            <draggable v-model="ApiMsgData" :options="this.draggableOptions">
+          <draggable v-model="ApiMsgData" :options="this.draggableOptions">
             <transition-group name="list-complete">
               <div v-for="(_data, index) in ApiMsgData" :key="_data.num" class="list-complete-item">
                 <el-row :gutter="24">
@@ -164,16 +161,15 @@
               </div>
             </transition-group>
           </draggable>
-            <el-pagination
-              @current-change="handleCurrentCase"
-              @size-change="handleSizeCase"
-              :current-page="apiMsgPage.currentPage"
-              :page-size="apiMsgPage.sizePage"
-              :page-sizes="[15, 30, 45, 60]"
-              layout="total, sizes, prev, pager, next, jumper"
-              :total="apiMsgPage.total"
-            ></el-pagination>
-        
+          <el-pagination
+            @current-change="handleCurrentCase"
+            @size-change="handleSizeCase"
+            :current-page="apiMsgPage.currentPage"
+            :page-size="apiMsgPage.sizePage"
+            :page-sizes="[15, 30, 45, 60]"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="apiMsgPage.total"
+          ></el-pagination>
         </el-col>
       </el-row>
     </div>
@@ -198,22 +194,24 @@ export default {
   props: ["proModelData", "projectName", "module", "proUrlData"],
   data() {
     return {
+      apiMsgVessel: [], //接口用例容器，勾选的内容都存在此变量
+      ApiMsgData: [], // 接口信息里面的表格数据
       bodyShow: "second",
       paramTypes: ["string", "file"],
-      radio: '',
+      radio: "",
       draggableOptions: {
-            group: {name: 'apiData', pull: 'clone', put: false},
-                    sort: false,
+        group: { name: "apiData", pull: "clone", put: false },
+        sort: false
       },
       cell: Object(),
       saveRunStatus: false,
       //上传文件时，记录数组下当前数据的下标，用于把返回文件路径地址赋值
       temp_num: "",
       apiMsgPage: {
-                    total: 1,
-                    currentPage: 1,
-                    sizePage: 15,
-                },
+        total: 1,
+        currentPage: 1,
+        sizePage: 15
+      },
       form: {
         projectName: null,
         module: {
@@ -221,7 +219,15 @@ export default {
           moduleId: null
         },
         platform: null,
-        apiName: "",
+        apiName: ""
+      },
+      stepsInfo: {
+        apiMesProjectName: null,
+        apiName:null,
+        module: {
+          name: null,
+          moduleId: null
+        }
       },
       platformData: [],
       caseData: {
@@ -245,35 +251,47 @@ export default {
       require("brace/snippets/json");
     },
     addEvent(dex) {
-        this.apiMsgVessel = this.ApiMsgData[dex];
+      this.apiMsgVessel = this.ApiMsgData[dex];
     },
     delStepInCase(i) {
-        //判断caseList中是否存在id，存在则在数据库删除信息，否则在前端删除临时数据
-        if ('id' in this.caseData.steps[i]) {
-            this.$confirm('是否删除用例中已保存的步骤：' + '<strong style="color: red;">' + this.caseData.steps[i]['name'] + '</strong>' + '?', '提示', {
-                        dangerouslyUseHTMLString: true,
-                        confirmButtonText: '确定',
-                        cancelButtonText: '取消',
-                        type: 'warning'
-            }).then(() => {
-                this.$axios.post(this.$api.delStepInCaseApi, {'id': this.caseData.apiCases[i]['id']}).then(() => {
-                        this.caseData.steps.splice(i, 1);
-                    }
-                );
-                }).catch(() => {
-            });
-        } else {
-            this.caseData.steps.splice(i, 1);
-        }
+      //判断caseList中是否存在id，存在则在数据库删除信息，否则在前端删除临时数据
+      if ("id" in this.caseData.steps[i]) {
+        this.$confirm(
+          "是否删除用例中已保存的步骤：" +
+            '<strong style="color: red;">' +
+            this.caseData.steps[i]["name"] +
+            "</strong>" +
+            "?",
+          "提示",
+          {
+            dangerouslyUseHTMLString: true,
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning"
+          }
+        )
+          .then(() => {
+            this.$axios
+              .post(this.$api.delStepInCaseApi, {
+                id: this.caseData.steps[i]["id"]
+              })
+              .then(() => {
+                this.caseData.steps.splice(i, 1);
+              });
+          })
+          .catch(() => {});
+      } else {
+        this.caseData.steps.splice(i, 1);
+      }
     },
     changeProChoice() {
       //  改变项目选项时，清空模块和基础url的选择
       this.form.module = "";
     },
     handleCurrentCase(val) {
-                this.apiMsgPage.currentPage = val;
-                this.findApiMsg()
-            },
+      this.apiMsgPage.currentPage = val;
+      this.findApiMsg();
+    },
     initBaseData() {
       //  初始化页面所需要的数据
       this.$axios.get(this.$api.findPlatformApi).then(response => {
@@ -281,45 +299,35 @@ export default {
       });
     },
     findApiMsg() {
-                this.radio = false;
-                this.$axios.post(this.$api.findUIcaseStepApi, {
-                    'projectName': this.form.apiMesProjectName,
-                    'moduleId': this.form.module.moduleId,
-                    'caseStepName': this.form.apiName,
-                    'platform':this.form.platform.id,
-                    'page': this.apiMsgPage.currentPage,
-                    'sizePage': this.apiMsgPage.sizePage,
-                }).then((response) => {
-                        if (this.messageShow(this, response)) {
-                            this.radio = false;
-                            this.ApiMsgData = response.data['data'];
-                            this.apiMsgPage.total = response.data['total'];
-                        }
-                    }
-                )
-            },
+      this.radio = false;
+      this.$axios
+        .post(this.$api.findUIcaseStepApi, {
+          projectName: this.stepsInfo.apiMesProjectName,
+          moduleId: this.stepsInfo.module.moduleId,
+          caseStepName: this.stepsInfo.apiName,
+          platform: this.form.platform.id,
+          page: this.apiMsgPage.currentPage,
+          sizePage: this.apiMsgPage.sizePage
+        })
+        .then(response => {
+          if (this.messageShow(this, response)) {
+            this.radio = false;
+            this.ApiMsgData = response.data["data"];
+            this.apiMsgPage.total = response.data["total"];
+          }
+        });
+    },
     addApiData() {
-                if (this.apiMsgVessel.length === 0) {
-                    this.$message({
-                        showClose: true,
-                        message: '请勾选接口信息',
-                        type: 'warning',
-                    });
-                    return
-                }
-                this.caseData.steps = this.caseData.steps.concat(this.apiMsgVessel);
-                this.caseData.steps = JSON.parse(JSON.stringify(this.caseData.steps));
-                
-            },
-    initApiMsgData() {
-      this.caseData.name = null;
-      this.caseData.num = null;
-      this.caseData.desc = null;
-      this.caseData.id = null;
-      (this.form.platform = null),
-        (this.caseData.steps = []),
-        (this.form.projectName = this.projectName);
-      this.form.module = this.module;
+      if (this.apiMsgVessel.length === 0) {
+        this.$message({
+          showClose: true,
+          message: "请勾选接口信息",
+          type: "warning"
+        });
+        return;
+      }
+      this.caseData.steps = this.caseData.steps.concat(this.apiMsgVessel);
+      this.caseData.steps = JSON.parse(JSON.stringify(this.caseData.steps));
     },
 
     fileChange(response, file) {
@@ -382,14 +390,14 @@ export default {
 
       return this.$axios
         .post(this.$api.addUIcaseApi, {
-          'moduleId': this.form.module.moduleId,
-          'projectName': this.form.projectName,
-          'caseId': this.caseData.id,
-          'caseName': this.caseData.name,
-          'num': this.caseData.num,
-          'desc': this.caseData.desc,
-          'platform': this.form.platform.id,
-          'steps':this.caseData.steps,
+          moduleId: this.form.module.moduleId,
+          projectName: this.form.projectName,
+          caseId: this.caseData.id,
+          caseName: this.caseData.name,
+          num: this.caseData.num,
+          desc: this.caseData.desc,
+          platform: this.form.platform.id,
+          steps: this.caseData.steps
         })
         .then(response => {
           if (messageClose) {
@@ -407,22 +415,17 @@ export default {
       this.$axios
         .post(this.$api.editUIcaseApi, { id: apiMsgId })
         .then(response => {
-          this.caseStepData.name = response.data["data"]["name"];
+          this.caseData.name = response.data["data"]["name"];
+          this.caseData.desc = response.data["data"]["desc"];
+          this.caseData.steps = response.data["data"]["steps"];
+          this.form.platform = response.data["data"]["platform"];
           if (status === "edit") {
-            this.caseStepData.num = response.data["data"]["num"];
-            this.caseStepData.id = apiMsgId;
+            this.caseData.num = response.data["data"]["num"];
+            this.caseData.id = apiMsgId;
           } else {
-            this.caseStepData.num = "";
-            this.caseStepData.id = "";
+            this.caseData.num = "";
+            this.caseData.id = "";
           }
-
-          this.caseStepData.desc = response.data["data"]["desc"];
-          this.caseStepData.platform = response.data["data"]["platform"];
-          this.caseStepData.action = response.data["data"]["action"];
-          this.caseStepData.xpath = response.data["data"]["xpath"];
-          this.caseStepData.text = response.data["data"]["text"];
-          this.caseStepData.resourceid = response.data["data"]["resourceid"];
-          this.caseStepData.extraParam = response.data["data"]["extraParam"];
           this.form.projectName = this.projectName;
           this.form.module = this.module;
         });
