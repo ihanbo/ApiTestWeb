@@ -15,6 +15,7 @@ export default new Vuex.Store({
     },
     mutations: {
         [types.LOGIN]: (state, data) => {
+            console.log('store登录了--->'+data)
             localStorage.token = data;
             state.token = data;
         },

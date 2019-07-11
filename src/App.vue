@@ -15,11 +15,13 @@
         },
         methods: {
           checkIn(userAccount,userName,fakeTk) {
+                console.log(userAccount+'  '+userName+' '+fakeTk)
                 this.$axios.post(this.$api.checkInApi, {
                     'user_name': userName,
                     'user_account': userAccount,
                     'fake_tk': fakeTk,
                 }).then((response) => {
+                        console.log('response---->'+response.data['token']+response.data['name'])
                         this.$store.commit(types.LOGIN, response.data['token']);
                         this.$store.commit(types.ROLES, response.data['roles']);
                         this.$store.commit('roles', response.data['roles']);
@@ -37,11 +39,8 @@
         mounted() {
           window.localStorage.setItem('userData','{"jwt":"eyJ0eXAiOiJK","user":{"userName":"hanbo4","trueName":"韩波3(架构创新组)","userId":8066},"modules":[]}')
           var userStr = window.localStorage.getItem('userData')
-          console.log(userStr)
+          console.log('localstorage-->'+userStr)
           var userData = JSON.parse(userStr)
-           console.log("token--->"+userData.jwt)
-          console.log(userData.user.trueName)
-          console.log(userData.user.userName)
           this.checkIn(userData.user.userName,userData.user.trueName,userData.jwt)
         },
 

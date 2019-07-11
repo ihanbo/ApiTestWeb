@@ -20,6 +20,7 @@ import taskManage from './projectView/taskManage/task.vue'
 import user from './projectView/userManage/user.vue'
 import sceneConfig from './projectView/config/config.vue'
 import login from './login/login.vue'
+import errors from './login/errors.vue'
 
 Vue.use(VueRouter);
 
@@ -188,6 +189,10 @@ const routes = [
         component: login,
     },
     {
+        path: '/errors',
+        component: errors,
+    },
+    {
         path: '',
         // component:caseManage,
         component: manage,
@@ -222,7 +227,7 @@ router.beforeEach((to, from, next) => {
         }
         else {
             next({
-                path: '/login',
+                path: '/errors',
                 query: {redirect: to.fullPath}
             })
         }
