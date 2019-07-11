@@ -83,6 +83,8 @@ const delUIcaseApi = '/api/uicases/delete';
 const findUIcaseApi = '/api/uicases/list';
 const addUIcaseApi = '/api/uicases/add';
 const delStepInCaseApi = '/api/uicases/delStep';
+const importCasesApi = '/api/uicases/importCases';
+
 
 export default {
     baseDataApi,
@@ -159,15 +161,16 @@ export default {
     findPlatformApi,
 
     findActionsApi,
-    editUIcaseStepApi ,
+    editUIcaseStepApi,
     addUIcaseStepApi,
     findUIcaseStepApi,
     delUIcaseStepApi,
 
 
-    editUIcaseApi ,
+    editUIcaseApi,
     addUIcaseApi,
     findUIcaseApi,
     delUIcaseApi,
     delStepInCaseApi,
+    importCasesApi,
 }
