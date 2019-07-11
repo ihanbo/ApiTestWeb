@@ -15,6 +15,7 @@ export default new Vuex.Store({
     },
     mutations: {
         [types.LOGIN]: (state, data) => {
+            console.log('store登录了--->'+data)
             localStorage.token = data;
             state.token = data;
         },
@@ -29,7 +30,11 @@ export default new Vuex.Store({
 
         [types.LOGOUT]: (state) => {
             localStorage.removeItem('token');
+            localStorage.removeItem(types.USERNAME);
+            localStorage.removeItem(types.ROLES);
             state.token = null
+            state.userName = null
+            state.roles = null
         },
         [types.TITLE]: (state, data) => {
             state.title = data;

@@ -21,39 +21,19 @@
                         <div class="page-login--content-footer">
                             <p class="page-login--content-footer-copyright"
                                style="font-size:26px;font-weight:700;font-family:KaiTi">
-                                测试平台
+                                出错了
                             </p>
                         </div>
-                        <el-card shadow="never">
-                            <el-form ref="loginForm" label-position="top" size="default">
-                                <el-form-item>
-                                    <el-input type="text" v-model="account" placeholder="用户名">
-                                        <i slot="prepend" class="my-icon-yonghu"></i>
-                                    </el-input>
-                                </el-form-item>
-                                <el-form-item>
-                                    <el-input type="password" v-model="password" placeholder="密码">
-                                        <i slot="prepend" class="my-icon-jianpan"></i>
-                                    </el-input>
-                                </el-form-item>
-                                <el-button size="default" @click.native="login()" type="primary" class="button-login">
-                                    登录
-                                </el-button>
-                            </el-form>
-                        </el-card>
-                        <p class="page-login--options"
-                           flex="main:justify cross:center">
-                            <el-tooltip class="item" effect="dark" content="请联系管理员重置密码" placement="bottom">
-                                <span> 忘记密码</span>
-                            </el-tooltip>
-                        </p>
+                        
+                        
                     </div>
                 </div>
                 <div class="page-login--content-footer">
 
                     <p class="page-login--content-footer-copyright">
                         <a href="https://github.com/pencil1/ApiTestWeb" target="view_window">ApiTestWeb 作品</a> |
-                        <a href="https://github.com/pencil1/ApiTestManage" target="view_window">ApiTestManage 作品</a>
+                        <a href="https://github.com/kouwuzhelan" target="view_window">大迪爷</a> |
+                        <a href="https://github.com/ihanbo" target="view_window">波老师</a>
                     </p>
 
                 </div>

@@ -21,6 +21,7 @@ const editConfigApi = '/api/config/edit';
 const delConfigApi = '/api/config/del';
 
 const loginApi = '/api/login';
+const checkInApi = '/api/checkIn';
 const logoutApi = '/api/logout';
 const registerApi = '/api/register';
 const changePasswordApi = '/api/changePassword';
@@ -143,6 +144,7 @@ export default {
     delConfigApi,
 
     loginApi,
+    checkInApi,
     logoutApi,
     registerApi,
     changePasswordApi,
