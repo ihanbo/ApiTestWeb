@@ -37,6 +37,7 @@
             <el-form-item>
                 <el-button type="primary" icon="el-icon-search" @click.native="handleCurrentChange(1)">搜索</el-button>
                 <el-button type="primary" @click.native="initData()">录入信息</el-button>
+                <el-button type="primary" @click.native="$refs.importApiFunc.initData()">批量导入</el-button>
             </el-form-item>
         </el-form>
         <el-tabs v-model="numTab" class="table_padding" @tab-click="tabChange">
@@ -71,7 +72,6 @@
                                         node-key="moduleId"
                                         :data="moduleDataList"
                                         :props="defaultProps"
-
                                 >
                                 </el-tree>
                             </el-scrollbar>
@@ -185,6 +185,12 @@
         <errorView ref="errorViewFunc">
         </errorView>
 
+        <importApi
+                :projectName="form.projectName"
+                :moduleData="form.module"
+                ref="importApiFunc">
+
+        </importApi>
 
         <configEdit
                 :proModelData="proModelData"
@@ -197,6 +203,7 @@
 
 <script>
     // import result from './result.vue'
+    import importApi from './importCases.vue'
     import apiEdit from './caseEdit.vue'
     import errorView from '../common/errorView.vue'
     import configEdit from '../config/configEdit.vue'
@@ -204,6 +211,7 @@
     export default {
         components: {
             // result: result,
+            importApi: importApi,
             apiEdit: apiEdit,
             errorView: errorView,
             configEdit: configEdit,

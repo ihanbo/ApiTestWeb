@@ -1,5 +1,5 @@
 <template>
-    <div class="importApi">
+    <div class="importCases">
 
         <el-dialog title="case批量导入" :visible.sync="importApiData.importApiStatus" width="30%">
             <el-form>
@@ -34,7 +34,7 @@
 
 <script>
     export default {
-        name: 'importApi',
+        name: 'importCases',
         props: ['projectName', 'moduleData'],
         data() {
             return {
@@ -96,7 +96,25 @@
 
             },
             importCase() {
-                this.$axios.post(this.$api.importApiApi, {
+
+                if (this.importApiData.importFormat === null) {
+                    this.$message({
+                        showClose: true,
+                        message: '请选择文件类型',
+                        type: 'warning',
+                    });
+                    return
+                }
+                if (this.importApiData.importApiAddress === null) {
+                    this.$message({
+                        showClose: true,
+                        message: '请先上传文件',
+                        type: 'warning',
+                    });
+                    return
+                }
+
+                this.$axios.post(this.$api.importCasesApi, {
                     'importApiAddress': this.importApiData.importApiAddress,
                     'projectName': this.projectName,
                     'moduleId': this.moduleData.moduleId,
