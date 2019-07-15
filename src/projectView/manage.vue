@@ -85,7 +85,7 @@
                             </el-menu-item-group>
                         </el-submenu>
 
-                        <el-submenu index="6">
+                        <!-- <el-submenu index="6">
                             <template slot="title">
                                 <i class="el-icon-time"></i>
                                 <span>其他程序</span>
@@ -93,7 +93,7 @@
                             <el-menu-item-group>
                                 <el-menu-item index="/manage/testTool">小工具</el-menu-item>
                             </el-menu-item-group>
-                        </el-submenu>
+                        </el-submenu> -->
                     </el-menu>
                 </el-scrollbar>
             </el-aside>
