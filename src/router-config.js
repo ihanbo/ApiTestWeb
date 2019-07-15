@@ -31,20 +31,7 @@ const routes = [
         component: manage,
 
         children: [
-            {
-                path: '',
-                // component:caseManage,
-                // meta: {
-                //     requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
-                // },
-                components: {
-                    Header: Header,
-                    Manage: projectManage,
-                },
-                meta: {
-                    title: '首页入口'
-                }
-            }, {
+             {
                 path: 'projectManage',
                 // component:caseManage,
                 meta: {
@@ -180,6 +167,20 @@ const routes = [
                     Manage: taskManage,
                 }
             },
+            {
+                path: '',
+                // component:caseManage,
+                // meta: {
+                //     requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
+                // },
+                components: {
+                    Header: Header,
+                    Manage: projectManage,
+                },
+                meta: {
+                    title: '首页入口'
+                }
+            },
         ],
 
     },
@@ -195,7 +196,8 @@ const routes = [
     {
         path: '',
         // component:caseManage,
-        component: manage,
+        redirect: '/manage'
+
     },
 
 ];
@@ -228,7 +230,7 @@ router.beforeEach((to, from, next) => {
         else {
             next({
                 path: '/errors',
-                query: {redirect: to.fullPath}
+                // query: {redirect: to.fullPath}
             })
         }
     }

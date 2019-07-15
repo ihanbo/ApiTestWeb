@@ -43,7 +43,6 @@
 </template>
 
 <script>
-    import * as types from '../store/types'
 
     export default {
         data() {
@@ -56,37 +55,6 @@
 
         methods: {
 
-            login() {
-                this.$axios.post(this.$api.loginApi, {
-                    'account': this.account,
-                    'password': this.password,
-                }).then((response) => {
-                        if (response.data['status'] === 0) {
-                            this.$message({
-                                showClose: true,
-                                message: response.data['msg'],
-                                type: 'warning',
-                            });
-                        } else {
-                            alert(response)
-                            this.token = response.data['token'];
-                            if (this.token) {
-                                this.$store.commit(types.LOGIN, this.token);
-                                this.$store.commit(types.ROLES, response.data['roles']);
-                                this.$store.commit('roles', response.data['roles']);
-                                // console.log(this.$store.state.role)
-                                // console.log(this.$store.state.userName)
-                                this.$store.commit(types.USERNAME, response.data['name']);
-                                this.$store.commit('userName', response.data['name']);
-
-                                let redirect = decodeURIComponent(this.$route.query.redirect || '/manage/projectManage');
-                                this.$router.push({path: redirect})
-                            }
-                        }
-                    }
-                );
-
-            },
         }
     }
 </script>
