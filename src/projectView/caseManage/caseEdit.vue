@@ -50,6 +50,10 @@
                             <el-input-number v-model="caseData.times" :min="1" :max="1000">
                             </el-input-number>
                         </el-form-item>
+                        <el-form-item label="等待时间" label-width="70px">
+                            <el-input-number v-model="caseData.waitTimes" :min="0" :max="10000">
+                            </el-input-number>
+                        </el-form-item>
                     </el-form>
                     <hr style="height:1px;border:none;border-top:1px solid rgb(241, 215, 215);margin-top: -5px"/>
                     <el-form :inline="true" class="demo-form-inline " size="small">
@@ -388,6 +392,7 @@
                     variable: [],
                     desc: '',
                     times: '',
+                    waitTimes:'',
                     name: '',
                     formLabelWidth: '70px',
                     apiCases: [],// 执行步骤里面的所有接口信息
@@ -445,6 +450,7 @@
                 this.caseData.variable = [{key: '', value: '', remark: ''}];
                 this.caseData.name = '';
                 this.caseData.times = '';
+                this.caseData.waitTimes = '';
                 this.caseData.desc = '';
                 this.caseData.id = '';
                 this.caseData.funcAddress = Array();
@@ -462,6 +468,7 @@
                         this.caseData.name = response.data['data']['name'];
                         this.caseData.desc = response.data['data']['desc'];
                         this.caseData.times = response.data['data']['times'];
+                        this.caseData.waitTimes = response.data['data']['wait_times'];
                         this.caseData.funcAddress = response.data['data']['func_address'];
                         this.caseData.apiCases = response.data['data']['cases'];
                         this.caseData.variable = response.data['data']['variable'];
@@ -643,6 +650,7 @@
                     'num': this.caseData.num,
                     'name': this.caseData.name,
                     'times': this.caseData.times,
+                    'waitTimes':this.caseData.waitTimes,
                     'caseSetId': this.form.set.id,
                     'desc': this.caseData.desc,
                     'funcAddress': this.caseData.funcAddress,
