@@ -168,9 +168,24 @@
                         </el-form-item>
 
                         <el-form-item label="时间配置" :label-width="taskData.formLabelWidth">
+                            <template>
+                                <el-select v-model="taskData.timeConfig"
+                                           style="width: 240px;padding-right:5px"
+                                           clearable placeholder="请选择" @change="changetimeChoice">
+                                    <el-option
+                                            v-for="(item) in timeoptions"
+                                            :key="item.value"
+                                            :label="item.label"
+                                            :value="item.value">
+                                    </el-option>
+                                </el-select>
+                            </template>
+
+                            <!--
                             <el-input v-model="taskData.timeConfig"
                                       placeholder="second minute hour day month day_of_week(0 0 12 * * ? 每天中午12点触发)">
                             </el-input>
+                            -->
                         </el-form-item>
                     </el-form>
                 </el-tab-pane>
@@ -200,6 +215,16 @@
                 allSetList: '',
                 allSceneList: '',
                 tableData: [],
+                timeoptions: [{
+                    value: '0 0 0 * * ?',
+                    label: '每天0点触发执行'
+                }, {
+                    value: '0 0 6 * * ?',
+                    label: '每天6点触发执行'
+                }, {
+                    value: '0 0 12 * * ?',
+                    label: '每天12点触发执行'
+                }],
                 total: 1,
                 currentPage: 1,
                 sizePage: 20,

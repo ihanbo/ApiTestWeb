@@ -125,9 +125,9 @@
                                     width="40">
                             </el-table-column>
                             <el-table-column
-                                    prop="num"
+                                    type="index"
                                     label="编号"
-                                    width="60">
+                                    width="60"><!--prop="num"删除偶序号自动更新，添加type=index zjl 20190716-->
                             </el-table-column>
                             <el-table-column
                                     :show-overflow-tooltip=true

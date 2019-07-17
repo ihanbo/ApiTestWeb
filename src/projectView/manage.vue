@@ -42,9 +42,11 @@
                                 <el-menu-item index="/manage/projectManage">项目管理</el-menu-item>
                                 <!--<el-menu-item index="/manage/modelManage">接口模块</el-menu-item>-->
                                 <el-menu-item index="/manage/caseManage">接口信息</el-menu-item>
-                                <el-menu-item index="/manage/sceneConfig">业务配置</el-menu-item>
+                                <el-menu-item index="/manage/sceneConfig" style="display:none">业务配置</el-menu-item>
                                 <el-menu-item index="/manage/sceneManage">接口用例</el-menu-item>
-                                <el-menu-item index="/manage/buildInFunc">内置函数</el-menu-item>
+                                <!-- 隐藏“业务配置”，“内置函数” zjl  2019-07-16-->
+                                <el-menu-item index="/manage/buildInFunc" style="display:none">内置函数</el-menu-item>
+
                             </el-menu-item-group>
                         </el-submenu>
                         <el-submenu index="3">
