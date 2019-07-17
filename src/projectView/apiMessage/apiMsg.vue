@@ -52,6 +52,8 @@
                            v-if="form.config !== null && form.config !== '' "
                            @click.native="$refs.configEditFunc.editSceneConfig(form.config.configId)">配置修改
                 </el-button>
+                 <el-button type="primary" @click.native="delMultiApi(apiMsgList)">删除S
+                 </el-button>
             </el-form-item>
         </el-form>
         <el-tabs v-model="numTab" class="table_padding" @tab-click="tabChange">
@@ -405,6 +407,19 @@
                     }
                 )
             },
+            delMultiApi(apiMsgData = null) {
+                //  接口调试
+                this.loading = true;
+                this.$axios.post(this.$api.delMultiApi, {
+                    'apiMsgData': apiMsgData,
+                    'projectName': this.form.projectName,
+                    'configId': this.form.config.configId,
+                }).then((response) => {
+                        this.findApiMsg();
+                        this.loading = false;
+                    }
+                )
+            },
             apiTest(apiMsgData = null) {
                 //  接口调试
                 this.loading = true;
@@ -434,6 +449,7 @@
                     }
                 )
             },
+            
 
             handleApiMsgSelection(val) {
                 this.apiMsgList = val;

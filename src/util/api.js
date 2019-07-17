@@ -28,6 +28,7 @@ const changePasswordApi = '/api/changePassword';
 
 const findApiApi = '/api/apiMsg/find';
 const delApiApi = '/api/apiMsg/del';
+const delMultiApi = '/api/apiMsg/delMulti';
 const runApiApi = '/api/apiMsg/run';
 const addApiApi = '/api/apiMsg/add';
 const editAndCopyApiApi = '/api/apiMsg/editAndCopy';
@@ -151,6 +152,7 @@ export default {
 
     findApiApi,
     delApiApi,
+    delMultiApi,
     runApiApi,
     addApiApi,
     editAndCopyApiApi,
