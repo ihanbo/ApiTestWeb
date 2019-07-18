@@ -52,7 +52,7 @@
                            v-if="form.config !== null && form.config !== '' "
                            @click.native="$refs.configEditFunc.editSceneConfig(form.config.configId)">配置修改
                 </el-button>
-                 <el-button type="primary" @click.native="delMultiApi(apiMsgList)">删除S
+                 <el-button type="primary" @click.native="delMultiApi(apiMsgList)">删除
                  </el-button>
             </el-form-item>
         </el-form>
