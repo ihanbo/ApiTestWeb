@@ -21,8 +21,9 @@
 
                 <el-table :data="tableData" stripe max-height="745">
                     <el-table-column
-                            prop="id"
-                            label="id"
+                            prop="num"
+                            type="index"
+                            label="编号"
                             width="80"
                     >
                     </el-table-column>
