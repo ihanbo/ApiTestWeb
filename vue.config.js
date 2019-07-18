@@ -2,7 +2,7 @@
 module.exports = {
     lintOnSave: true,
     productionSourceMap: false,
-
+    // publicPath:'./',
     pages: {
         index: {
             // page 的入口
@@ -18,12 +18,12 @@ module.exports = {
 
     },
     devServer: {
-        // host: '127.0.0.1',
-        host: '192.168.15.10',
+        host: '127.0.0.1',
+        // host: '192.168.15.10',
         port: 8010,
         proxy: {
             '/api/': {
-                // target: 'http://127.0.0.1:9000',
+                // target: 'http://127.0.0.1:8080',
                 target: 'http://192.168.15.10:9000',
                 changeOrigin: true,
             }
