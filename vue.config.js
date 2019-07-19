@@ -2,12 +2,8 @@
 module.exports = {
     lintOnSave: true,
     productionSourceMap: false,
-<<<<<<< Updated upstream
-    // publicPath:'./',
-=======
     publicPath:'./',
 
->>>>>>> Stashed changes
     pages: {
         index: {
             // page 的入口
@@ -28,13 +24,10 @@ module.exports = {
         port: 8010,
         proxy: {
             '/api/': {
-<<<<<<< Updated upstream
+
                 // target: 'http://127.0.0.1:8080',
                 target: 'http://192.168.15.10:9000',
-=======
-                target: 'http://127.0.0.1:8080',
-                //target: 'http://192.168.15.10:9000',
->>>>>>> Stashed changes
+
                 changeOrigin: true,
             }
         },
