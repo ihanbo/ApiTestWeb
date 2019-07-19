@@ -21,7 +21,6 @@
                         style="width: 150px"
                 >
                     <el-option
-
                             v-for="item in configData[this.form.projectName]"
                             :key="item.configId"
                             :label="item.name"
@@ -469,7 +468,7 @@
                     }
                 )
             },
-            
+
 
             handleApiMsgSelection(val) {
                 this.apiMsgList = val;
