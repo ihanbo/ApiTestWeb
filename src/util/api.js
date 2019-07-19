@@ -5,6 +5,7 @@ const findProApi = '/api/project/find';
 const addProApi = '/api/project/add';
 const editProApi = '/api/project/edit';
 const delProApi = '/api/project/del';
+const runProjectApi = '/api/project/runProject';
 
 const findReportApi = '/api/report/find';
 const delReportApi = '/api/report/del';
@@ -138,6 +139,7 @@ export default {
     addProApi,
     editProApi,
     delProApi,
+    runProjectApi,
 
     findModuleApi,
     addModuleApi,

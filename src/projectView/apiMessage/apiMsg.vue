@@ -142,6 +142,11 @@
                                     label="接口地址">
                             </el-table-column>
                             <el-table-column
+                                    prop="charge_name"
+                                    label="负责人"
+                                    width="100">
+                            </el-table-column>
+                            <el-table-column
                                     label="操作"
                                     width="320">
                                 <template slot-scope="scope">
@@ -156,6 +161,10 @@
                                     <el-button type="danger" icon="el-icon-delete" size="mini"
                                                @click.native="sureView(delApi,ApiMsgTableData[scope.$index]['apiMsgId'],ApiMsgTableData[scope.$index]['name'])">
                                         删除
+                                    </el-button>
+                                    <el-button type="primary" icon="el-icon-view" size="mini" v-if="ApiMsgTableData[scope.$index]['is_execute'] == 1"
+                                               @click.native="viewResult(ApiMsgTableData[scope.$index]['save_result'])">
+                                        结果
                                     </el-button>
                                 </template>
                             </el-table-column>
@@ -217,6 +226,9 @@
         <result ref="resultFunc">
         </result>
 
+        <viewResult ref="viewResultFunc">
+        </viewResult>
+
         <errorView ref="errorViewFunc">
         </errorView>
 
@@ -232,6 +244,7 @@
 
 <script>
     import result from './result.vue'
+    import viewResult from './viewResult.vue'
     import importApi from './importApi.vue'
     import apiEdit from './apiEdit.vue'
     import errorView from '../common/errorView.vue'
@@ -240,6 +253,7 @@
     export default {
         components: {
             result: result,
+            viewResult: viewResult,
             importApi: importApi,
             apiEdit: apiEdit,
             errorView: errorView,
@@ -392,6 +406,12 @@
                 setTimeout(() => {
                     this.$refs.apiFunc.editCopyApiMsg(apiMsgId, status);
                 }, 0)
+            },
+
+            viewResult(save_result){
+                //查看接口测试结果
+                this.$refs.viewResultFunc.showResultData('['+save_result+']');
+
             },
 
             delApi(apiMsgId) {

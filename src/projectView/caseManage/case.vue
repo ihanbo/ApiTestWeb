@@ -83,6 +83,7 @@
                             </el-table-column>
                             <el-table-column
                                     prop="num"
+                                    type="index"
                                     label="编号"
                                     min-width="10">
                             </el-table-column>
@@ -95,6 +96,11 @@
                                     prop="desc"
                                     label="描述"
                                     min-width="50">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="charge_name"
+                                    label="负责人"
+                                    width="100">
                             </el-table-column>
                             <el-table-column
                                     label="操作">
