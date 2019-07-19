@@ -9,6 +9,9 @@ const delProApi = '/api/project/del';
 const findReportApi = '/api/report/find';
 const delReportApi = '/api/report/del';
 
+const findResultSummaryApi = '/api/resultSummary/find'
+const findResultDetailApi = '/api/resultDetail/find'
+
 const findModuleApi = '/api/module/find';
 const addModuleApi = '/api/module/add';
 const editModuleApi = '/api/module/edit';
@@ -100,6 +103,9 @@ export default {
 
     findReportApi,
     delReportApi,
+
+    findResultSummaryApi,
+    findResultDetailApi,
 
     findFuncApi,
     createFuncApi,
