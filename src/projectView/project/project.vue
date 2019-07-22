@@ -1,5 +1,5 @@
 <template>
-    <div class="projectManage"  v-loading="loading" element-loading-text="运行中，请稍候...">
+    <div class="projectManage">
 
         <el-form :inline="true" class="demo-form-inline search-style" size="small">
 
@@ -30,9 +30,9 @@
                     <el-table-column
                             prop="name"
                             label="项目名称"
-                            width="200">
+                            width="150">
                     </el-table-column>
-                    <el-table-column label="当前环境" width="200">
+                    <el-table-column label="当前环境">
                         <template slot-scope="scope">
                             <el-tag size="small"
                                     :type="tableData[scope.$index]['choice'] === 'first' ?
@@ -51,16 +51,12 @@
                     <el-table-column
                             prop="principal"
                             label="负责人"
-                            width="200">
+                            width="150">
                     </el-table-column>
                     <el-table-column
                             label="操作"
                     >
                         <template slot-scope="scope">
-                            <el-button type="primary" icon="el-icon-caret-right" size="mini"
-                                       @click.native="runProject(tableData[scope.$index]['id'])">
-                                运行
-                            </el-button>
                             <el-button type="primary" icon="el-icon-edit" size="mini"
                                        @click.native="editProject(tableData[scope.$index]['id'])">编辑
                             </el-button>
@@ -276,7 +272,7 @@
         name: 'projectManage',
         data() {
             return {
-                loading: false,  //  页面加载状态开关
+
                 environmentChoice: 'first',
                 environment: {
                     environmentTest: [{value: ''}],
@@ -314,7 +310,6 @@
             }
         },
         methods: {
-
             proHandleCurrentChange(val) {
                 this.currentPage = val;
                 this.findProject()
@@ -443,33 +438,6 @@
                     }
                 )
             },
-
-            //运行项目
-            runProject(id){
-                this.loading = true;
-                this.$axios.post(this.$api.runProjectApi, {'id': id}).then((response) => {
-                    if (response.data['status'] === 0) {
-                        this.$message({
-                            showClose: true,
-                            message: response.data['msg'],
-                            type: 'success',
-                        });
-                    }
-                    if (response.data['status'] === 1) {
-                        this.$message({
-                            showClose: true,
-                            message: response.data['msg'],
-                            type: 'warning',
-                        });
-                        if (response.data['error']) {
-                            this.$refs.errorViewFunc.showData(response.data['error']);
-                        }
-                    }
-                    this.loading = false;
-                   }
-                )
-            },
-
             delProject(id) {
                 this.$axios.post(this.$api.delProApi, {'id': id}).then((response) => {
                         this.messageShow(this, response);
