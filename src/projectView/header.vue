@@ -14,7 +14,7 @@
 
                         </el-breadcrumb>
                     </div>
-                    <el-dropdown style="float:right;line-height:20px;top:12px;color: rgb(255, 255, 255);"
+                    <!-- <el-dropdown style="float:right;line-height:20px;top:12px;color: rgb(255, 255, 255);"
                                  @command="logOut">
                         <span class="el-dropdown-link">{{userName}}<i
                                 class="el-icon-arrow-down el-icon--right"></i></span>
@@ -22,7 +22,7 @@
                             <el-dropdown-item command="b">修改密码</el-dropdown-item>
                             <el-dropdown-item command="a">退出系统</el-dropdown-item>
                         </el-dropdown-menu>
-                    </el-dropdown>
+                    </el-dropdown> -->
                 </el-header>
 
                 <!--<el-footer style="height: 30px;">-->
