@@ -353,6 +353,23 @@
                 this.projectData.id = null;
                 this.projectData.modelFormVisible = true;
             },
+            getUserData() {
+                this.$axios({
+                    method: 'post',
+                    url:'http://mapi-devops.yiche.com/devopsapi/account/get_select_data',
+                    headers:{
+                        'Authorization':JSON.parse(window.localStorage.getItem('userData')).jwt
+                        //'Authorization':"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0cnVlTmFtZSI6IuWUkOa2myjmtYvor5XnoJTlj5Hpg6gpIiwic3ViIjoidGFuZ3RhbzEiLCJpc3MiOiJvcC11Yy1qd3QiLCJuYW1lIjoidGFuZ3RhbzEiLCJleHAiOjE1NjM4NDQ0NzQsImlhdCI6MTU2Mzc1ODA3NCwidXNlcklkIjo4MDk5fQ.dgnAYhU5xPMGANXCGU49EcWgMxjepf_gIoS7kXAB2Yw"
+                    },
+                }).then((response)=>{
+                    this.userData = []
+                    var tmpUserData = response['data']
+                    for(var i=0; i< tmpUserData.length;i++) {
+                        this.userData.append({"user_id":tmpUserData['id'], "user_name":tmpUserData['name']});
+                    }
+                    //console.log(res)
+                })
+            },
             dealHostList(data) {
                 // 把[{value:xxx1},{value:xxx2}] 转为 [xxx1,xxx2]111
                 let host = Array();
