@@ -13,6 +13,7 @@ module.exports = {
     devServer: {
         open: true,         // 自动打开浏览器
         host: '192.168.15.10',  // 配置启动域名或IP
+        // host: 'localhost',  // 配置启动域名或IP
         port: 8090,         // 端口号
         https: false,       // 是否开启HTTPS
         hotOnly: false,
@@ -21,6 +22,7 @@ module.exports = {
         // proxy: 'http://localhost:4000', // 配置跨域处理,只有一个代理
         proxy: {
             '/api/': {
+                // target: 'http://127.0.0.1:8080',
                 target: 'http://192.168.15.10:9000',
                 ws: true,
                 changOrigin: true,
