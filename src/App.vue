@@ -43,14 +43,18 @@
           }
 
           console.log('localstorage-->'+userStr)
-          var userData = JSON.parse(userStr)
-          this.checkIn(userData.user.userName,userData.user.trueName,userData.jwt)
+          // var userData = JSON.parse(userStr)
+          // this.checkIn(userData.user.userName,userData.user.trueName,userData.jwt)
         },
 
     }
 </script>
 
 <style>
+body,html{
+  margin: 0;
+  padding: 0
+}
   .scrollbarList {
     max-height: 700px;
   }

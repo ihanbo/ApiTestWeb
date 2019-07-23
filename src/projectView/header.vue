@@ -14,7 +14,7 @@
 
                         </el-breadcrumb>
                     </div>
-                    <el-dropdown style="float:right;line-height:20px;top:12px;color: rgb(255, 255, 255);"
+                    <!-- <el-dropdown style="float:right;line-height:20px;top:12px;color: rgb(255, 255, 255);"
                                  @command="logOut">
                         <span class="el-dropdown-link">{{userName}}<i
                                 class="el-icon-arrow-down el-icon--right"></i></span>
@@ -22,7 +22,7 @@
                             <el-dropdown-item command="b">修改密码</el-dropdown-item>
                             <el-dropdown-item command="a">退出系统</el-dropdown-item>
                         </el-dropdown-menu>
-                    </el-dropdown>
+                    </el-dropdown> -->
                 </el-header>
 
                 <!--<el-footer style="height: 30px;">-->
@@ -154,12 +154,6 @@
                 }
                 else if (path === '/manage/taskManage') {
                     this.title = ['报告管理', '定时任务']
-                }
-                else if (path === '/manage/resultSummary') {
-                    this.title = ['报告管理', '用例执行概况列表']
-                }
-                else if (path === '/manage/resultDetail') {
-                    this.title = ['报告管理', '用例执行详细列表']
                 }
                 else if (path === '/manage/userManage') {
                     this.title = ['系统管理', '用户管理']

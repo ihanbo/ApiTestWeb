@@ -1,24 +1,25 @@
 <template>
-    <div class="sceneManage" v-loading="this.loading">
+    <div class="caseSetView" v-loading="this.loading">
         <el-form :inline="true" class="demo-form-inline search-style" size="small">
             <el-form-item label="项目名称" labelWidth="110px">
-                <el-select v-model="form.projectName" placeholder="请选择项目" @change="initProjectChoice">
-                    <el-option
-                            v-for="(item) in proAndIdData"
-                            :key="item.name"
-                            :value="item.name">
-                    </el-option>
-                </el-select>
-
+                <el-input v-model="parameter.projectName" :disabled="true">
+                </el-input>
+<!--                <el-select v-model="form.projectName" placeholder="请选择项目" @change="initProjectChoice">-->
+<!--                    <el-option-->
+<!--                            v-for="(item) in proAndIdData"-->
+<!--                            :key="item.name"-->
+<!--                            :value="item.name">-->
+<!--                    </el-option>-->
+<!--                </el-select>-->
             </el-form-item>
             <el-form-item label="用例名称">
-                <el-input placeholder="请输入用例" v-model="form.caseName">
+                <el-input placeholder="请输入用例" v-model="form.caseSetName" :disabled="true">
                 </el-input>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" icon="el-icon-search" @click.native="handleCaseCurrentChange(1)">搜索
-                </el-button>
-                <el-button type="primary" @click.native="$refs.caseEditFunc.initCaseData()">添加接口用例</el-button>
+<!--                <el-button type="primary" icon="el-icon-search" @click.native="handleCaseCurrentChange(1)">搜索-->
+<!--                </el-button>-->
+                <el-button type="primary" @click.native="$refs.caseEditFunc.initCaseData(parameter.projectName,form.caseSetName)">添加接口用例</el-button>
                 <el-button type="primary" @click.native="runScene(caseList,true,true)">批量运行</el-button>
             </el-form-item>
 
@@ -26,50 +27,7 @@
         <el-tabs value="first" style="padding-left: 10px;padding-right:5px;">
             <el-tab-pane label="用例信息" name="first">
                 <el-row>
-                    <el-col :span="3"
-                            style="border:1px solid;border-color: #ffffff rgb(234, 234, 234) #ffffff #ffffff;">
-                        <el-row>
-                            <el-col style="border:1px solid;border-color: #ffffff #ffffff rgb(234, 234, 234) #ffffff;padding:2px">
-
-                                <el-dropdown @command="dropdownSetEvent" style="float:right;">
-                                      <span class="el-dropdown-link" style="color: #4ae2d5">
-                                        操作<i class="el-icon-arrow-down el-icon--right"></i>
-                                      </span>
-                                    <el-dropdown-menu slot="dropdown">
-                                        <el-dropdown-item command="add">添加</el-dropdown-item>
-                                        <el-dropdown-item command="edit">编辑</el-dropdown-item>
-                                        <el-dropdown-item command="stick">置顶</el-dropdown-item>
-                                        <el-dropdown-item command="del">删除</el-dropdown-item>
-                                    </el-dropdown-menu>
-                                </el-dropdown>
-                            </el-col>
-                        </el-row>
-                        <el-row>
-                            <el-scrollbar wrapStyle="height:740px;">
-                                <el-tree
-
-                                        ref="testTree"
-                                        @node-click="handleNodeClick"
-                                        class="filter-tree"
-                                        highlight-current
-                                        node-key="id"
-                                        :data="setDataList"
-                                        :props="defaultProps"
-                                >
-                                </el-tree>
-                            </el-scrollbar>
-
-                            <el-pagination
-                                    small
-                                    @current-change="handleSetCurrentChange"
-                                    :current-page="setPage.currentPage"
-                                    :page-size="30"
-                                    layout="prev, pager, next"
-                                    :total="setPage.total">
-                            </el-pagination>
-                        </el-row>
-                    </el-col>
-                    <el-col :span="21">
+                    <el-col>
 
                         <el-table
                                 ref="sceneMultipleTable"
@@ -83,6 +41,7 @@
                             </el-table-column>
                             <el-table-column
                                     prop="num"
+                                    type="index"
                                     label="编号"
                                     min-width="10">
                             </el-table-column>
@@ -95,6 +54,11 @@
                                     prop="desc"
                                     label="描述"
                                     min-width="50">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="charge_name"
+                                    label="负责人"
+                                    width="100">
                             </el-table-column>
                             <el-table-column
                                     label="操作">
@@ -175,7 +139,7 @@
             result: result,
 
         },
-        name: 'modeManage',
+        name: 'caseSetView',
         data() {
             return {
                 defaultProps: {
@@ -190,6 +154,11 @@
                 proAndIdData: '',
                 loading: false,
                 configData: '',
+                parameter:{
+                    setId: '', //setid
+                    projectName: '',//项目名称
+                    caseSetName: '',//用例名称
+                },
                 caseAll: [],  //  页面table的表格数据
                 casePage: {
                     total: 1,
@@ -207,12 +176,25 @@
                 },
                 form: {
                     projectName: '',
-                    caseName: '',
+                    caseSetName: '',
                 },
+
             }
         },
-
+        created(){
+            this.getParams()
+        },
         methods: {
+            getParams(){
+                this.parameter.setId = this.$route.query.id;//获取传过来的setid
+                this.parameter.projectName = this.$route.query.projectName;//获取传过来的项目名称
+                this.parameter.caseSetName = this.$route.query.caseSetName;//用例名称
+                this.setTempData.setId = this.parameter.setId
+                this.form.projectName =  this.parameter.projectName;
+                this.form.caseSetName = this.parameter.caseSetName
+                this.casePage.currentPage = 1;
+                this.findCase();
+            },
 
             handleNodeClick(data) {
                 this.setTempData.setId = data['id'];
@@ -238,8 +220,10 @@
             findCase() {
                 this.$axios.post(this.$api.findCaseApi, {
                     'setId': this.setTempData.setId,
-                    'projectName': this.form.projectName,
+                    //'projectName': this.form.projectName,
+                    'projectName': this.parameter.projectName,
                     'caseName': this.form.caseName,
+                    'caseSetName': this.form.caseSetName,
                     'page': this.casePage.currentPage,
                     'sizePage': this.casePage.sizePage,
                 }).then((response) => {
@@ -272,7 +256,8 @@
                 //  当项目选择项改变时，初始化模块和配置的数据
                 this.setPage.currentPage = 1;
                 this.casePage.currentPage = 1;
-                this.findSet()
+                //this.findSet()
+                this.findCase();
             },
             findSet() {
                 this.$axios.post(this.$api.findCaseSetApi, {
@@ -286,10 +271,10 @@
                         if (this.setDataList[0]) {
                             this.setTempData.setId = this.setDataList[0]['id'];
                             this.setTempData.name = this.setDataList[0]['label'];
-                            this.$nextTick(function () {
-                                this.$refs.testTree.setCurrentKey(this.setTempData.setId);  //"vuetree"是你自己在树形控件上设置的 ref="vuetree" 的名称
-                                this.findCase();
-                            });
+                            // this.$nextTick(function () {
+                            //     this.$refs.testTree.setCurrentKey(this.setTempData.setId);  //"vuetree"是你自己在树形控件上设置的 ref="vuetree" 的名称
+                            //     this.findCase();
+                            // });
                         }
                     }
                 );

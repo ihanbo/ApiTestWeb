@@ -10,6 +10,7 @@ import router from "../router-config";
 //     //config.headers.Authorization="Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0cnVlTmFtZSI6IuWUkOa2myjmtYvor5XnoJTlj5Hpg6gpIiwic3ViIjoidGFuZ3RhbzEiLCJpc3MiOiJvcC11Yy1qd3QiLCJuYW1lIjoidGFuZ3RhbzEiLCJleHAiOjE1NjM4NDQ0NzQsImlhdCI6MTU2Mzc1ODA3NCwidXNlcklkIjo4MDk5fQ.dgnAYhU5xPMGANXCGU49EcWgMxjepf_gIoS7kXAB2Yw"
 //     return config
 // })
+
 axios.interceptors.response.use(
     response => {
     if(response.data['msg'] === '登录超时,请重新登录'){router.push({path: '/login'});}
