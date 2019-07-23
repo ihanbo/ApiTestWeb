@@ -12,7 +12,7 @@ module.exports = {
     // 它支持webPack-dev-server的所有选项
     devServer: {
         open: true,         // 自动打开浏览器
-        host: 'http://192.168.15.10',  // 配置启动域名或IP
+        host: '192.168.15.10',  // 配置启动域名或IP
         port: 8090,         // 端口号
         https: false,       // 是否开启HTTPS
         hotOnly: false,
