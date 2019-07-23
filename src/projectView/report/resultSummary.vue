@@ -39,9 +39,11 @@
                     >
                     </el-table-column>
                     <el-table-column
-                            prop="caseSuccessRate"
-                            label="case通过率"
-                            minWidth="100">
+                        label="case通过率"
+                        minWidth="100">
+                        <template slot-scope="scope">
+                            {{(scope.row.caseSuccess / scope.row.caseTotal * 100).toFixed(2)}}%
+                        </template>
                     </el-table-column>
                     <el-table-column
                             prop="caseTotal"

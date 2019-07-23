@@ -42,20 +42,20 @@
                             label="用例名"
                             minWidth="100">
                     </el-table-column>
-                    <el-table-colum
-                            prop="caseExecStatus"
+                    <el-table-column
                             label="用例执行状态"
                             minWidth="120">
-                        <template slot-scope="scope">
-                            <el-tag size="small" :type="scope.row.caseExecStatus === 1 ? 'success' : 'fail'">
-                                {{scope.row.caseExecStatus}}
-                            </el-tag>
-                        </template>
-                    </el-table-colum>
+                            <template slot-scope="scope">
+                                {{scope.row.caseExecStatus === 'true' ? 'success' : 'fail'}}
+                            </template>
+                    </el-table-column>
                     <el-table-column
                             prop="caseDuration"
-                            label="用例持续时间"
-                            minWidth="120">
+                            label="用例持续时间(sec)"
+                            minWidth="150">
+                            <template slot-scope="scope">
+                                    {{scope.row.caseDuration.toFixed(2)}}
+                            </template>
                     </el-table-column>
                     <el-table-column
                             prop="caseDataId"
@@ -65,7 +65,7 @@
                     <el-table-column
                             prop="caseDataName"
                             label="用例步骤名"
-                            minWidth="100">
+                            minWidth="300">
                     </el-table-column>
                     <el-table-column
                             prop="apiMsgId"
@@ -75,7 +75,7 @@
                     <el-table-column
                             prop="apiMsgName"
                             label="接口名"
-                            minWidth="100">
+                            minWidth="300">
                     </el-table-column>
                     <el-table-column
                             prop="apiExecStatus"
@@ -84,8 +84,8 @@
                     </el-table-column>
                     <el-table-column
                             prop="responseTime"
-                            label="步骤执行时间"
-                            minWidth="120">
+                            label="步骤执行时间(ms)"
+                            minWidth="150">
                     </el-table-column>
                     <el-table-column
                             prop="projectName"
@@ -94,7 +94,7 @@
                     </el-table-column>
                     <el-table-column
                             prop="resultSummaryId"
-                            label="resultSummaryId"
+                            label="用例概况Id"
                             minWidth="100">
                     </el-table-column>
                 </el-table>
