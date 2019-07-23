@@ -43,8 +43,8 @@
           }
 
           console.log('localstorage-->'+userStr)
-          // var userData = JSON.parse(userStr)
-          // this.checkIn(userData.user.userName,userData.user.trueName,userData.jwt)
+          var userData = JSON.parse(userStr)
+          this.checkIn(userData.user.userName,userData.user.trueName,userData.jwt)
         },
 
     }
