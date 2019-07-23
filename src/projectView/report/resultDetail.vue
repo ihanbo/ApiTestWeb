@@ -43,11 +43,10 @@
                             minWidth="100">
                     </el-table-column>
                     <el-table-colum
-                            prop="caseExecStatus"
                             label="用例执行状态"
                             minWidth="120">
                         <template slot-scope="scope">
-                            <el-tag size="small" :type="scope.row.caseExecStatus === 1 ? 'success' : 'fail'">
+                            <el-tag size="small" :type="scope.row.caseExecStatus == 1 ? 'success' : 'fail'">
                                 {{scope.row.caseExecStatus}}
                             </el-tag>
                         </template>

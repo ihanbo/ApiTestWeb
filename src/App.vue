@@ -41,10 +41,10 @@
           if(!userStr){
               userStr = '{"jwt":"eyJ0eXAiOiJK","user":{"userName":"hanbo4","trueName":"韩波3(架构创新组)","userId":8066},"modules":[]}'
           }
-       
+
           console.log('localstorage-->'+userStr)
-          var userData = JSON.parse(userStr)
-          this.checkIn(userData.user.userName,userData.user.trueName,userData.jwt)
+          // var userData = JSON.parse(userStr)
+          // this.checkIn(userData.user.userName,userData.user.trueName,userData.jwt)
         },
 
     }
