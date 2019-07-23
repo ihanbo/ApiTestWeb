@@ -12,8 +12,6 @@ import projectManage from './projectView/project/project.vue'
 import platformManage from './projectView/project/platform.vue'
 import reportManage from './projectView/report/report.vue'
 import reportShow from './projectView/report/reportShow.vue'
-import resultSummary from './projectView/report/resultSummary'
-import resultDetail from './projectView/report/resultDetail'
 import reportHeader from './projectView/report/reportHeader.vue'
 import buildInFunc from './projectView/buildInFunc/buildInFunc.vue'
 import sceneManage from './projectView/caseManage/case.vue'
@@ -118,27 +116,8 @@ const routes = [
                     Header: reportHeader,
                     Manage: reportShow,
                 }
-            }, {
-                path: 'resultSummary',
-                meta: {
-                    requireAuth: true,
-                },
-                // component:caseManage,
-                components: {
-                    Header: Header,
-                    Manage: resultSummary,
-                },
-            }, {
-                path: 'resultDetail',
-                meta: {
-                    requireAuth: true,
-                },
-                // component:caseManage,
-                components: {
-                    Header: Header,
-                    Manage: resultDetail,
-                },
-            }, {
+            },
+            {
                 path: 'buildInFunc',
                 meta: {
                     requireAuth: true,
@@ -208,7 +187,7 @@ const routes = [
     {
         path: '/login',
         // component:caseManage,
-        component: login,
+        component: errors,
     },
     {
         path: '/errors',
