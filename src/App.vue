@@ -41,16 +41,20 @@
           if(!userStr){
               userStr = '{"jwt":"eyJ0eXAiOiJK","user":{"userName":"hanbo4","trueName":"韩波3(架构创新组)","userId":8066},"modules":[]}'
           }
-       
+
           console.log('localstorage-->'+userStr)
-          var userData = JSON.parse(userStr)
-          this.checkIn(userData.user.userName,userData.user.trueName,userData.jwt)
+          // var userData = JSON.parse(userStr)
+          // this.checkIn(userData.user.userName,userData.user.trueName,userData.jwt)
         },
 
     }
 </script>
 
 <style>
+body,html{
+  margin: 0;
+  padding: 0
+}
   .scrollbarList {
     max-height: 700px;
   }

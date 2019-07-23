@@ -1,5 +1,5 @@
 <template>
-    <div class="projectManage"  v-loading="loading" element-loading-text="运行中，请稍候...">
+    <div class="projectManage">
 
         <el-form :inline="true" class="demo-form-inline search-style" size="small">
 
@@ -30,9 +30,9 @@
                     <el-table-column
                             prop="name"
                             label="项目名称"
-                            width="200">
+                            width="150">
                     </el-table-column>
-                    <el-table-column label="当前环境" width="200">
+                    <el-table-column label="当前环境">
                         <template slot-scope="scope">
                             <el-tag size="small"
                                     :type="tableData[scope.$index]['choice'] === 'first' ?
@@ -51,16 +51,12 @@
                     <el-table-column
                             prop="principal"
                             label="负责人"
-                            width="200">
+                            width="150">
                     </el-table-column>
                     <el-table-column
                             label="操作"
                     >
                         <template slot-scope="scope">
-                            <el-button type="primary" icon="el-icon-caret-right" size="mini"
-                                       @click.native="runProject(tableData[scope.$index]['id'])">
-                                运行
-                            </el-button>
                             <el-button type="primary" icon="el-icon-edit" size="mini"
                                        @click.native="editProject(tableData[scope.$index]['id'])">编辑
                             </el-button>
@@ -96,7 +92,7 @@
                         </el-form-item>
                         <el-form-item label="负责人" label-width="60px">
                             <el-select v-model="form.user" value-key="user_id" id="user" size="mini"
-                                       style="width: 100px">
+                                       style="width: 100px" >
                                 <el-option
                                         v-for="item in userData"
                                         :key="item.user_id"
@@ -276,7 +272,7 @@
         name: 'projectManage',
         data() {
             return {
-                loading: false,  //  页面加载状态开关
+
                 environmentChoice: 'first',
                 environment: {
                     environmentTest: [{value: ''}],
@@ -314,7 +310,6 @@
             }
         },
         methods: {
-
             proHandleCurrentChange(val) {
                 this.currentPage = val;
                 this.findProject()
@@ -357,6 +352,24 @@
                 this.projectData.variable = Array();
                 this.projectData.id = null;
                 this.projectData.modelFormVisible = true;
+            },
+            getUserData() {
+                this.$axios({
+                    method: 'post',
+                    url:'http://mapi-devops.yiche.com/devopsapi/account/get_select_data',
+                    // headers:{
+                    //     'Authorization':JSON.parse(window.localStorage.getItem('userData')).jwt
+                    //     //'Authorization':"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0cnVlTmFtZSI6IuWUkOa2myjmtYvor5XnoJTlj5Hpg6gpIiwic3ViIjoidGFuZ3RhbzEiLCJpc3MiOiJvcC11Yy1qd3QiLCJuYW1lIjoidGFuZ3RhbzEiLCJleHAiOjE1NjM4NDQ0NzQsImlhdCI6MTU2Mzc1ODA3NCwidXNlcklkIjo4MDk5fQ.dgnAYhU5xPMGANXCGU49EcWgMxjepf_gIoS7kXAB2Yw"
+                    // },
+                }).then((response)=>{
+
+                    this.userData = []
+                    var tmpUserData = response.data.data
+                    tmpUserData.forEach((item,key)=>{
+                        this.userData.push({"user_id":item['id'], "user_name":item['name']});
+                    })
+                    console.log( tmpUserData);
+                })
             },
             dealHostList(data) {
                 // 把[{value:xxx1},{value:xxx2}] 转为 [xxx1,xxx2]111
@@ -607,6 +620,7 @@
         mounted() {
             this.findProject();
             this.findFuncAddress();
+            this.getUserData();
         },
     }
 </script>
