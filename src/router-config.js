@@ -187,7 +187,7 @@ const routes = [
     {
         path: '/login',
         // component:caseManage,
-        component: login,
+        component: errors,
     },
     {
         path: '/errors',
