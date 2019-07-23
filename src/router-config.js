@@ -17,6 +17,8 @@ import resultDetail from './projectView/report/resultDetail'
 import reportHeader from './projectView/report/reportHeader.vue'
 import buildInFunc from './projectView/buildInFunc/buildInFunc.vue'
 import sceneManage from './projectView/caseManage/case.vue'
+import caseInfo from './projectView/caseManage/caseInfo.vue'
+import caseSetView from './projectView/caseManage/caseView.vue'
 import testTool from './projectView/testTool/testTool.vue'
 import taskManage from './projectView/taskManage/task.vue'
 import user from './projectView/userManage/user.vue'
@@ -43,7 +45,18 @@ const routes = [
                     Header: Header,
                     Manage: projectManage,
                 }
-            },{
+            },
+            {
+                path: 'caseSetView',
+                meta: {
+                    requireAuth: true,
+                },
+                components: {
+                    Header: Header,
+                    Manage: caseSetView,
+                }
+            },
+            {
                 path: 'platformManage',
                 // component:caseManage,
                 meta: {
@@ -159,6 +172,16 @@ const routes = [
                 }
             },
             {
+                path: 'caseInfo',
+                meta: {
+                    requireAuth: true,
+                },
+                components: {
+                    Header: Header,
+                    Manage: caseInfo,
+                }
+            },
+            {
                 path: 'testTool',
                 meta: {
                     requireAuth: true,
@@ -214,6 +237,7 @@ const routes = [
         path: '/errors',
         component: errors,
     },
+
     {
         path: '',
         // component:caseManage,

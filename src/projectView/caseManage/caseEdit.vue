@@ -36,7 +36,7 @@
                         </el-form-item>
 
                         <el-form-item label="集合选择" :label-width="caseData.formLabelWidth">
-                            <el-select v-model="form.set" placeholder="请选择用例集" value-key="id"
+                            <el-select v-model="form.set.label" placeholder="请选择用例集" value-key="id"
                                        style="width: 150px">
                                 <el-option
                                         v-for="item in allSetList[form.projectName]"
@@ -434,8 +434,12 @@
 
             },
 
-            initCaseData() {
-                if (this.projectName) {
+            initCaseData(projectName,caseSetName) {
+                //if (this.projectName) {
+                // this.form.projectName = projectName;
+                // this.caseData.name = caseSetName;
+                // this.form.set.label = caseSetName;
+                if (projectName) {
                     this.synchronousData();
                     if (this.allSetList[this.projectName].length === 0) {
                         this.$message({

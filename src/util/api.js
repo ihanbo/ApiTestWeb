@@ -41,6 +41,8 @@ const findCaseSetApi = '/api/caseSet/find';
 const delCaseSetApi = '/api/caseSet/del';
 const addCaseSetApi = '/api/caseSet/add';
 const stickCaseSetApi = '/api/caseSet/stick';
+const addCaseSetEnvironment = '/api/caseSet/addEnvironment';
+const runCaseSetApi =  '/api/caseSet/run';
 
 const startTaskApi = '/api/task/start';
 const pauseTaskApi = '/api/task/pause';
@@ -133,6 +135,8 @@ export default {
     findCaseSetApi,
     delCaseSetApi,
     addCaseSetApi,
+    addCaseSetEnvironment,
+    runCaseSetApi,
     stickCaseSetApi,
 
     findProApi,

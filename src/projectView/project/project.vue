@@ -456,13 +456,22 @@
                         });
                     }
                     if (response.data['status'] === 1) {
-                        this.$message({
-                            showClose: true,
-                            message: response.data['msg'],
-                            type: 'warning',
-                        });
+                        if (response.data['msg']){
+                            this.loading = false;
+                            this.$message({
+                                showClose: true,
+                                message: response.data['msg'],
+                                type: 'warning',
+                            });
+                        }
                         if (response.data['error']) {
-                            this.$refs.errorViewFunc.showData(response.data['error']);
+                           // this.$refs.errorViewFunc.showData(response.data['error']);
+                            this.$message({
+                                showClose: true,
+                                message: response.data['error'],
+                                type: 'error',
+                            });
+                            this.loading = false;
                         }
                     }
                     this.loading = false;
