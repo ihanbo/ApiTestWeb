@@ -465,7 +465,7 @@
             //运行项目
             runProject(id){
                 this.loading = true;
-                this.$axios.post(this.$api.runProjectApi, {'id': id}).then((response) => {
+                this.$axios.post(this.$api.runProjectApi, {'id': id,'reportStatus':true}).then((response) => {
                     if (response.data['status'] === 0) {
                         this.$message({
                             showClose: true,
