@@ -19,7 +19,7 @@
             <el-form-item>
 <!--                <el-button type="primary" icon="el-icon-search" @click.native="handleCaseCurrentChange(1)">搜索-->
 <!--                </el-button>-->
-                <el-button type="primary" @click.native="$refs.caseEditFunc.initCaseData(parameter.projectName,form.caseSetName)">添加接口用例</el-button>
+                <el-button type="primary" @click.native="$refs.caseEditFunc.initCaseData(parameter.projectName,form.caseSetName,parameter.setId)">添加接口用例</el-button>
                 <el-button type="primary" @click.native="runScene(caseList,true,true)">批量运行</el-button>
             </el-form-item>
 
@@ -218,8 +218,10 @@
                 }
             },
             findCase() {
+               
                 this.$axios.post(this.$api.findCaseApi, {
-                    'setId': this.setTempData.setId,
+                    //'setId': this.setTempData.setId,
+                    'setId': this.parameter.setId,
                     //'projectName': this.form.projectName,
                     'projectName': this.parameter.projectName,
                     'caseName': this.form.caseName,
