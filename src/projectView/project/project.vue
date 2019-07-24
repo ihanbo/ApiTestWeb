@@ -1,5 +1,5 @@
 <template>
-    <div class="projectManage">
+    <div class="projectManage" v-loading="this.loading">
 
         <el-form :inline="true" class="demo-form-inline search-style" size="small">
 
@@ -57,6 +57,10 @@
                             label="操作"
                     >
                         <template slot-scope="scope">
+
+                            <el-button type="primary" icon="el-icon-edit" size="mini"
+                                       @click.native="runProject(tableData[scope.$index]['id'])">运行
+                            </el-button>
                             <el-button type="primary" icon="el-icon-edit" size="mini"
                                        @click.native="editProject(tableData[scope.$index]['id'])">编辑
                             </el-button>
@@ -284,6 +288,7 @@
                 total: 1,
                 funcAddress: '',
                 userData: [],
+                loading: false,
                 currentPage: 1,
                 sizePage: 20,
                 form: {
