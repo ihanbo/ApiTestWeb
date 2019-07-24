@@ -88,6 +88,7 @@ const addUIcaseStepApi = '/api/uicasestep/add';
 
 const editUIcaseApi = '/api/uicases/editAndCopy';
 const delUIcaseApi = '/api/uicases/delete';
+const runUIcaseApi = '/api/uicases/run_ui_case';
 const findUIcaseApi = '/api/uicases/list';
 const addUIcaseApi = '/api/uicases/add';
 const delStepInCaseApi = '/api/uicases/delStep';
@@ -176,6 +177,7 @@ export default {
     delPlatformApi,
     findPlatformApi,
 
+    
     findActionsApi,
     editUIcaseStepApi,
     addUIcaseStepApi,
@@ -184,6 +186,7 @@ export default {
 
 
     editUIcaseApi,
+    runUIcaseApi,
     addUIcaseApi,
     findUIcaseApi,
     delUIcaseApi,

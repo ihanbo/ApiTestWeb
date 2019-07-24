@@ -130,6 +130,10 @@
                                                @click.native="sureView(delApi,ApiMsgTableData[scope.$index]['id'],ApiMsgTableData[scope.$index]['name'])">
                                         删除
                                     </el-button>
+                                    <el-button type="primary" icon="el-icon-run" size="mini"
+                                               @click.native="runApi(ApiMsgTableData[scope.$index]['id'],'copy')">
+                                        运行
+                                    </el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -376,6 +380,15 @@
                 setTimeout(() => {
                     this.$refs.apiFunc.editCopyApiMsg(apiMsgId, status);
                 }, 0)
+            },
+            runApi(apiMsgId, status) {
+                //  编辑或者复制信息
+                this.$axios.post(this.$api.runUIcaseApi, {'id': apiMsgId}).then((response) => {
+                
+                    this.messageShow(this, response);
+                        
+                    }
+                )
             },
 
             delApi(apiMsgId) {
