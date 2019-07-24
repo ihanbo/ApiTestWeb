@@ -73,6 +73,12 @@
                                 <span>报告管理</span>
                             </template>
                             <el-menu-item-group>
+                                <el-menu-item index="/manage/resultSummary">用例执行概况列表</el-menu-item>
+                            </el-menu-item-group>
+                            <el-menu-item-group>
+                                <el-menu-item index="/manage/resultDetail">用例执行详细列表</el-menu-item>
+                            </el-menu-item-group>
+                            <el-menu-item-group>
                                     <el-menu-item index="/manage/reportManage">测试报告</el-menu-item>
                             </el-menu-item-group>
                             <el-menu-item-group>

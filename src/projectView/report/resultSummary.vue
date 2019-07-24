@@ -113,7 +113,7 @@
 
 <script>
     export default {
-        name: 'reportSummary',
+        name: 'resultSummary',
         data() {
             return {
                 proData: '',

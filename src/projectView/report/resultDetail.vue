@@ -118,7 +118,7 @@
 
 <script>
     export default {
-        name: 'reportDetail',
+        name: 'resultDetail',
         data() {
             return {
                 proData: '',
