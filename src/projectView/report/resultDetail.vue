@@ -46,7 +46,7 @@
                             label="用例执行状态"
                             minWidth="120">
                             <template slot-scope="scope">
-                                {{scope.row.caseExecStatus === 'true' ? 'success' : 'fail'}}
+                                {{scope.row.caseExecStatus === true ? 'success' : 'fail'}}
                             </template>
                     </el-table-column>
                     <el-table-column
