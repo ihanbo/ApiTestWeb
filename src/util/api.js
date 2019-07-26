@@ -1,4 +1,4 @@
-const baseUrl=process.env.BASE_URL 
+const baseUrl=process.env.BASE_URL
 
 
 const baseDataApi = baseUrl+'/api/proGather/list';
@@ -12,6 +12,7 @@ const runProjectApi = baseUrl+'/api/project/runProject';
 
 const findReportApi = baseUrl+'/api/report/find';
 const delReportApi = baseUrl+'/api/report/del';
+const listReportApi = baseUrl+'/api/report/list';
 
 const findResultSummaryApi = baseUrl+'/api/resultSummary/find'
 const findResultDetailApi = baseUrl+'/api/resultDetail/find'
@@ -110,6 +111,7 @@ export default {
 
     findReportApi,
     delReportApi,
+    listReportApi,
 
     findResultSummaryApi,
     findResultDetailApi,
@@ -180,7 +182,7 @@ export default {
     delPlatformApi,
     findPlatformApi,
 
-    
+
     findActionsApi,
     editUIcaseStepApi,
     addUIcaseStepApi,
