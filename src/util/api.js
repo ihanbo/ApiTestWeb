@@ -111,6 +111,7 @@ export default {
 
     findReportApi,
     delReportApi,
+    listReportApi,
 
     findResultSummaryApi,
     findResultDetailApi,
@@ -185,7 +186,7 @@ export default {
     delPlatformApi,
     findPlatformApi,
 
-    
+
     findActionsApi,
     editUIcaseStepApi,
     addUIcaseStepApi,
