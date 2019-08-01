@@ -12,6 +12,7 @@ const delReportApi = '/api/report/del';
 
 const findResultSummaryApi = '/api/resultSummary/find'
 const findResultDetailApi = '/api/resultDetail/find'
+const findResultCaseSetApi = '/api/resultCaseSet/find'
 
 const findModuleApi = '/api/module/find';
 const addModuleApi = '/api/module/add';
@@ -110,6 +111,7 @@ export default {
 
     findResultSummaryApi,
     findResultDetailApi,
+    findResultCaseSetApi,
 
     findFuncApi,
     createFuncApi,
@@ -177,7 +179,7 @@ export default {
     delPlatformApi,
     findPlatformApi,
 
-    
+
     findActionsApi,
     editUIcaseStepApi,
     addUIcaseStepApi,
