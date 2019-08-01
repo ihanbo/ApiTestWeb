@@ -10,6 +10,7 @@ const findProjectReportApi = '/api/project/findProjectReport';
 
 const findReportApi = '/api/report/find';
 const delReportApi = '/api/report/del';
+const listReportApi ='/api/report/list';
 
 const findResultSummaryApi = '/api/resultSummary/find'
 const findResultDetailApi = '/api/resultDetail/find'
@@ -112,7 +113,7 @@ export default {
 
     findReportApi,
     delReportApi,
-    // listReportApi,
+    listReportApi,
 
     findResultSummaryApi,
     findResultDetailApi,

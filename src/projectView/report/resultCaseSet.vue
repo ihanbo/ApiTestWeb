@@ -44,9 +44,9 @@
 
                  <el-col :span="8" style="border-style:solid;border-color: #ffffff rgb(234, 234, 234) #ffffff #ffffff;border-width: 1px;margin-top:100px">
                      <ul style="margin-top:5px;font-size:14px;line-height:25px" class="remote-line">
-                         <li style="color: rgb(25,212,174);font-weight:600; list-style-type:none">成功率:10%
+                         <li style="color: rgb(25,212,174);font-weight:600; list-style-type:none">成功率:{{ (caseSuccess / caseToal * 100).toFixed(2)}}%
                          </li>
-                         <li style="color: rgb(250,110,134);font-weight:600;list-style-type:none">失败率:3%
+                         <li style="color: rgb(250,110,134);font-weight:600;list-style-type:none">失败率:{{ (caseFaile / caseToal * 100).toFixed(2)}}%
                          </li>
                      </ul>
 
@@ -132,8 +132,8 @@
                 caseChartData: {
                     columns: ['caseName', 'num'],
                     rows: [
-                        {'caseName': '成功case', num: this.caseSuccess},
-                        {"caseName": '失败case', num: this.caseFaile},
+                        {'caseName': '成功case', num: 0},
+                        {"caseName": '失败case', num: 0},
                     ]
                 },
                 tableData:[],
@@ -141,20 +141,34 @@
         },
         methods: {
             initData() {
-                this.$axios.get(this.$api.findResultCaseSetApi).then((response) => {
-                        if (response.data['data']){
-                            this.caseSetName = response['data']['caseSetName'];
-                            this.caseTimeStartAt = response['data']['caseTimeStartAt'];
-                            this.caseTimeDuration = this.secondsToDate(response['data']['caseTimeDuration']);
-                            this.caseDataTotal = response['data']['caseDataTotal'];
-                            this.caseSuccess = response['data']['caseSuccess'];
-                            this.caseFaile = response['data']['caseFaile'];
-                            this.caseSetId = response['data']['caseSetId'];
-                            this.caseSetName = response['data']['caseSetName'];
-                            this.tableData = response['data']['caselist'];
+                this.projectName = this.$route.query.projectName;
+                this.reportId = this.$route.query.reportId;
+                this.caseSetId = this.$route.query.caseSetId;
+                console.log(this.projectName, this.reportId, this.caseSetId);
+                this.$axios.post(this.$api.findResultCaseSetApi, {
+                    "projectName":this.projectName,
+                    "reportId":parseInt(this.reportId),
+                    "caseSetId":parseInt(this.caseSetId)
+                }).then((response) => {
+                    console.log(response.data)
+                        if (response.data['status'] === 1){
+                            console.log(response.data['data']['caseSetName'])
+                            this.caseSetName = response.data['data']['caseSetName'];
+                            this.caseTimeStartAt = response.data['data']['caseTimeStartAt'];
+                            this.caseTimeDuration = this.secondsToDate(response.data['data']['caseTimeDuration']);
+                            this.caseToal = response.data['data']['caseTotal'];
+                            this.caseDataTotal = response.data['data']['caseDataTotal'];
+                            this.caseSuccess = response.data['data']['caseSuccess'];
+                            this.caseFaile = response.data['data']['caseFaile'];
+                            this.caseSetId = response.data['data']['caseSetId'];
+                            this.caseSetName = response.data['data']['caseSetName'];
+                            this.tableData = response.data['data']['caselist'];
+                            this.caseChartData.rows[0].num = this.caseSuccess;
+                            this.caseChartData.rows[1].num = this.caseFaile;
                         }
                     }
                 );
+                this.caseTimeDuration = this.secondsToDate(5.21)
             },
             secondsToDate(seconds){
                 var time = seconds
