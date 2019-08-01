@@ -6,6 +6,7 @@ const addProApi = '/api/project/add';
 const editProApi = '/api/project/edit';
 const delProApi = '/api/project/del';
 const runProjectApi = '/api/project/runProject';
+const findProjectReportApi = '/api/project/findProjectReport';
 
 const findReportApi = '/api/report/find';
 const delReportApi = '/api/report/del';
@@ -15,9 +16,11 @@ const findResultDetailApi = '/api/resultDetail/find'
 
 const findModuleApi = '/api/module/find';
 const addModuleApi = '/api/module/add';
+const runModuleApi = '/api/module/run';
 const editModuleApi = '/api/module/edit';
 const delModuleApi = '/api/module/del';
 const stickModuleApi = '/api/module/stick';
+const addModuleEnvironment = '/api/module/addModuleEnvironment';
 
 const findConfigApi = '/api/config/find';
 const addConfigApi = '/api/config/add';
@@ -43,6 +46,7 @@ const addCaseSetApi = '/api/caseSet/add';
 const stickCaseSetApi = '/api/caseSet/stick';
 const addCaseSetEnvironment = '/api/caseSet/addEnvironment';
 const runCaseSetApi =  '/api/caseSet/run';
+const viewCaseSetResultApi = '/api/resultCaseSet/find';
 
 const startTaskApi = '/api/task/start';
 const pauseTaskApi = '/api/task/pause';
@@ -139,18 +143,22 @@ export default {
     addCaseSetEnvironment,
     runCaseSetApi,
     stickCaseSetApi,
+    viewCaseSetResultApi,
 
     findProApi,
     addProApi,
     editProApi,
     delProApi,
     runProjectApi,
+    findProjectReportApi,
 
     findModuleApi,
     addModuleApi,
+    runModuleApi,
     editModuleApi,
     delModuleApi,
     stickModuleApi,
+    addModuleEnvironment,
 
     findConfigApi,
     addConfigApi,
