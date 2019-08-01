@@ -346,6 +346,7 @@
                             type: 'success',
                          });
                         }
+                    this.findSet();
                     }
                 )
             },

@@ -386,6 +386,7 @@
                             this.$refs.resultFunc.showData(response['data']['data']);
                         }
                         this.loading = false;
+                        this.findApiMsg()
                     }
                 )
             },
