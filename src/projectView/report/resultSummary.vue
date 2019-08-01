@@ -18,7 +18,7 @@
         </el-form>
 
         <el-tabs value="first" class="table_padding">
-            <el-tab-pane label="用例执行概况列表" name="first" style="margin: 0 0 -10px;">
+            <el-tab-pane label="执行概况" name="first" style="margin: 0 0 -10px;">
 
                 <!--<el-scrollbar wrap-class="scrollbarList">-->
                 <el-table :data="tableData"
