@@ -311,29 +311,14 @@
         methods: {
             //查看运行结果
             viewCaseSetResult(id,report_id){
-                this.$axios.post(this.$api.viewCaseSetResultApi, {
-                    'projectName': this.form.projectName,
-                    'caseSetId': id,
-                    'reportId': report_id,
-                }).then((response) => {
-                        //失败
-                        if (response.data['status'] === 0) {
-                            this.$message({
-                                showClose: true,
-                                message: response.data['msg'],
-                                type: 'warning',
-                            });
-                        }
-                        //成功
-                        if (response.data['status'] === 1) {
-                            this.$message({
-                                showClose: true,
-                                message: response.data['msg'],
-                                type: 'success',
-                            });
-                        }
-                    }
-                )
+                //查询报告id
+                let {href} = this.$router.resolve({path: 'resultCaseSet', query:
+                    {
+                        'reportId': report_id,
+                        'projectName': this.form.projectName,
+                        'caseSetId': id,
+                    }});
+                window.open(href, '_blank');
             },
             //查看用例详细信息
             viewCaseSet(id,caseSetName){
