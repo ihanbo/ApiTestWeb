@@ -15,7 +15,7 @@
                             </el-input>
                         </el-form-item>
                         <el-form-item label="项目选择" :label-width="caseData.formLabelWidth">
-                            <el-select v-model="form.projectName" placeholder="请选择项目" @change="changeSetChoice"
+                            <el-select v-model="form.pjname" placeholder="请选择项目" @change="changeSetChoice"
                                        style="width: 150px">
                                 <el-option
                                         v-for="(item, key) in proModelData"
@@ -36,13 +36,15 @@
                         </el-form-item>
 
                         <el-form-item label="集合选择" :label-width="caseData.formLabelWidth">
-                            <el-select v-model="form.set" placeholder="请选择用例集" value-key="id"
+<!--                            <el-select v-model="form.set" placeholder="请选择用例集" value-key="id" @change="changeCaseSetChoice"-->
+<!--                                       style="width: 150px">-->
+                            <el-select v-model="form.caseSetName" placeholder="请选择用例集" value-key="id" @change="changeCaseSetChoice"
                                        style="width: 150px">
                                 <el-option
-                                        v-for="item in allSetList[form.projectName]"
+                                        v-for="item in allSetList[form.pjname]"
                                         :key="item.id"
                                         :label="item.label"
-                                        :value="item">
+                                        :value="item.label">
                                 </el-option>
                             </el-select>
                         </el-form-item>
@@ -185,7 +187,7 @@
                                                 style="padding-top: 3px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
                                             {{ _data.name }}
                                         </el-col>
-                                        <el-col :span="4">
+                                        <el-col :span="5">
                                             <el-input-number size="mini" :precision="0"
                                                              v-model="caseData.apiCases[index]['time']"
                                                              :min="1" :max="1000">
@@ -254,10 +256,10 @@
                                 <el-col :span="1">
                                     &nbsp;
                                 </el-col>
-                                <el-col :span="2">
+                                <el-col :span="3">
                                     编号
                                 </el-col>
-                                <el-col :span="4">
+                                <el-col :span="6">
                                     用例名称
                                 </el-col>
                                 <el-col :span="4">
@@ -276,18 +278,17 @@
                                          class="list-complete-item">
                                         <el-row :gutter="24">
                                             <el-col :span="1">
-                                                <el-radio v-model="radio" @change="addEvent(index)" :label="index">
-                                                    {{null}}
-                                                </el-radio>
-                                                <!--<el-checkbox @change="addEvent" true-label="1" false-label="0">-->
-                                                <!---->
-                                                <!--</el-checkbox>-->
+<!--                                                <el-radio v-model="radio" @change="addEvent(index)" :label="index">-->
+<!--                                                    {{null}}-->
+<!--                                                </el-radio>-->
+                                                <el-checkbox @change="addEvent(index)" true-label="1" false-label="0">
+                                                </el-checkbox>
                                             </el-col>
                                             <el-col :span="2">
                                                 {{ _data.num }}
                                             </el-col>
-                                            <el-col :span="4"
-                                                    style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
+                                            <el-col :span="6"
+                                                style="overflow: hidden;text-overflow: ellipsis;white-space: normal;">
                                                 {{ _data.name }}
                                             </el-col>
                                             <el-col :span="4"
@@ -350,7 +351,8 @@
         props: ['proModelData', 'projectName', 'allSetList', 'setTempData', 'configData', 'funcAddress'],
         data() {
             return {
-                apiMsgVessel: [], //接口用例容器，勾选的内容都存在此变量
+                // apiMsgVessel: [], //接口用例容器，勾选的内容都存在此变量
+                apiMsgVessel:Array(),
                 ApiMsgData: [], // 接口信息里面的表格数据
                 mainWidth: '50%',
                 radio: '',
@@ -382,6 +384,9 @@
                     apiMesProjectName: '',
                     sceneVariableProjectName: '',
                     apiName: '',
+                    caseSetName:'',
+                    caseSetId: null,
+                    pjname:'',
                 },
                 caseData: {
                     id: '',
@@ -401,7 +406,8 @@
         },
         methods: {
             addEvent(dex) {
-                this.apiMsgVessel = this.ApiMsgData[dex];
+                // this.apiMsgVessel = this.ApiMsgData[dex];
+                this.apiMsgVessel.push(this.ApiMsgData[dex]);
             },
             showApiData: function () {
                 this.showApiDataStatus = !this.showApiDataStatus;
@@ -436,9 +442,13 @@
 
             initCaseData(projectName,caseSetName,setId) {
                 if (this.projectName) {
-                    this.form.projectName = projectName;
+                    this.form.pjname = projectName;
+                    this.form.caseSetName = caseSetName;
+                    this.form.caseSetId = setId;
+                    // this.form.projectName = projectName;
                     // this.caseData.name = caseSetName;
-                    this.form.set.id = setId;
+                    // this.form.set.label = caseSetName;
+                    // this.form.set.id = setId;
                     if (projectName) {
                         this.synchronousData();
                         if (this.allSetList[this.projectName].length === 0) {
@@ -464,8 +474,13 @@
                     this.findApiMsg();
                 }
             },
-            editCase(caseId, copyEditStatus = false) {
+            editCase(caseId, caseSetName,proName,copyEditStatus = false) {
                 this.synchronousData();
+                this.form.caseSetName = caseSetName;
+                this.form.caseSetId = caseId;
+                this.form.pjname = proName;
+                // this.form.set.id = caseId;
+                this.apiMsgVessel = [];
                 this.$axios.post(this.$api.editCaseApi, {
                     'caseId': caseId,
                     'copyEditStatus': copyEditStatus
@@ -489,12 +504,17 @@
                     }
                 )
             },
+            changeCaseSetChoice(value){
+
+            },
             changeSetChoice() {
-                let tempData = this.allSetList[this.form.projectName][0];
+                let tempData = this.allSetList[this.form.pjname][0];
                 if (tempData) {
                     this.form.set = tempData;
+                    this.form.caseSetName = tempData.label;
                 } else {
                     this.form.set = null
+                    this.form.caseSetName = null;
                 }
             },
             changeModuleChoice() {
@@ -593,14 +613,25 @@
                 )
             },
             addApiData() {
-                if (this.apiMsgVessel.length === 0) {
+
+                // if (this.apiMsgVessel.length === 0) {
+                //     this.$message({
+                //         showClose: true,
+                //         message: '请勾选接口信息',
+                //         type: 'warning',
+                //     });
+                //     return
+                // }
+                if (this.apiMsgVessel.length === 0){
                     this.$message({
-                        showClose: true,
-                        message: '请勾选接口信息',
-                        type: 'warning',
-                    });
+                            showClose: true,
+                            message: '请勾选接口信息',
+                            type: 'warning',
+                        }
+                    );
                     return
                 }
+                // this.caseData.apiCases = this.caseData.apiCases.concat(this.apiMsgVessel);
                 this.caseData.apiCases = this.caseData.apiCases.concat(this.apiMsgVessel);
                 this.caseData.apiCases = JSON.parse(JSON.stringify(this.caseData.apiCases));
                 // this.$refs.multipleTable.clearSelection();
@@ -656,11 +687,14 @@
                     'name': this.caseData.name,
                     'times': this.caseData.times,
                     'waitTimes':this.caseData.waitTimes,
-                    'caseSetId': this.form.set.id,
+                    // 'caseSetId': this.form.set.id,
+                    // 'caseSetId': this.form.caseSetId,
+                    caseSetName : this.form.caseSetName,
                     'desc': this.caseData.desc,
                     'funcAddress': this.caseData.funcAddress,
                     'variable': JSON.stringify(this.caseData.variable),
-                    'project': this.form.projectName,
+                    // 'project': this.form.projectName,
+                    'project': this.form.pjname,
                     'ids': this.caseData.id,
                     'apiCases': this.caseData.apiCases,
                 }).then((response) => {

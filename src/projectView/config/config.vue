@@ -31,13 +31,14 @@
                           stripe>
                     <el-table-column
                             prop="num"
+                            type="index"
                             label="编号"
-                            min-width="40">
+                            width="100">
                     </el-table-column>
                     <el-table-column
                             prop="name"
                             label="模块名称"
-                            min-width="250">
+                            width="400">
                     </el-table-column>
                     <el-table-column
                             label="操作"

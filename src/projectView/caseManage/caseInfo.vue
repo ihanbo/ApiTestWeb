@@ -19,26 +19,26 @@
             <el-form-item>
 <!--                <el-button type="primary" icon="el-icon-search" @click.native="handleCaseCurrentChange(1)">搜索-->
 <!--                </el-button>-->
-                <el-button type="primary" @click.native="addCaseSet">新增用例</el-button>
+                <el-button type="primary" icon="el-icon-circle-plus-outline" @click.native="addCaseSet">新增用例集</el-button>
 <!--                <el-button type="primary" @click.native="runScene(caseList,true,true)">批量运行</el-button>-->
             </el-form-item>
 
         </el-form>
         <el-tabs value="first" style="padding-left: 10px;padding-right:5px;">
-            <el-tab-pane label="用例信息" name="first">
+            <el-tab-pane label="用例集信息" name="first">
 
                 <el-table :data="setDataList" stripe max-height="745" @cell-click="handleCaseSetSelect">
                     <el-table-column
                             prop="num"
                             type="index"
                             label="编号"
-                            width="100"
+                            width="80"
                     >
                     </el-table-column>
                     <el-table-column
                             prop="label"
                             label="用例名称"
-                            width="250">
+                            width="200">
                     </el-table-column>
                     <el-table-column label="当前环境" width="250" >
                         <template slot-scope="scope">
@@ -70,7 +70,7 @@
                             label="操作"
                     >
                         <template slot-scope="scope">
-                            <el-button type="primary" icon="el-icon-caret-right" size="mini"
+                            <el-button type="primary" icon="el-icon-s-tools" size="mini"
                                        @click.native="runCaseSet(setDataList[scope.$index]['id'])">
                                 运行
                             </el-button>
@@ -81,9 +81,14 @@
                             <el-button type="primary" icon="el-icon-edit" size="mini"
                                        @click.native="editCaseSet(setDataList[scope.$index]['id'],setDataList[scope.$index]['label'])">编辑
                             </el-button>
-                            <el-button type="primary" icon="el-icon-edit" size="mini"
+                            <el-button type="primary" icon="el-icon-s-operation" size="mini"
                                        @click.native="viewCaseSet(setDataList[scope.$index]['id'],setDataList[scope.$index]['label'])"
-                                        >查看
+                                        >添加用例信息
+                            </el-button>
+                            <el-button type="primary" icon="el-icon-view" size="mini" v-if="setDataList[scope.$index]['is_execute'] == 1"
+                                       @click.native="viewCaseSetResult(setDataList[scope.$index]['id'],
+                                       setDataList[scope.$index]['report_id'])"
+                            >查看运行结果
                             </el-button>
                         </template>
                     </el-table-column>
@@ -304,6 +309,32 @@
         },
 
         methods: {
+            //查看运行结果
+            viewCaseSetResult(id,report_id){
+                this.$axios.post(this.$api.viewCaseSetResultApi, {
+                    'projectName': this.form.projectName,
+                    'caseSetId': id,
+                    'reportId': report_id,
+                }).then((response) => {
+                        //失败
+                        if (response.data['status'] === 0) {
+                            this.$message({
+                                showClose: true,
+                                message: response.data['msg'],
+                                type: 'warning',
+                            });
+                        }
+                        //成功
+                        if (response.data['status'] === 1) {
+                            this.$message({
+                                showClose: true,
+                                message: response.data['msg'],
+                                type: 'success',
+                            });
+                        }
+                    }
+                )
+            },
             //查看用例详细信息
             viewCaseSet(id,caseSetName){
                 this.$router.push({path: 'caseSetView', query: {id:id,projectName:this.form.projectName

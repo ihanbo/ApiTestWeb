@@ -11,7 +11,7 @@
                 <el-button type="primary" icon="el-icon-search" @click.native="proHandleCurrentChange(1)">
                     搜索
                 </el-button>
-                <el-button type="primary" @click.native="initProjectData()">添加项目
+                <el-button type="primary" icon="el-icon-circle-plus-outline"  @click.native="initProjectData()">添加项目
                 </el-button>
             </el-form-item>
 
@@ -30,9 +30,9 @@
                     <el-table-column
                             prop="name"
                             label="项目名称"
-                            width="150">
+                            width="200">
                     </el-table-column>
-                    <el-table-column label="当前环境">
+                    <el-table-column label="当前环境" width="200">
                         <template slot-scope="scope">
                             <el-tag size="small"
                                     :type="tableData[scope.$index]['choice'] === 'first' ?
@@ -51,14 +51,14 @@
                     <el-table-column
                             prop="principal"
                             label="负责人"
-                            width="150">
+                            width="200">
                     </el-table-column>
                     <el-table-column
                             label="操作"
                     >
                         <template slot-scope="scope">
 
-                            <el-button type="primary" icon="el-icon-edit" size="mini"
+                            <el-button type="primary" icon="el-icon-s-tools" size="mini"
                                        @click.native="runProject(tableData[scope.$index]['id'])">运行
                             </el-button>
                             <el-button type="primary" icon="el-icon-edit" size="mini"
@@ -67,6 +67,9 @@
                             <el-button type="danger" icon="el-icon-delete" size="mini"
                                        @click.native="sureView(delProject,tableData[scope.$index]['id'],tableData[scope.$index]['name'])">
                                 删除
+                            </el-button>
+                            <el-button type="primary" icon="el-icon-view" size="mini" v-if="tableData[scope.$index]['is_execute'] == 1"
+                                       @click.native="viewProjectResult(tableData[scope.$index]['id'],tableData[scope.$index]['name'])">查看结果
                             </el-button>
                         </template>
                     </el-table-column>
@@ -289,6 +292,7 @@
                 funcAddress: '',
                 userData: [],
                 loading: false,
+                reportId: null,
                 currentPage: 1,
                 sizePage: 20,
                 form: {
@@ -461,7 +465,17 @@
                     }
                 )
             },
-
+            //查看运行结果
+            viewProjectResult(id,projectName){
+                //查询报告id
+                this.$axios.post(this.$api.findProjectReportApi, {'id': id,'projectName':projectName}).then((response) => {
+                    if (response.data['data']){
+                        this.reportId = response.data['data'];
+                        let {href} = this.$router.resolve({path: 'reportShow', query: {reportId: this.reportId}});
+                        window.open(href, '_blank');
+                    }
+                })
+            },
             //运行项目
             runProject(id){
                 this.loading = true;
@@ -493,8 +507,10 @@
                         }
                     }
                     this.loading = false;
+                    this.findProject();
                    }
                 )
+
             },
 
             delProject(id) {

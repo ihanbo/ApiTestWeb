@@ -29,11 +29,11 @@
                 <el-table :data="tableData"
                           max-height="748"
                           stripe>
-                    <!--<el-table-column-->
-                    <!--prop="num"-->
-                    <!--label="编号"-->
-                    <!--min-width="40">-->
-                    <!--</el-table-column>-->
+                    <el-table-column
+                            type="index"
+                            label="编号"
+                            width="80">
+                    </el-table-column>
                     <el-table-column
                             prop="task_name"
                             label="任务名称"
@@ -171,7 +171,8 @@
                             <template>
                                 <el-select v-model="taskData.timeConfig"
                                            style="width: 240px;padding-right:5px"
-                                           clearable placeholder="请选择" @change="changetimeChoice">
+                                           clearable placeholder="请选择" >
+<!--                                    @change="changetimeChoice"-->
                                     <el-option
                                             v-for="(item) in timeoptions"
                                             :key="item.value"
@@ -335,6 +336,14 @@
 
             },
             addTask() {
+                if(!this.taskData.name){
+                    this.$message({
+                        showClose: true,
+                        message: '请填写任务名称',
+                        type: 'warning',
+                    });
+                    return
+                }
                 this.$axios.post(this.$api.addTaskApi, {
                     'projectName': this.form.projectName,
                     'setIds': this.form.set,
@@ -348,7 +357,6 @@
                     'timeConfig': this.taskData.timeConfig,
                     'password': this.taskData.password,
                 }).then((response) => {
-
                         if (response.data['status'] === 0) {
                             this.$message({
                                 showClose: true,

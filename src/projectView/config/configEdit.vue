@@ -115,6 +115,14 @@
                 this.configData.variable.splice(i, 1);
             },
             addSceneConfig() {
+                if(!this.configData.name){
+                    this.$message({
+                        showClose:true,
+                        message: '请填写配置名称',
+                        type:'warning',
+                    });
+                    return
+                }
                 this.$axios.post(this.$api.addConfigApi, {
                     'projectName': this.configData.projectName,
                     'sceneConfigName': this.configData.name,
@@ -128,7 +136,6 @@
                             if (typeof this.$parent.findConfig === "function") {
                                 this.$parent.findConfig();
                             }
-
                             // this.findConfig();
                         }
                     }
