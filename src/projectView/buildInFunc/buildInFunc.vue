@@ -185,7 +185,7 @@
                 if (!this.funcData) {
                     this.$message({
                         showClose: true,
-                        message: '请先填写函数文件名，并以.py结尾，创建文件后再保存',
+                        message: '请先填写函数文件名，并以.py结尾，创建文件，输入函数信息后再保存',
                         type: 'warning',
                     });
                     return
