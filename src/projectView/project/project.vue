@@ -72,7 +72,7 @@
                                 删除
                             </el-button>
                             <el-button type="primary" icon="el-icon-view" size="mini" v-if="tableData[scope.$index]['is_execute'] == 1"
-                                       @click.native="viewProjectResult(tableData[scope.$index]['id'],tableData[scope.$index]['name'])">查看结果
+                                       @click.native="viewProjectResult(tableData[scope.$index]['id'],tableData[scope.$index]['report_id'],tableData[scope.$index]['name'])">查看结果
                             </el-button>
                         </template>
                     </el-table-column>
@@ -478,15 +478,17 @@
                 )
             },
             //查看运行结果
-            viewProjectResult(id,projectName){
+            viewProjectResult(id,reportId,projectName){
                 //查询报告id
-                this.$axios.post(this.$api.findProjectReportApi, {'id': id,'projectName':projectName}).then((response) => {
-                    if (response.data['data']){
-                        this.reportId = response.data['data'];
-                        let {href} = this.$router.resolve({path: 'reportShow', query: {reportId: this.reportId}});
+                let {href} = this.$router.resolve({path: 'reportShow', query: {reportId: reportId}});
                         window.open(href, '_blank');
-                    }
-                })
+                // this.$axios.post(this.$api.findProjectReportApi, {'id': id,'projectName':projectName}).then((response) => {
+                //     if (response.data['data']){
+                //         this.reportId = response.data['data'];
+                //         let {href} = this.$router.resolve({path: 'reportShow', query: {reportId: this.reportId}});
+                //         window.open(href, '_blank');
+                //     }
+                // })
             },
             //运行项目
             runProject(id){

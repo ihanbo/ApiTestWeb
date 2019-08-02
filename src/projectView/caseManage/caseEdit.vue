@@ -278,11 +278,11 @@
                                          class="list-complete-item">
                                         <el-row :gutter="24">
                                             <el-col :span="1">
-<!--                                                <el-radio v-model="radio" @change="addEvent(index)" :label="index">-->
-<!--                                                    {{null}}-->
-<!--                                                </el-radio>-->
-                                                <el-checkbox v-model="valu"  @change="addEvent(index,valu)" true-label="1" false-label="0">
-                                                </el-checkbox>
+                                                <el-radio v-model="radio" @change="addEvent(index)" :label="index">
+                                                    {{null}}
+                                                </el-radio>
+<!--                                                <el-checkbox v-model="valu"  @change="addEvent(index,valu)" true-label="1" false-label="0">-->
+<!--                                                </el-checkbox>-->
                                             </el-col>
                                             <el-col :span="2">
                                                 {{ _data.num }}
@@ -325,7 +325,7 @@
 
             <div slot="footer" class="dialog-footer">
                 <el-button @click="caseData.modelFormVisible = false" size="small">取 消</el-button>
-                <el-button type="success" @click.native="addCase(false)" size="small">保 存</el-button>
+                <el-button type="success" style="display:none" @click.native="addCase(false)" size="small">保 存</el-button>
                 <el-button type="primary" @click.native="addCase()" size="small">确 定</el-button>
             </div>
         </el-dialog>
@@ -351,8 +351,7 @@
         props: ['proModelData', 'projectName', 'allSetList', 'setTempData', 'configData', 'funcAddress'],
         data() {
             return {
-                // apiMsgVessel: [], //接口用例容器，勾选的内容都存在此变量
-                apiMsgVessel:Array(),
+                apiMsgVessel: [], //接口用例容器，勾选的内容都存在此变量
                 ApiMsgData: [], // 接口信息里面的表格数据
                 mainWidth: '50%',
                 radio: '',
@@ -405,27 +404,8 @@
             }
         },
         methods: {
-            addEvent(dex,valu) {
-                alert("@@@@@@@@@@@@@@@@@"+valu)
-                if (valu == 1){
-                    alert("#################"+valu)
-                    // this.apiMsgVessel = this.ApiMsgData[dex];
-                    this.apiMsgVessel.push(this.ApiMsgData[dex]);
-                }
-                if(valu == 0){
-                    alert("$$$$$$$$$$$$$$$$$$$$$$$"+valu)
-                    // this.apiMsgVessel.push(this.ApiMsgData[dex]);
-                    this.removeArray(this.ApiMsgData[dex]);
-                }
-            },
-            removeArray(val){
-                let n = -1;
-                for(var i = 0; i < this.apiMsgVessel.length; i++){
-                    if (this.apiMsgVessel[i] === val){
-                        n = i;
-                    }
-                }
-                this.apiMsgVessel.splice(n,1)
+            addEvent(dex) {
+                this.apiMsgVessel = this.ApiMsgData[dex];
             },
 
             showApiData: function () {
@@ -454,6 +434,7 @@
                 this.form.module = this.proModelData[this.projectName][0];
                 this.form.config = this.configData[this.projectName][0];
                 this.form.projectName = this.projectName;
+
                 this.form.apiMesProjectName = this.projectName;
                 this.form.sceneVariableProjectName = this.projectName;
 
@@ -641,7 +622,6 @@
                 //     });
                 //     return
                 // }
-                alert(this.apiMsgVessel)
                 if (this.apiMsgVessel.length === 0){
                     this.$message({
                             showClose: true,
@@ -653,7 +633,6 @@
                 }
                 // this.caseData.apiCases = this.caseData.apiCases.concat(this.apiMsgVessel);
                 this.caseData.apiCases = this.caseData.apiCases.concat(this.apiMsgVessel);
-                this.apiMsgVessel = new Array();
                 this.caseData.apiCases = JSON.parse(JSON.stringify(this.caseData.apiCases));
                 // this.$refs.multipleTable.clearSelection();
                 // this.againSort()
