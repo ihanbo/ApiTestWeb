@@ -1,6 +1,6 @@
 <template>
     <div class="resultCaseSet">
-        <div style="width: 30%;font-size: 30px;margin-top: 30px;margin-left: auto;margin-right: auto">{{caseSetName}}模块测试报告</div>
+        <div style="width: 50%;font-size: 30px;margin-top: 30px;margin-left: auto;margin-right: auto">{{caseSetName}}模块测试报告</div>
          <el-form>
              <el-row>
                  <el-col :span="16" style="margin-top:100px">
@@ -144,15 +144,12 @@
                 this.projectName = this.$route.query.projectName;
                 this.reportId = this.$route.query.reportId;
                 this.caseSetId = this.$route.query.caseSetId;
-                console.log(this.projectName, this.reportId, this.caseSetId);
                 this.$axios.post(this.$api.findResultCaseSetApi, {
                     "projectName":this.projectName,
                     "reportId":parseInt(this.reportId),
                     "caseSetId":parseInt(this.caseSetId)
                 }).then((response) => {
-                    console.log(response.data)
                         if (response.data['status'] === 1){
-                            console.log(response.data['data']['caseSetName'])
                             this.caseSetName = response.data['data']['caseSetName'];
                             this.caseTimeStartAt = response.data['data']['caseTimeStartAt'];
                             this.caseTimeDuration = this.secondsToDate(response.data['data']['caseTimeDuration']);
