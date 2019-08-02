@@ -16,7 +16,7 @@
                                     </el-option>
                                 </el-select>
                             </el-form-item>
-                            <el-form-item label="配置名称">
+                            <el-form-item required="true" label="配置名称">
                                 <el-input v-model="configData.name" size="small">
                                 </el-input>
                             </el-form-item>

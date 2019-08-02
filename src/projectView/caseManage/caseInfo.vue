@@ -286,6 +286,7 @@
                     label: '备用环境'
                 }],
                 configData: '',
+                type: 0,
                 caseAll: [],  //  页面table的表格数据
                 casePage: {
                     total: 1,
@@ -307,8 +308,20 @@
                 },
             }
         },
+        created(){
+            this.getParamsValue();
+        },
 
         methods: {
+            // 获取从上个页面传过来的参数
+            getParamsValue(){
+                this.form.projectName = null;
+                // this.form.projectId = null;
+                this.form.projectName = this.$route.query.projectName;//项目名称
+                // this.form.projectId = this.$route.query.moduleId;//模块id
+                this.type = this.$route.query.typeValue;
+            },
+
             //查看运行结果
             viewCaseSetResult(id,report_id){
                 //查询报告id
@@ -579,7 +592,12 @@
             },
         },
         mounted() {
-            this.initData();
+            if(this.type == undefined || this.type == 0){
+                this.initData();
+            };
+            if(this.type == 1){
+                this.findSet();
+            }
 
         },
     }

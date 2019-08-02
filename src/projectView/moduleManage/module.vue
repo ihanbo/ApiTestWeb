@@ -16,13 +16,13 @@
 <!--                <el-button type="primary" icon="el-icon-search" @click.native="proHandleCurrentChange(1)">-->
 <!--                    搜索-->
 <!--                </el-button>-->
-                <el-button type="primary" icon="el-icon-circle-plus-outline" @click.native="initProjectData()">添加模块
+                <el-button type="primary" icon="el-icon-circle-plus-outline" @click.native="initProjectData()">添加接口分类
                 </el-button>
             </el-form-item>
 
         </el-form>
         <el-tabs value="first" style="padding-left: 10px">
-            <el-tab-pane label="模块列表" name="first" class="table_padding">
+            <el-tab-pane label="接口分类列表" name="first" class="table_padding">
 
                 <el-table :data="tableData" stripe max-height="745">
                     <el-table-column
@@ -34,7 +34,7 @@
                     </el-table-column>
                     <el-table-column
                             prop="name"
-                            label="模块名称"
+                            label="接口分类名称"
                             width="200">
                     </el-table-column>
                     <el-table-column label="当前环境" width="300">
@@ -89,9 +89,9 @@
             </el-tab-pane>
         </el-tabs>
 <!--        模块名称编辑-->
-        <el-dialog title="接口模块配置" :visible.sync="moduleData.viewStatus" width="30%">
+        <el-dialog title="接口分类配置" :visible.sync="moduleData.viewStatus" width="30%">
             <el-form>
-                <el-form-item label="模块名称" label-width="100px">
+                <el-form-item required="true" label="接口分类名称" label-width="110px">
                     <el-input v-model="moduleData.name">
                     </el-input>
                 </el-form-item>

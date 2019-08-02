@@ -6,7 +6,7 @@
                 <el-input v-model="form.projectName" :disabled="true">
                 </el-input>
             </el-form-item>
-            <el-form-item label="模块名称" v-if="numTab !== 'third'">
+            <el-form-item label="接口分类名称" v-if="numTab !== 'third'">
                 <el-input placeholder="请输入" v-model="form.module.name" :disabled="true">
                 </el-input>
             </el-form-item>
@@ -18,7 +18,7 @@
 
 <!--                <el-button type="primary" icon="el-icon-view" @click.native="$refs.resultFunc.lastResult()">查看-->
 <!--                </el-button>-->
-                <el-button type="primary" icon="el-icon-folder-opened" @click.native="$refs.importApiFunc.initData()">导入信息</el-button>
+                <el-button type="primary" icon="el-icon-folder-opened" @click.native="$refs.importApiFunc.initData()">导入接口信息</el-button>
 <!--                <el-button type="primary"-->
 <!--                           v-if="form.config !== null && form.config !== '' "-->
 <!--                           @click.native="$refs.configEditFunc.editSceneConfig(form.config.configId)">配置修改-->

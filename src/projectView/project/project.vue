@@ -30,9 +30,9 @@
                     <el-table-column
                             prop="name"
                             label="项目名称"
-                            width="200">
+                            width="150">
                     </el-table-column>
-                    <el-table-column label="当前环境" width="200">
+                    <el-table-column label="当前环境" width="150">
                         <template slot-scope="scope">
                             <el-tag size="small"
                                     :type="tableData[scope.$index]['choice'] === 'first' ?
@@ -51,7 +51,7 @@
                     <el-table-column
                             prop="principal"
                             label="负责人"
-                            width="200">
+                            width="150">
                     </el-table-column>
                     <el-table-column
                             label="操作"
@@ -63,6 +63,9 @@
                             </el-button>
                             <el-button type="primary" icon="el-icon-edit" size="mini"
                                        @click.native="editProject(tableData[scope.$index]['id'])">编辑
+                            </el-button>
+                            <el-button type="primary" icon="el-icon-view" size="mini"
+                                       @click.native="viewCase(tableData[scope.$index]['id'],tableData[scope.$index]['name'])">查看用例信息
                             </el-button>
                             <el-button type="danger" icon="el-icon-delete" size="mini"
                                        @click.native="sureView(delProject,tableData[scope.$index]['id'],tableData[scope.$index]['name'])">
@@ -92,12 +95,12 @@
             <el-tabs>
                 <el-tab-pane label="基础信息" style="margin-top: 10px">
                     <el-form :inline="true">
-                        <el-form-item label="项目名称" :label-width="projectData.formLabelWidth">
+                        <el-form-item required="true" label="项目名称" :label-width="projectData.formLabelWidth">
                             <el-input v-model="projectData.projectName" size="mini" id="project_name"
                                       style="width: 150px">
                             </el-input>
                         </el-form-item>
-                        <el-form-item label="负责人" label-width="60px">
+                        <el-form-item required="true" label="负责人" label-width="70px">
                             <el-select v-model="form.user" value-key="user_id" id="user" size="mini"
                                        style="width: 100px" >
                                 <el-option
@@ -446,6 +449,15 @@
                     }
                 )
             },
+            //查看用例信息
+            viewCase(projectId,projectName){
+                this.$router.push({path: '/manage/caseInfo', query: {
+                        projectId:projectId,
+                        projectName:projectName,
+                        typeValue: 1,
+                    }})
+            },
+
             editProject(id) {
                 this.$axios.post(this.$api.editProApi, {'id': id}).then((response) => {
                         let index = this.userData.map(item => item.user_id).indexOf(response.data['data']['user_id']);

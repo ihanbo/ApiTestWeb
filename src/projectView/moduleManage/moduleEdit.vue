@@ -1,9 +1,9 @@
 <template>
     <div class="moduleEdit">
 
-        <el-dialog title="模块配置" :visible.sync="setData.viewStatus" width="30%">
+        <el-dialog title="接口分类配置" :visible.sync="setData.viewStatus" width="30%">
             <el-form>
-                <el-form-item label="模块名称" label-width="100px">
+                <el-form-item required="true" label="接口分类名称" label-width="110px">
                     <el-input v-model="setData.name">
                     </el-input>
                 </el-form-item>

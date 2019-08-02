@@ -47,7 +47,7 @@
 
                 <el-button type="primary" icon="el-icon-view" @click.native="$refs.resultFunc.lastResult()">{{null}}
                 </el-button>
-                <el-button type="primary" @click.native="$refs.importApiFunc.initData()">导入信息</el-button>
+                <el-button type="primary" @click.native="$refs.importApiFunc.initData()">导入接口信息</el-button>
                 <el-button type="primary"
                            v-if="form.config !== null && form.config !== '' "
                            @click.native="$refs.configEditFunc.editSceneConfig(form.config.configId)">配置修改

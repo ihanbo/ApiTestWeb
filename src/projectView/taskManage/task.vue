@@ -149,7 +149,7 @@
                             </el-select>
 
                         </el-form-item>
-                        <el-form-item label="任务名称" :label-width="taskData.formLabelWidth">
+                        <el-form-item required="true" label="任务名称" :label-width="taskData.formLabelWidth">
                             <el-input v-model="taskData.name" auto-complete="off">
                             </el-input>
                         </el-form-item>
@@ -167,7 +167,7 @@
                             </el-input>
                         </el-form-item>
 
-                        <el-form-item label="时间配置" :label-width="taskData.formLabelWidth">
+                        <el-form-item required="true"label="时间配置" :label-width="taskData.formLabelWidth">
                             <template>
                                 <el-select v-model="taskData.timeConfig"
                                            style="width: 240px;padding-right:5px"

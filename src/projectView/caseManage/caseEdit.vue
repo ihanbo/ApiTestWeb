@@ -10,7 +10,7 @@
             <el-tabs value="first" @tab-click="changeShow">
                 <el-tab-pane label="用例信息" name="first" style="margin-top: 10px">
                     <el-form size="small" :inline="true">
-                        <el-form-item label="用例名称" :label-width="caseData.formLabelWidth">
+                        <el-form-item required="true" label="用例名称" :label-width="caseData.formLabelWidth">
                             <el-input v-model="caseData.name" style="width: 150px">
                             </el-input>
                         </el-form-item>
@@ -281,7 +281,7 @@
 <!--                                                <el-radio v-model="radio" @change="addEvent(index)" :label="index">-->
 <!--                                                    {{null}}-->
 <!--                                                </el-radio>-->
-                                                <el-checkbox @change="addEvent(index)" true-label="1" false-label="0">
+                                                <el-checkbox v-model="valu"  @change="addEvent(index,valu)" true-label="1" false-label="0">
                                                 </el-checkbox>
                                             </el-col>
                                             <el-col :span="2">
@@ -399,16 +399,35 @@
                     times: '',
                     waitTimes:'',
                     name: '',
-                    formLabelWidth: '70px',
+                    formLabelWidth: '80px',
                     apiCases: [],// 执行步骤里面的所有接口信息
                 },
             }
         },
         methods: {
-            addEvent(dex) {
-                // this.apiMsgVessel = this.ApiMsgData[dex];
-                this.apiMsgVessel.push(this.ApiMsgData[dex]);
+            addEvent(dex,valu) {
+                alert("@@@@@@@@@@@@@@@@@"+valu)
+                if (valu == 1){
+                    alert("#################"+valu)
+                    // this.apiMsgVessel = this.ApiMsgData[dex];
+                    this.apiMsgVessel.push(this.ApiMsgData[dex]);
+                }
+                if(valu == 0){
+                    alert("$$$$$$$$$$$$$$$$$$$$$$$"+valu)
+                    // this.apiMsgVessel.push(this.ApiMsgData[dex]);
+                    this.removeArray(this.ApiMsgData[dex]);
+                }
             },
+            removeArray(val){
+                let n = -1;
+                for(var i = 0; i < this.apiMsgVessel.length; i++){
+                    if (this.apiMsgVessel[i] === val){
+                        n = i;
+                    }
+                }
+                this.apiMsgVessel.splice(n,1)
+            },
+
             showApiData: function () {
                 this.showApiDataStatus = !this.showApiDataStatus;
                 if (this.showApiDataStatus) {
@@ -622,6 +641,7 @@
                 //     });
                 //     return
                 // }
+                alert(this.apiMsgVessel)
                 if (this.apiMsgVessel.length === 0){
                     this.$message({
                             showClose: true,
@@ -633,9 +653,11 @@
                 }
                 // this.caseData.apiCases = this.caseData.apiCases.concat(this.apiMsgVessel);
                 this.caseData.apiCases = this.caseData.apiCases.concat(this.apiMsgVessel);
+                this.apiMsgVessel = new Array();
                 this.caseData.apiCases = JSON.parse(JSON.stringify(this.caseData.apiCases));
                 // this.$refs.multipleTable.clearSelection();
                 // this.againSort()
+
             },
             addConfigData() {
                 //  复制配置信息到用例配置里面

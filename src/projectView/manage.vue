@@ -41,8 +41,8 @@
                             <el-menu-item-group>
                                 <el-menu-item index="/manage/projectManage">项目管理</el-menu-item>
                                 <!--<el-menu-item index="/manage/modelManage">接口模块</el-menu-item>-->
-                                <el-menu-item index="/manage/moduleInfo">模块管理</el-menu-item>
                                 <el-menu-item index="/manage/caseInfo">用例管理</el-menu-item>
+                                <el-menu-item index="/manage/moduleInfo">接口管理</el-menu-item>
 <!--                                <el-menu-item index="/manage/caseManage">接口信息</el-menu-item>-->
                                 <el-menu-item index="/manage/buildInFunc">内置方法</el-menu-item>
                                 <el-menu-item index="/manage/sceneConfig">业务配置</el-menu-item>
