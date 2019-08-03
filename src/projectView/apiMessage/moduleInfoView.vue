@@ -77,9 +77,10 @@
                             删除
                         </el-button>
                         <el-button type="primary" icon="el-icon-view" size="mini" v-if="ApiMsgTableData[scope.$index]['is_execute'] == 1"
-                                   @click.native="viewResult(ApiMsgTableData[scope.$index]['save_result'])">
+                                    @click.native="viewResult(ApiMsgTableData[scope.$index]['apiMsgId'])">
                             结果
                         </el-button>
+<!--                                   @click.native="viewResult(ApiMsgTableData[scope.$index]['save_result'])">-->
                     </template>
                 </el-table-column>
             </el-table>
@@ -322,9 +323,26 @@
                 }, 0)
             },
 
-            viewResult(save_result){
-                //查看接口测试结果
-                this.$refs.viewResultFunc.showResultData('['+save_result+']');
+            viewResult(id){
+                this.$axios.post(this.$api.findApiResult,{
+                        'id':id,
+                    }).then((response) => {
+                        if (response.data['status'] === 0) {
+                            let save_result = response.data['msg']
+                            //查看接口测试结果
+                            this.$refs.viewResultFunc.showResultData('['+save_result+']');
+                        }else{
+                            this.$message({
+                                showClose: true,
+                                message: '无测试结果信息，请检查后重新查看',
+                                type: 'warning',
+                            });
+                        }
+
+                })
+
+
+
 
             },
 

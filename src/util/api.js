@@ -43,6 +43,7 @@ const delMultiApi = baseUrl+'apiMsg/delMulti';
 const runApiApi = baseUrl+'apiMsg/run';
 const addApiApi = baseUrl+'apiMsg/add';
 const editAndCopyApiApi = baseUrl+'apiMsg/editAndCopy';
+const findApiResult = baseUrl+'apiMsg/findApiResult';
 
 const findCaseSetApi = baseUrl+'caseSet/find';
 const delCaseSetApi = baseUrl+'caseSet/del';
@@ -183,6 +184,7 @@ export default {
     runApiApi,
     addApiApi,
     editAndCopyApiApi,
+    findApiResult,
 
     fileUploadingApi,
     importApiApi,
