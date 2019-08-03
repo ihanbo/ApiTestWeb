@@ -41,8 +41,11 @@
                     </el-table-column>
                     <el-table-column
                             prop="task_config_time"
-                            label="cron"
+                            label="定时时间"
                             min-width="100">
+                        <template slot-scope="scope">
+                            {{taskConfigShow(tableData[scope.$index]['task_config_time'])}}
+                        </template>
                     </el-table-column>
                     <el-table-column
                             prop="status"
@@ -263,6 +266,17 @@
 
 
         methods: {
+            taskConfigShow(config_time){
+                if(config_time === '0 0 0 * * ?'){
+                    return '每天0点触发执行'
+                }
+                if(config_time === '0 0 6 * * ?'){
+                    return '每天6点触发执行'
+                }
+                if(config_time === '0 0 12 * * ?'){
+                    return '每天12点触发执行'
+                }
+            },
             httpSend() {
                 this.$axios.get(this.$api.baseDataApi).then((response) => {
                         if (response.data['user_pro']) {

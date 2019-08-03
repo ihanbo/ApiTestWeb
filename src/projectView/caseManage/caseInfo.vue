@@ -37,7 +37,7 @@
                     </el-table-column>
                     <el-table-column
                             prop="label"
-                            label="用例名称"
+                            label="用例集名称"
                             width="200">
                     </el-table-column>
                     <el-table-column label="当前环境" width="250" >
