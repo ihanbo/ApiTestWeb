@@ -65,6 +65,7 @@
                                 <el-menu-item index="/manage/platformManage">应用平台</el-menu-item>
                                 <el-menu-item index="/manage/uiCaseStepManager">case步骤</el-menu-item>
                                 <el-menu-item index="/manage/uiCaseManager">case信息</el-menu-item>
+                                <el-menu-item index="/manage/reportUiManage">UI测试报告</el-menu-item>
                             </el-menu-item-group>
                         </el-submenu>
                         <el-submenu index="4">

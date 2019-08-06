@@ -382,11 +382,12 @@
                 }, 0)
             },
             runApi(apiMsgId, status) {
-                //  编辑或者复制信息
+                //  测试
+                this.loading = true;
                 this.$axios.post(this.$api.runUIcaseApi, {'id': apiMsgId}).then((response) => {
-                
+                    this.loading = false;
                     this.messageShow(this, response);
-                        
+                    
                     }
                 )
             },

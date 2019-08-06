@@ -8,7 +8,10 @@ const delProApi = '/api/project/del';
 const runProjectApi = '/api/project/runProject';
 
 const findReportApi = '/api/report/find';
+const findUiReportApi = '/api/report/find_ui';
 const delReportApi = '/api/report/del';
+const seeUiReportApi = '/api/report/see_ui_report';
+const delUiReportApi = '/api/report/del_ui';
 
 const findResultSummaryApi = '/api/resultSummary/find'
 const findResultDetailApi = '/api/resultDetail/find'
@@ -86,6 +89,14 @@ const delUIcaseStepApi = '/api/uicasestep/delete';
 const findUIcaseStepApi = '/api/uicasestep/list';
 const addUIcaseStepApi = '/api/uicasestep/add';
 
+
+
+const baseUIDataApi = '/api/proGather/ui_list';
+const findUIProApi = '/api/project/find_ui';
+const addUIProApi = '/api/project/add_ui';
+const delUIProApi = '/api/project/del_ui';
+
+
 const editUIcaseApi = '/api/uicases/editAndCopy';
 const delUIcaseApi = '/api/uicases/delete';
 const runUIcaseApi = '/api/uicases/run_ui_case';
@@ -106,7 +117,10 @@ export default {
     changeStatusUserApi,
 
     findReportApi,
+    findUiReportApi,
     delReportApi,
+    seeUiReportApi,
+    delUiReportApi,
 
     findResultSummaryApi,
     findResultDetailApi,
@@ -184,6 +198,11 @@ export default {
     findUIcaseStepApi,
     delUIcaseStepApi,
 
+
+    baseUIDataApi,
+    findUIProApi ,
+    addUIProApi ,
+    delUIProApi ,
 
     editUIcaseApi,
     runUIcaseApi,
