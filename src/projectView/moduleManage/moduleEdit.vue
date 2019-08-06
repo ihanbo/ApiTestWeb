@@ -1,9 +1,9 @@
 <template>
-    <div class="setEdit">
+    <div class="moduleEdit">
 
-        <el-dialog title="用例集配置" :visible.sync="setData.viewStatus" width="30%">
+        <el-dialog title="接口分类配置" :visible.sync="setData.viewStatus" width="30%">
             <el-form>
-                <el-form-item required="true" label="用例集名称" label-width="100px">
+                <el-form-item required="true" label="接口分类名称" label-width="110px">
                     <el-input v-model="setData.name">
                     </el-input>
                 </el-form-item>
@@ -18,7 +18,7 @@
 
 <script>
     export default {
-        name: 'setEdit',
+        name: 'moduleEdit',
         props: ['projectName', 'setTempData'],
         data() {
             return {
@@ -32,20 +32,20 @@
         },
         methods: {
             addSet() {
-                this.$axios.post(this.$api.addCaseSetApi, {
+                this.$axios.post(this.$api.addModuleApi, {
                     'projectName': this.projectName,
                     'name': this.setData.name,
                     'id': this.setData.id,
                     'num': this.setData.num,
                 }).then((response) => {
                         if (this.messageShow(this, response)) {
-                            this.$parent.findSet();
+                            this.$parent.findModule();
                             this.setData.viewStatus = false;
                         }
                     }
                 )
             },
-            initSet() {
+            initModule() {
                 this.setData.viewStatus = true;
                 this.setData.name = '';
                 this.setData.id = '';
@@ -61,7 +61,7 @@
                     'projectName': this.projectName,
                 }).then((response) => {
                         this.messageShow(this, response);
-                    this.$parent.findSet();
+                        this.$parent.findSet();
                     }
                 )
             },

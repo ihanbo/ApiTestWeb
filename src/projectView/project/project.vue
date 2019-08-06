@@ -11,7 +11,7 @@
                 <el-button type="primary" icon="el-icon-search" @click.native="proHandleCurrentChange(1)">
                     搜索
                 </el-button>
-                <el-button type="primary" @click.native="initProjectData()">添加项目
+                <el-button type="primary" icon="el-icon-circle-plus-outline"  @click.native="initProjectData()">添加项目
                 </el-button>
             </el-form-item>
 
@@ -32,7 +32,7 @@
                             label="项目名称"
                             width="150">
                     </el-table-column>
-                    <el-table-column label="当前环境">
+                    <el-table-column label="当前环境" width="150">
                         <template slot-scope="scope">
                             <el-tag size="small"
                                     :type="tableData[scope.$index]['choice'] === 'first' ?
@@ -58,15 +58,21 @@
                     >
                         <template slot-scope="scope">
 
-                            <el-button type="primary" icon="el-icon-edit" size="mini"
+                            <el-button type="primary" icon="el-icon-s-tools" size="mini"
                                        @click.native="runProject(tableData[scope.$index]['id'])">运行
                             </el-button>
                             <el-button type="primary" icon="el-icon-edit" size="mini"
                                        @click.native="editProject(tableData[scope.$index]['id'])">编辑
                             </el-button>
+                            <el-button type="primary" icon="el-icon-view" size="mini"
+                                       @click.native="viewCase(tableData[scope.$index]['id'],tableData[scope.$index]['name'])">查看用例信息
+                            </el-button>
                             <el-button type="danger" icon="el-icon-delete" size="mini"
                                        @click.native="sureView(delProject,tableData[scope.$index]['id'],tableData[scope.$index]['name'])">
                                 删除
+                            </el-button>
+                            <el-button type="primary" icon="el-icon-view" size="mini" v-if="tableData[scope.$index]['is_execute'] == 1"
+                                       @click.native="viewProjectResult(tableData[scope.$index]['id'],tableData[scope.$index]['report_id'],tableData[scope.$index]['name'])">查看结果
                             </el-button>
                         </template>
                     </el-table-column>
@@ -89,12 +95,12 @@
             <el-tabs>
                 <el-tab-pane label="基础信息" style="margin-top: 10px">
                     <el-form :inline="true">
-                        <el-form-item label="项目名称" :label-width="projectData.formLabelWidth">
+                        <el-form-item required="true" label="项目名称" :label-width="projectData.formLabelWidth">
                             <el-input v-model="projectData.projectName" size="mini" id="project_name"
                                       style="width: 150px">
                             </el-input>
                         </el-form-item>
-                        <el-form-item label="负责人" label-width="60px">
+                        <el-form-item required="true" label="负责人" label-width="70px">
                             <el-select v-model="form.user" value-key="user_id" id="user" size="mini"
                                        style="width: 100px" >
                                 <el-option
@@ -289,6 +295,7 @@
                 funcAddress: '',
                 userData: [],
                 loading: false,
+                reportId: null,
                 currentPage: 1,
                 sizePage: 20,
                 form: {
@@ -442,6 +449,15 @@
                     }
                 )
             },
+            //查看用例信息
+            viewCase(projectId,projectName){
+                this.$router.push({path: '/manage/caseInfo', query: {
+                        projectId:projectId,
+                        projectName:projectName,
+                        typeValue: 1,
+                    }})
+            },
+
             editProject(id) {
                 this.$axios.post(this.$api.editProApi, {'id': id}).then((response) => {
                         let index = this.userData.map(item => item.user_id).indexOf(response.data['data']['user_id']);
@@ -461,7 +477,19 @@
                     }
                 )
             },
-
+            //查看运行结果
+            viewProjectResult(id,reportId,projectName){
+                //查询报告id
+                let {href} = this.$router.resolve({path: 'reportShow', query: {reportId: reportId}});
+                        window.open(href, '_blank');
+                // this.$axios.post(this.$api.findProjectReportApi, {'id': id,'projectName':projectName}).then((response) => {
+                //     if (response.data['data']){
+                //         this.reportId = response.data['data'];
+                //         let {href} = this.$router.resolve({path: 'reportShow', query: {reportId: this.reportId}});
+                //         window.open(href, '_blank');
+                //     }
+                // })
+            },
             //运行项目
             runProject(id){
                 this.loading = true;
@@ -493,8 +521,10 @@
                         }
                     }
                     this.loading = false;
+                    this.findProject();
                    }
                 )
+
             },
 
             delProject(id) {

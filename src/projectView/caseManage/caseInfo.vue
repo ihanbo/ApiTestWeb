@@ -19,26 +19,26 @@
             <el-form-item>
 <!--                <el-button type="primary" icon="el-icon-search" @click.native="handleCaseCurrentChange(1)">搜索-->
 <!--                </el-button>-->
-                <el-button type="primary" @click.native="addCaseSet">新增用例</el-button>
+                <el-button type="primary" icon="el-icon-circle-plus-outline" @click.native="addCaseSet">新增用例集</el-button>
 <!--                <el-button type="primary" @click.native="runScene(caseList,true,true)">批量运行</el-button>-->
             </el-form-item>
 
         </el-form>
         <el-tabs value="first" style="padding-left: 10px;padding-right:5px;">
-            <el-tab-pane label="用例信息" name="first">
+            <el-tab-pane label="用例集信息" name="first">
 
                 <el-table :data="setDataList" stripe max-height="745" @cell-click="handleCaseSetSelect">
                     <el-table-column
                             prop="num"
                             type="index"
                             label="编号"
-                            width="100"
+                            width="80"
                     >
                     </el-table-column>
                     <el-table-column
                             prop="label"
-                            label="用例名称"
-                            width="250">
+                            label="用例集名称"
+                            width="200">
                     </el-table-column>
                     <el-table-column label="当前环境" width="250" >
                         <template slot-scope="scope">
@@ -70,7 +70,7 @@
                             label="操作"
                     >
                         <template slot-scope="scope">
-                            <el-button type="primary" icon="el-icon-caret-right" size="mini"
+                            <el-button type="primary" icon="el-icon-s-tools" size="mini"
                                        @click.native="runCaseSet(setDataList[scope.$index]['id'])">
                                 运行
                             </el-button>
@@ -81,9 +81,14 @@
                             <el-button type="primary" icon="el-icon-edit" size="mini"
                                        @click.native="editCaseSet(setDataList[scope.$index]['id'],setDataList[scope.$index]['label'])">编辑
                             </el-button>
-                            <el-button type="primary" icon="el-icon-edit" size="mini"
+                            <el-button type="primary" icon="el-icon-s-operation" size="mini"
                                        @click.native="viewCaseSet(setDataList[scope.$index]['id'],setDataList[scope.$index]['label'])"
-                                        >查看
+                                        >添加用例信息
+                            </el-button>
+                            <el-button type="primary" icon="el-icon-view" size="mini" v-if="setDataList[scope.$index]['is_execute'] == 1"
+                                       @click.native="viewCaseSetResult(setDataList[scope.$index]['id'],
+                                       setDataList[scope.$index]['report_id'])"
+                            >查看运行结果
                             </el-button>
                         </template>
                     </el-table-column>
@@ -281,6 +286,7 @@
                     label: '备用环境'
                 }],
                 configData: '',
+                type: 0,
                 caseAll: [],  //  页面table的表格数据
                 casePage: {
                     total: 1,
@@ -302,8 +308,31 @@
                 },
             }
         },
+        created(){
+            this.getParamsValue();
+        },
 
         methods: {
+            // 获取从上个页面传过来的参数
+            getParamsValue(){
+                this.form.projectName = null;
+                // this.form.projectId = null;
+                this.form.projectName = this.$route.query.projectName;//项目名称
+                // this.form.projectId = this.$route.query.moduleId;//模块id
+                this.type = this.$route.query.typeValue;
+            },
+
+            //查看运行结果
+            viewCaseSetResult(id,report_id){
+                //查询报告id
+                let {href} = this.$router.resolve({path: 'resultCaseSet', query:
+                    {
+                        'reportId': report_id,
+                        'projectName': this.form.projectName,
+                        'caseSetId': id,
+                    }});
+                window.open(href, '_blank');
+            },
             //查看用例详细信息
             viewCaseSet(id,caseSetName){
                 this.$router.push({path: 'caseSetView', query: {id:id,projectName:this.form.projectName
@@ -330,6 +359,7 @@
                             type: 'success',
                          });
                         }
+                    this.findSet();
                     }
                 )
             },
@@ -562,7 +592,12 @@
             },
         },
         mounted() {
-            this.initData();
+            if(this.type == undefined || this.type == 0){
+                this.initData();
+            };
+            if(this.type == 1){
+                this.findSet();
+            }
 
         },
     }

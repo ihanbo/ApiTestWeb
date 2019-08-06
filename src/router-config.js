@@ -5,6 +5,7 @@ import store from './store/store'
 import * as types from './store/types'
 import Header from './projectView/header.vue'
 import caseManage from './projectView/apiMessage/apiMsg.vue'
+import moduleInfo from './projectView/moduleManage/module.vue'
 import uiCaseStepManager from './projectView/uiCaseStepManage/uiCaseStepInfo.vue'
 import uiCaseManager from './projectView/uiCaseManage/uiCaseInfo.vue'
 import manage from './projectView/manage.vue'
@@ -15,11 +16,13 @@ import reportUiManage from './projectView/report/report_ui.vue'
 import reportShow from './projectView/report/reportShow.vue'
 import resultSummary from './projectView/report/resultSummary.vue'
 import resultDetail from './projectView/report/resultDetail.vue'
+import resultCaseSet from './projectView/report/resultCaseSet.vue'
 import reportHeader from './projectView/report/reportHeader.vue'
 import buildInFunc from './projectView/buildInFunc/buildInFunc.vue'
 import sceneManage from './projectView/caseManage/case.vue'
 import caseInfo from './projectView/caseManage/caseInfo.vue'
 import caseSetView from './projectView/caseManage/caseView.vue'
+import moduleInfoView from './projectView/apiMessage/moduleInfoView.vue'
 import testTool from './projectView/testTool/testTool.vue'
 import taskManage from './projectView/taskManage/task.vue'
 import user from './projectView/userManage/user.vue'
@@ -45,6 +48,26 @@ const routes = [
                 components: {
                     Header: Header,
                     Manage: projectManage,
+                }
+            },
+            {
+                path: 'moduleInfo',
+                meta: {
+                    requireAuth: true,
+                },
+                components: {
+                    Header: Header,
+                    Manage: moduleInfo,
+                }
+            },
+            {
+                path: 'moduleInfoView',
+                meta: {
+                    requireAuth: true,
+                },
+                components: {
+                    Header: Header,
+                    Manage: moduleInfoView,
                 }
             },
             {
@@ -161,6 +184,16 @@ const routes = [
                 components: {
                     Header: reportHeader,
                     Manage: resultDetail,
+                }
+            },
+            {
+                path: 'resultCaseSet',
+                meta: {
+                    requireAuth: true,
+                },
+                components: {
+                    Header: reportHeader,
+                    Manage: resultCaseSet,
                 }
             },
             {

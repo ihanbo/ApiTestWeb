@@ -1,109 +1,118 @@
-const baseDataApi = '/api/proGather/list';
-const getFuncAddressApi = '/api/func/getAddress';
+const baseUrl=process.env.BASE_URL
 
-const findProApi = '/api/project/find';
-const addProApi = '/api/project/add';
-const editProApi = '/api/project/edit';
-const delProApi = '/api/project/del';
-const runProjectApi = '/api/project/runProject';
+const baseDataApi = baseUrl+'proGather/list';
+const getFuncAddressApi = baseUrl+'func/getAddress';
 
-const findReportApi = '/api/report/find';
-const findUiReportApi = '/api/report/find_ui';
-const delReportApi = '/api/report/del';
-const seeUiReportApi = '/api/report/see_ui_report';
-const delUiReportApi = '/api/report/del_ui';
+const findProApi = baseUrl+'project/find';
+const addProApi = baseUrl+'project/add';
+const editProApi = baseUrl+'project/edit';
+const delProApi = baseUrl+'project/del';
+const runProjectApi = baseUrl+'project/runProject';
+const findProjectReportApi = baseUrl+'project/findProjectReport';
 
-const findResultSummaryApi = '/api/resultSummary/find'
-const findResultDetailApi = '/api/resultDetail/find'
+const findReportApi = baseUrl+'report/find';
+const delReportApi = baseUrl+'report/del';
+const listReportApi =baseUrl+'report/list';
 
-const findModuleApi = '/api/module/find';
-const addModuleApi = '/api/module/add';
-const editModuleApi = '/api/module/edit';
-const delModuleApi = '/api/module/del';
-const stickModuleApi = '/api/module/stick';
+const findResultSummaryApi = baseUrl+'resultSummary/find'
+const findResultDetailApi = baseUrl+'resultDetail/find'
+const findResultCaseSetApi = baseUrl+'resultCaseSet/find'
 
-const findConfigApi = '/api/config/find';
-const addConfigApi = '/api/config/add';
-const editConfigApi = '/api/config/edit';
-const delConfigApi = '/api/config/del';
+const findModuleApi = baseUrl+'module/find';
+const addModuleApi = baseUrl+'module/add';
+const runModuleApi = baseUrl+'module/run';
+const editModuleApi = baseUrl+'module/edit';
+const delModuleApi = baseUrl+'module/del';
+const stickModuleApi = baseUrl+'module/stick';
+const addModuleEnvironment = baseUrl+'module/addModuleEnvironment';
 
-const loginApi = '/api/login';
-const checkInApi = '/api/checkIn';
-const logoutApi = '/api/logout';
-const registerApi = '/api/register';
-const changePasswordApi = '/api/changePassword';
+const findConfigApi = baseUrl+'config/find';
+const addConfigApi = baseUrl+'config/add';
+const editConfigApi = baseUrl+'config/edit';
+const delConfigApi = baseUrl+'config/del';
 
-const findApiApi = '/api/apiMsg/find';
-const delApiApi = '/api/apiMsg/del';
-const delMultiApi = '/api/apiMsg/delMulti';
-const runApiApi = '/api/apiMsg/run';
-const addApiApi = '/api/apiMsg/add';
-const editAndCopyApiApi = '/api/apiMsg/editAndCopy';
+const loginApi = baseUrl+'login';
+const checkInApi = baseUrl+'checkIn';
+const logoutApi = baseUrl+'logout';
+const registerApi = baseUrl+'register';
+const changePasswordApi = baseUrl+'changePassword';
 
-const findCaseSetApi = '/api/caseSet/find';
-const delCaseSetApi = '/api/caseSet/del';
-const addCaseSetApi = '/api/caseSet/add';
-const stickCaseSetApi = '/api/caseSet/stick';
-const addCaseSetEnvironment = '/api/caseSet/addEnvironment';
-const runCaseSetApi =  '/api/caseSet/run';
+const findApiApi = baseUrl+'apiMsg/find';
+const delApiApi = baseUrl+'apiMsg/del';
+const delMultiApi = baseUrl+'apiMsg/delMulti';
+const runApiApi = baseUrl+'apiMsg/run';
+const addApiApi = baseUrl+'apiMsg/add';
+const editAndCopyApiApi = baseUrl+'apiMsg/editAndCopy';
+const findApiResult = baseUrl+'apiMsg/findApiResult';
 
-const startTaskApi = '/api/task/start';
-const pauseTaskApi = '/api/task/pause';
-const resumeTaskApi = '/api/task/resume';
-const removeTaskApi = '/api/task/remove';
-const runTaskApi = '/api/task/run';
-const delTaskApi = '/api/task/del';
-const editTaskApi = '/api/task/edit';
-const addTaskApi = '/api/task/add';
-const findTaskApi = '/api/task/find';
+const findCaseSetApi = baseUrl+'caseSet/find';
+const delCaseSetApi = baseUrl+'caseSet/del';
+const addCaseSetApi = baseUrl+'caseSet/add';
+const stickCaseSetApi = baseUrl+'caseSet/stick';
+const addCaseSetEnvironment = baseUrl+'caseSet/addEnvironment';
+const runCaseSetApi =  baseUrl+'caseSet/run';
+const viewCaseSetResultApi = baseUrl+'resultCaseSet/find';
 
-const findCaseApi = '/api/case/find';
-const delCaseApi = '/api/case/del';
-const runCaseApi = '/api/report/run';
-const editCaseApi = '/api/case/edit';
-const addCaseApi = '/api/case/add';
-const configDataApi = '/api/config/data';
+const startTaskApi = baseUrl+'task/start';
+const pauseTaskApi = baseUrl+'task/pause';
+const resumeTaskApi = baseUrl+'task/resume';
+const removeTaskApi = baseUrl+'task/remove';
+const runTaskApi = baseUrl+'task/run';
+const delTaskApi = baseUrl+'task/del';
+const editTaskApi = baseUrl+'task/edit';
+const addTaskApi = baseUrl+'task/add';
+const findTaskApi = baseUrl+'task/find';
 
-
-const fileUploadingApi = '/api/upload';
-const checkFileApi = '/api/checkFile';
-const importApiApi = '/api/apiMsg/fileChange';
-
-const findFuncApi = '/api/func/find';
-const createFuncApi = '/api/func/create';
-const checkFuncApi = '/api/func/check';
-const saveFuncApi = '/api/func/save';
-
-const findUserApi = '/api/user/find';
-const editUserApi = '/api/user/edit';
-const delUserApi = '/api/user/del';
-const changeStatusUserApi = '/api/user/changeStatus';
-
-const addPlatformApi = '/api/platform/add';
-const delPlatformApi = '/api/platform/delete';
-const findPlatformApi = '/api/platform/list';
-
-const findActionsApi = '/api/action/list';
-const editUIcaseStepApi = '/api/uicasestep/editAndCopy';
-const delUIcaseStepApi = '/api/uicasestep/delete';
-const findUIcaseStepApi = '/api/uicasestep/list';
-const addUIcaseStepApi = '/api/uicasestep/add';
+const findCaseApi = baseUrl+'case/find';
+const delCaseApi = baseUrl+'case/del';
+const runCaseApi = baseUrl+'report/run';
+const editCaseApi = baseUrl+'case/edit';
+const addCaseApi = baseUrl+'case/add';
+const configDataApi = baseUrl+'config/data';
 
 
+const fileUploadingApi = baseUrl+'upload';
+const checkFileApi = baseUrl+'checkFile';
+const importApiApi = baseUrl+'apiMsg/fileChange';
 
-const baseUIDataApi = '/api/proGather/ui_list';
-const findUIProApi = '/api/project/find_ui';
-const addUIProApi = '/api/project/add_ui';
-const delUIProApi = '/api/project/del_ui';
+const findFuncApi = baseUrl+'func/find';
+const createFuncApi = baseUrl+'func/create';
+const checkFuncApi = baseUrl+'func/check';
+const saveFuncApi = baseUrl+'func/save';
+
+const findUserApi = baseUrl+'user/find';
+const editUserApi = baseUrl+'user/edit';
+const delUserApi = baseUrl+'user/del';
+const changeStatusUserApi = baseUrl+'user/changeStatus';
+
+const addPlatformApi = baseUrl+'platform/add';
+const delPlatformApi = baseUrl+'platform/delete';
+const findPlatformApi = baseUrl+'platform/list';
+
+const findActionsApi = baseUrl+'action/list';
+const editUIcaseStepApi = baseUrl+'uicasestep/editAndCopy';
+const delUIcaseStepApi = baseUrl+'uicasestep/delete';
+const findUIcaseStepApi = baseUrl+'uicasestep/list';
+const addUIcaseStepApi = baseUrl+'uicasestep/add';
+
+const editUIcaseApi = baseUrl+'uicases/editAndCopy';
+const delUIcaseApi = baseUrl+'uicases/delete';
+const runUIcaseApi = baseUrl+'uicases/run_ui_case';
+const findUIcaseApi = baseUrl+'uicases/list';
+const addUIcaseApi = baseUrl+'uicases/add';
+const delStepInCaseApi = baseUrl+'uicases/delStep';
+const importCasesApi = baseUrl+'uicases/importCases';
+
+//UI测试相关的
+const baseUIDataApi = baseUrl+'proGather/ui_list';
+const findUIProApi = baseUrl+'project/find_ui';
+const addUIProApi = baseUrl+'project/add_ui';
+const delUIProApi = baseUrl+'project/del_ui';
 
 
-const editUIcaseApi = '/api/uicases/editAndCopy';
-const delUIcaseApi = '/api/uicases/delete';
-const runUIcaseApi = '/api/uicases/run_ui_case';
-const findUIcaseApi = '/api/uicases/list';
-const addUIcaseApi = '/api/uicases/add';
-const delStepInCaseApi = '/api/uicases/delStep';
-const importCasesApi = '/api/uicases/importCases';
+const findUiReportApi = baseUrl+'report/find_ui';
+const seeUiReportApi = baseUrl+'report/see_ui_report';
+const delUiReportApi = baseUrl+'report/del_ui';
 
 
 export default {
@@ -117,13 +126,12 @@ export default {
     changeStatusUserApi,
 
     findReportApi,
-    findUiReportApi,
     delReportApi,
-    seeUiReportApi,
-    delUiReportApi,
+    listReportApi,
 
     findResultSummaryApi,
     findResultDetailApi,
+    findResultCaseSetApi,
 
     findFuncApi,
     createFuncApi,
@@ -153,18 +161,22 @@ export default {
     addCaseSetEnvironment,
     runCaseSetApi,
     stickCaseSetApi,
+    viewCaseSetResultApi,
 
     findProApi,
     addProApi,
     editProApi,
     delProApi,
     runProjectApi,
+    findProjectReportApi,
 
     findModuleApi,
     addModuleApi,
+    runModuleApi,
     editModuleApi,
     delModuleApi,
     stickModuleApi,
+    addModuleEnvironment,
 
     findConfigApi,
     addConfigApi,
@@ -183,6 +195,7 @@ export default {
     runApiApi,
     addApiApi,
     editAndCopyApiApi,
+    findApiResult,
 
     fileUploadingApi,
     importApiApi,
@@ -191,18 +204,13 @@ export default {
     delPlatformApi,
     findPlatformApi,
 
-    
+
     findActionsApi,
     editUIcaseStepApi,
     addUIcaseStepApi,
     findUIcaseStepApi,
     delUIcaseStepApi,
 
-
-    baseUIDataApi,
-    findUIProApi ,
-    addUIProApi ,
-    delUIProApi ,
 
     editUIcaseApi,
     runUIcaseApi,
@@ -211,4 +219,14 @@ export default {
     delUIcaseApi,
     delStepInCaseApi,
     importCasesApi,
+
+    //UI测试相关的
+    baseUIDataApi,
+    findUIProApi,
+    addUIProApi,
+    delUIProApi,
+
+    findUiReportApi,
+    seeUiReportApi,
+    delUiReportApi,
 }

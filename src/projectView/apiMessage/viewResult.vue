@@ -120,8 +120,10 @@
 
             showResultData(save_result) {
                 this.resultViewStatus = true;
-                this.resultData.resultShowData =eval("("+(save_result.replace(/'/g, '"')
-                    .replace(/True/g, '"true"').replace(/None/g, '"none"'))+")");
+                this.resultData.resultShowData =JSON.parse(save_result.replace(/\"/g, "\\\"").replace(/'/g, '"')
+                    .replace(/True/g, '"true"').replace(/None/g, '"none"'));
+                // this.resultData.resultShowData =eval("("+(save_result.replace(/'/g, '"')
+                //     .replace(/True/g, '"true"').replace(/None/g, '"none"'))+")");
             },
         },
 

@@ -366,10 +366,11 @@
             },
             showData(state = 'None') {
                 this.reportAddress = this.$route.query.reportId;
-                this.$axios.post('/api/report/list', {
+                this.$axios.post(this.$api.listReportApi, {
                     'reportId': this.reportAddress,
                     'state': state,
                 }).then((response) => {
+                    console.log(response.data)
                         if (this.messageShow(this, response)) {
                             this.reportData = response['data'];
                             this.meta_datas = this.reportData['details'][0]['records'][0]['meta_datas'];

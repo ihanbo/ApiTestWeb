@@ -19,8 +19,8 @@
             <el-form-item>
 <!--                <el-button type="primary" icon="el-icon-search" @click.native="handleCaseCurrentChange(1)">搜索-->
 <!--                </el-button>-->
-                <el-button type="primary" @click.native="$refs.caseEditFunc.initCaseData(parameter.projectName,form.caseSetName,parameter.setId)">添加接口用例</el-button>
-                <el-button type="primary" @click.native="runScene(caseList,true,true)">批量运行</el-button>
+                <el-button type="primary" icon="el-icon-circle-plus-outline" @click.native="$refs.caseEditFunc.initCaseData(parameter.projectName,form.caseSetName,parameter.setId)">添加接口用例</el-button>
+                <el-button type="primary" icon="el-icon-s-tools" @click.native="runScene(caseList,true,true)">批量运行</el-button>
             </el-form-item>
 
         </el-form>
@@ -64,11 +64,11 @@
                                     label="操作">
                                 <template slot-scope="scope">
                                     <el-button type="primary" icon="el-icon-edit" size="mini"
-                                               @click.native="$refs.caseEditFunc.editCase(caseAll[scope.$index]['sceneId'])">
+                                               @click.native="$refs.caseEditFunc.editCase(caseAll[scope.$index]['sceneId'],form.caseSetName,parameter.projectName)">
                                         编辑
                                     </el-button>
                                     <el-button type="primary" icon="el-icon-tickets" size="mini"
-                                               @click.native="$refs.caseEditFunc.editCase(caseAll[scope.$index]['sceneId'],true)">
+                                               @click.native="$refs.caseEditFunc.editCase(caseAll[scope.$index]['sceneId'],form.caseSetName,parameter.projectName,true)">
                                         复制
                                     </el-button>
                                     <el-button type="primary" icon="el-icon-setting" size="mini"

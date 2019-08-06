@@ -29,11 +29,11 @@
                 <el-table :data="tableData"
                           max-height="748"
                           stripe>
-                    <!--<el-table-column-->
-                    <!--prop="num"-->
-                    <!--label="编号"-->
-                    <!--min-width="40">-->
-                    <!--</el-table-column>-->
+                    <el-table-column
+                            type="index"
+                            label="编号"
+                            width="80">
+                    </el-table-column>
                     <el-table-column
                             prop="task_name"
                             label="任务名称"
@@ -41,8 +41,11 @@
                     </el-table-column>
                     <el-table-column
                             prop="task_config_time"
-                            label="cron"
+                            label="定时时间"
                             min-width="100">
+                        <template slot-scope="scope">
+                            {{taskConfigShow(tableData[scope.$index]['task_config_time'])}}
+                        </template>
                     </el-table-column>
                     <el-table-column
                             prop="status"
@@ -149,7 +152,7 @@
                             </el-select>
 
                         </el-form-item>
-                        <el-form-item label="任务名称" :label-width="taskData.formLabelWidth">
+                        <el-form-item required="true" label="任务名称" :label-width="taskData.formLabelWidth">
                             <el-input v-model="taskData.name" auto-complete="off">
                             </el-input>
                         </el-form-item>
@@ -167,11 +170,12 @@
                             </el-input>
                         </el-form-item>
 
-                        <el-form-item label="时间配置" :label-width="taskData.formLabelWidth">
+                        <el-form-item required="true"label="时间配置" :label-width="taskData.formLabelWidth">
                             <template>
                                 <el-select v-model="taskData.timeConfig"
                                            style="width: 240px;padding-right:5px"
-                                           clearable placeholder="请选择" @change="changetimeChoice">
+                                           clearable placeholder="请选择" >
+<!--                                    @change="changetimeChoice"-->
                                     <el-option
                                             v-for="(item) in timeoptions"
                                             :key="item.value"
@@ -262,6 +266,17 @@
 
 
         methods: {
+            taskConfigShow(config_time){
+                if(config_time === '0 0 0 * * ?'){
+                    return '每天0点触发执行'
+                }
+                if(config_time === '0 0 6 * * ?'){
+                    return '每天6点触发执行'
+                }
+                if(config_time === '0 0 12 * * ?'){
+                    return '每天12点触发执行'
+                }
+            },
             httpSend() {
                 this.$axios.get(this.$api.baseDataApi).then((response) => {
                         if (response.data['user_pro']) {
@@ -335,6 +350,14 @@
 
             },
             addTask() {
+                if(!this.taskData.name){
+                    this.$message({
+                        showClose: true,
+                        message: '请填写任务名称',
+                        type: 'warning',
+                    });
+                    return
+                }
                 this.$axios.post(this.$api.addTaskApi, {
                     'projectName': this.form.projectName,
                     'setIds': this.form.set,
@@ -348,7 +371,6 @@
                     'timeConfig': this.taskData.timeConfig,
                     'password': this.taskData.password,
                 }).then((response) => {
-
                         if (response.data['status'] === 0) {
                             this.$message({
                                 showClose: true,

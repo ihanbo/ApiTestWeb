@@ -19,7 +19,7 @@
         </el-form>
 
         <el-tabs value="first" class="table_padding">
-            <el-tab-pane label="用例执行详细列表" name="first" style="margin: 0 0 -10px;">
+            <el-tab-pane label="执行详细" name="first" style="margin: 0 0 -10px;">
 
                 <!--<el-scrollbar wrap-class="scrollbarList">-->
                 <el-table :data="tableData"
@@ -46,7 +46,7 @@
                             label="用例执行状态"
                             minWidth="120">
                             <template slot-scope="scope">
-                                {{scope.row.caseExecStatus === 'true' ? 'success' : 'fail'}}
+                                {{scope.row.caseExecStatus === true ? 'pass' : 'fail'}}
                             </template>
                     </el-table-column>
                     <el-table-column

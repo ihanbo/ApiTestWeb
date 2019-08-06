@@ -67,7 +67,7 @@
         name: 'caseHeader',
         data() {
             return {
-                title: ['项目管理', '项目'],
+                title: ['项目管理'],
                 userName: '',
                 passwordData: {
                     oldPassword: '',
@@ -131,14 +131,14 @@
                 else if (path === '/manage/platformManage') {
                     this.title = ['UIcase管理', '应用平台列表']
                 }
-                else if (path === '/manage/caseManage') {
+                else if (path === '/manage/moduleInfo') {
                     this.title = ['接口管理', '接口信息']
                 }
                 else if (path === '/manage/sceneConfig') {
                     this.title = ['接口管理', '业务配置']
                 }
-                else if (path === '/manage/sceneManage') {
-                    this.title = ['接口管理', '接口用例']
+                else if (path === '/manage/caseInfo') {
+                    this.title = ['接口管理', '用例管理']
                 }
                 else if (path === '/manage/buildInFunc') {
                     this.title = ['接口管理', '内置函数']

@@ -3,30 +3,30 @@
 
         <el-form :inline="true" style="padding: 10px 20px -10px 10px;">
             <el-form-item label="基础信息" labelWidth="80px" style="margin-bottom: 5px">
-                <el-select v-model="form.projectName"
-                           placeholder="请选择项目"
-                           size="small"
-                           @change="changeProChoice"
-                           style="width: 150px;padding-right:5px">
-                    <el-option
-                            v-for="(item, key) in proModelData"
-                            :key="key"
-                            :value="key">
-                    </el-option>
-                </el-select>
+<!--                <el-select v-model="form.projectName"-->
+<!--                           placeholder="请选择项目"-->
+<!--                           size="small"-->
+<!--                           @change="changeProChoice"-->
+<!--                           style="width: 150px;padding-right:5px">-->
+<!--                    <el-option-->
+<!--                            v-for="(item, key) in proModelData"-->
+<!--                            :key="key"-->
+<!--                            :value="key">-->
+<!--                    </el-option>-->
+<!--                </el-select>-->
 
-                <el-select v-model="form.module"
-                           placeholder="请选择模块"
-                           value-key="moduleId"
-                           size="small"
-                           style="width: 150px;padding-right:5px">
-                    <el-option
-                            v-for="item in proModelData[this.form.projectName]"
-                            :key="item.moduleId"
-                            :label="item.name"
-                            :value="item">
-                    </el-option>
-                </el-select>
+<!--                <el-select v-model="form.module"-->
+<!--                           placeholder="请选择模块"-->
+<!--                           value-key="moduleId"-->
+<!--                           size="small"-->
+<!--                           style="width: 150px;padding-right:5px">-->
+<!--                    <el-option-->
+<!--                            v-for="item in proModelData[this.form.projectName]"-->
+<!--                            :key="item.moduleId"-->
+<!--                            :label="item.name"-->
+<!--                            :value="item">-->
+<!--                    </el-option>-->
+<!--                </el-select>-->
                 <el-select v-model="form.choiceUrl"
                            clearable placeholder="请选择url"
                            size="small">
@@ -39,18 +39,18 @@
                 </el-select>
             </el-form-item>
 
-            <el-form-item label="接口编号"
-                          label-width="80px"
-                          prop="num"
-                          v-if="apiMsgData.id"
-                          style="margin-bottom: 5px">
+<!--            <el-form-item label="接口编号"-->
+<!--                          label-width="80px"-->
+<!--                          prop="num"-->
+<!--                          v-if="apiMsgData.id"-->
+<!--                          style="margin-bottom: 5px">-->
 
-                <el-input v-model.number="apiMsgData.num"
-                          placeholder="接口编号"
-                          size="small"
-                          style="width: 70px;text-align:center;">
-                </el-input>
-            </el-form-item>
+<!--                <el-input v-model.number="apiMsgData.num"-->
+<!--                          placeholder="接口编号"-->
+<!--                          size="small"-->
+<!--                          style="width: 70px;text-align:center;">-->
+<!--                </el-input>-->
+<!--            </el-form-item>-->
             <el-form-item prop="name" style="margin-bottom: 5px">
                 <el-input v-model="apiMsgData.name" placeholder="接口名称" size="small">
                 </el-input>
