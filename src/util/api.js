@@ -107,7 +107,14 @@ const importCasesApi = baseUrl+'uicases/importCases';
 const baseUIDataApi = baseUrl+'proGather/ui_list';
 const findUIProApi = baseUrl+'project/find_ui';
 const addUIProApi = baseUrl+'project/add_ui';
+const editUIProApi = baseUrl+'project/edit_ui';
 const delUIProApi = baseUrl+'project/del_ui';
+
+const findUIModuleApi = baseUrl+'module/find_ui';
+const addUIModuleApi = baseUrl+'module/add_ui';
+const editUIModuleApi = baseUrl+'module/edit_ui';
+const delUIModuleApi = baseUrl+'module/del_ui';
+const stickUIModuleApi = baseUrl+'module/stick_ui';
 
 
 const findUiReportApi = baseUrl+'report/find_ui';
@@ -224,7 +231,14 @@ export default {
     baseUIDataApi,
     findUIProApi,
     addUIProApi,
+    editUIProApi,
     delUIProApi,
+
+    findUIModuleApi,
+    addUIModuleApi,
+    editUIModuleApi,
+    delUIModuleApi ,
+    stickUIModuleApi ,
 
     findUiReportApi,
     seeUiReportApi,

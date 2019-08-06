@@ -28,6 +28,7 @@ import taskManage from './projectView/taskManage/task.vue'
 import user from './projectView/userManage/user.vue'
 import sceneConfig from './projectView/config/config.vue'
 import login from './login/login.vue'
+import projectManageUI from './projectView/project/project_ui.vue'
 import errors from './login/errors.vue'
 
 Vue.use(VueRouter);
@@ -48,6 +49,17 @@ const routes = [
                 components: {
                     Header: Header,
                     Manage: projectManage,
+                }
+            },
+            {
+                path: 'projectManageUI',
+                // component:caseManage,
+                meta: {
+                    requireAuth: true,
+                },
+                components: {
+                    Header: Header,
+                    Manage: projectManageUI,
                 }
             },
             {

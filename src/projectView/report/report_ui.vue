@@ -148,11 +148,9 @@
                 this.findReport()
             },
             initData() {
-                this.$axios.get(this.$api.baseDataApi).then((response) => {
-                    if (response.data['user_pro']){
+                this.$axios.get(this.$api.baseUIDataApi).then((response) => {
                         this.form.projectName = response.data['user_pro']['pro_name'];
                         this.findReport()
-                    }
                         this.proData = response.data['pro_and_id'];
                     }
                 );
