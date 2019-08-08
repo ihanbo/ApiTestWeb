@@ -1,6 +1,6 @@
 <template>
     <div class="resultCaseSet">
-        <div style="width: 50%;font-size: 30px;margin-top: 30px;margin-left: auto;margin-right: auto">{{caseSetName}}模块测试报告</div>
+        <div style="width: 50%;font-size: 30px;line-height:35px;margin-top: 30px;margin-left: auto;margin-right: auto">{{caseSetName}}测试报告</div>
          <el-form>
              <el-row>
                  <el-col :span="16" style="margin-top:100px">
