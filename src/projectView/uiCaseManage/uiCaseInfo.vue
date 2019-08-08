@@ -290,8 +290,10 @@
                         moduleId: '',
                         num: '',
                     },
-                    platformId:null,
-                    projectName: null,
+                    platformId: 2,//假数据，方便测试，后期删除
+                    projectName: "易车app",//假数据，方便测试，后期删除
+                    // platformId:null,
+                    // projectName: null,
                     projectId: null,
                     suiteName: null,
                     apiName: null,
