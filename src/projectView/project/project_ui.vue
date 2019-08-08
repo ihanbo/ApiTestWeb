@@ -349,6 +349,7 @@
                         let resData = response.data.data;
                         let index = this.userData.map(item => item.user_id).indexOf(resData['user_id']);
                         this.form.user = this.userData[index];
+<<<<<<< HEAD
                         proData.projectName = resData['pro_name'];
                         proData.principal = resData['principal'];
                         proData.variable = resData['variables'];
@@ -360,6 +361,17 @@
 
                         proData.funcFile = resData['func_file'];
                         proData.modelFormVisible = true;
+=======
+                        this.projectData.projectName = response.data['data']['pro_name'];
+                        this.projectData.principal = response.data['data']['principal'];
+                        this.projectData.variable = response.data['data']['variables'];
+                        this.projectData.id = id;
+                        this.projectData.android_package =response.data['data']['android_package'];
+                        this.projectData.android_launch =response.data['data']['android_launch'];
+                         this.projectData.ios_bundle_id =response.data['data']['ios_bundle_id'];
+                        this.projectData.funcFile = response.data['data']['func_file'];
+                        this.projectData.modelFormVisible = true;
+>>>>>>> 1e7795ec69332c81d3f060a178b0041bec64545c
                     }
                 )
             },
