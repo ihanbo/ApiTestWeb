@@ -316,8 +316,10 @@
                         this.projectData.principal = response.data['data']['principal'];
                         this.projectData.variable = response.data['data']['variables'];
                         this.projectData.id = id;
-                        this.projectData.android_package =
-                            this.projectData.funcFile = response.data['data']['func_file'];
+                        this.projectData.android_package =response.data['data']['android_package'];
+                        this.projectData.android_launch =response.data['data']['android_launch'];
+                         this.projectData.ios_bundle_id =response.data['data']['ios_bundle_id'];
+                        this.projectData.funcFile = response.data['data']['func_file'];
                         this.projectData.modelFormVisible = true;
                     }
                 )
