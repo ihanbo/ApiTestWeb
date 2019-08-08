@@ -358,6 +358,14 @@
                     });
                     return
                 }
+                if(!this.taskData.timeConfig){
+                    this.$message({
+                        showClose: true,
+                        message: '请选择时间配置',
+                        type: 'warning',
+                    });
+                    return
+                }
                 this.$axios.post(this.$api.addTaskApi, {
                     'projectName': this.form.projectName,
                     'setIds': this.form.set,

@@ -130,8 +130,10 @@
                                                @click.native="sureView(delApi,ApiMsgTableData[scope.$index]['id'],ApiMsgTableData[scope.$index]['name'])">
                                         删除
                                     </el-button>
+
+                                    <!-- @click.native="runApi(ApiMsgTableData[scope.$index]['id'],'copy')" -->
                                     <el-button type="primary" icon="el-icon-run" size="mini"
-                                               @click.native="runApi(ApiMsgTableData[scope.$index]['id'],'copy')">
+                                               @click.native="runPopupsShow">
                                         运行
                                     </el-button>
                                 </template>
@@ -202,6 +204,26 @@
                 :funcAddress="funcAddress"
                 ref="configEditFunc">
         </configEdit>
+
+        <!-- 运行按钮的弹出层 -->
+        <el-dialog title="测试运行" :visible.sync="dialogFormVisible" width="40%">
+            <el-form ref="form" :model="form"
+                     label-width="50px" 
+                     size="small"
+                     style="padding: 10px"
+                     >
+                <el-form-item label="ID" style="width: 500px">
+                    <el-input v-model="form.id"></el-input>
+                </el-form-item>
+                <el-form-item label="名称" style="width: 500px">
+                    <el-input v-model="form.name"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="runPopupsShow" size="small">取 消</el-button>
+                <el-button type="primary" @click="runPopupsShow" size="small">运 行</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 
@@ -212,7 +234,10 @@
     import errorView from '../common/errorView.vue'
     import configEdit from '../config/configEdit.vue'
 
+    // import { runMain } from 'module';
+
     export default {
+        name: 'uiCaseManager',
         components: {
             // result: result,
             importApi: importApi,
@@ -221,12 +246,12 @@
             configEdit: configEdit,
 
         },
-        name: 'uiCaseManager',
         data() {
             return {
                 apiEditViewStatus: false,// 编辑组件显示控制
                 numTab: 'first',
                 loading: false,  //  页面加载状态开关
+                dialogFormVisible: false,//控制运行按钮弹出层的显示隐藏
                 proModelData: '',
                 proAndIdData: '',
                 configData: '',
@@ -529,7 +554,11 @@
                     }
                 )
             },
-
+            //运行按钮弹出窗的显示隐藏
+            runPopupsShow(){
+                this.dialogFormVisible = !this.dialogFormVisible;
+            },
+            
 
         },
 
