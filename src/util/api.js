@@ -102,7 +102,7 @@ const findUIcaseApi = baseUrl+'uicases/list';
 const addUIcaseApi = baseUrl+'uicases/add';
 const delStepInCaseApi = baseUrl+'uicases/delStep';
 const importCasesApi = baseUrl+'uicases/importCases';
-const getDevices = baseUrl+'uicases/get_devices';
+const getDevices = baseUrl+'uicases/get_devices';//调取设备信息接口（运行接口）
 
 //UI测试相关的
 const baseUIDataApi = baseUrl+'proGather/ui_list';
@@ -229,7 +229,7 @@ export default {
     delUIcaseApi,
     delStepInCaseApi,
     importCasesApi,
-    getDevices,
+    getDevices, //获取设备信息，platform：1安卓 2ios 3全部 ，is_free：是否空闲
 
     //UI测试相关的
     baseUIDataApi,

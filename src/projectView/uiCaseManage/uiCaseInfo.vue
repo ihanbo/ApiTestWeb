@@ -5,6 +5,7 @@
             <el-form-item label="项目" labelWidth="80px">
                 <el-select v-model="form.projectName"
                            placeholder="请选择项目"
+                           clearable
                            @change="initProjectChoice"
                            style="width: 150px;padding-right:5px">
                     <el-option
@@ -18,6 +19,8 @@
             <el-form-item label="应用平台" v-if="numTab !== 'third'">
                 <el-select v-model="form.platformId"
                            placeholder="请选择平台"
+                           clearable
+                           ref="platform"
                            @change="initPlatformChoice()"
                            style="width: 150px;padding-right:5px">
                     <el-option
@@ -130,8 +133,10 @@
                                                @click.native="sureView(delApi,ApiMsgTableData[scope.$index]['id'],ApiMsgTableData[scope.$index]['name'])">
                                         删除
                                     </el-button>
-                                    <el-button type="primary" icon="el-icon-run" size="mini"
-                                               @click.native="runApi(ApiMsgTableData[scope.$index]['id'],'copy')">
+
+                                    <!-- @click.native="runApi(ApiMsgTableData[scope.$index]['id'],'copy')" -->
+                                    <el-button type="primary" icon="el-icon-run" size="mini" ref="runBtn" 
+                                               @click.native="getDevices">
                                         运行
                                     </el-button>
                                 </template>
@@ -183,8 +188,8 @@
             </div>
         </el-dialog>
 
-        <result ref="resultFunc">
-        </result>
+        <!-- <result ref="resultFunc">
+        </result> -->
 
         <errorView ref="errorViewFunc">
         </errorView>
@@ -202,6 +207,22 @@
                 :funcAddress="funcAddress"
                 ref="configEditFunc">
         </configEdit>
+
+        <!-- 运行按钮的弹出层 -->
+       <el-dialog title="设备信息" :visible.sync="dialogTableVisible" center="">
+            <el-table :data="deviceData">
+                <el-table-column property="device" label="设备ID" width="150"></el-table-column>
+                <el-table-column property="name" label="设备名称" width="200"></el-table-column>
+                <el-table-column label="运行">
+                    <el-button type="primary" size="small"
+                        @click.native="runApi(1)"
+                    >运行</el-button>
+                </el-table-column>
+            </el-table>
+            <span slot="footer" class="dialog-footer">
+                <el-button type="warning" plain size="small" @click="dialogTableVisible = false">取 消</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 
@@ -212,7 +233,10 @@
     import errorView from '../common/errorView.vue'
     import configEdit from '../config/configEdit.vue'
 
+    // import { runMain } from 'module';
+
     export default {
+        name: "uiCaseManager",
         components: {
             // result: result,
             importApi: importApi,
@@ -221,12 +245,19 @@
             configEdit: configEdit,
 
         },
-        name: 'uiCaseManager',
         data() {
             return {
                 apiEditViewStatus: false,// 编辑组件显示控制
                 numTab: 'first',
                 loading: false,  //  页面加载状态开关
+
+                dialogTableVisible: false,//控制运行按钮弹出层的显示隐藏
+                //数据列表,假数据
+                deviceData: [{
+                        device: '1111',
+                        name: 'MI 8',
+                    }],
+
                 proModelData: '',
                 proAndIdData: '',
                 configData: '',
@@ -235,6 +266,11 @@
                 apiMsgList: Array(),//  临时存储接口数据
                 funcAddress: null,
                 moduleDataList: [],
+
+                //运行弹出层的信息渲染
+                deviceId: '',
+                deviceName: '',
+
                 defaultProps: {
                     children: 'children',
                     label: 'name'
@@ -279,14 +315,10 @@
                 this.$axios.get(this.$api.baseUIDataApi).then((response) => {
                         this.proModelData = response.data['data'];
                         this.proAndIdData = response.data['pro_and_id'];
-                        // if (response.data['user_pro']) {
-                        //     this.form.projectName = response.data['user_pro']['pro_name'];
-                        //     if (this.configData[this.form.projectName][0]) {
-                        //         this.form.config = this.configData[this.form.projectName][0];
-                        //     }
-                        //     this.findModule()
-                        // }
-                        this.findModule()
+                        if (response.data['user_pro']) {
+                            this.form.projectName = response.data['user_pro']['pro_name'];
+                            this.findModule()
+                        }
                         this.$axios.post(this.$api.getFuncAddressApi).then((response) => {
                                 this.funcAddress = response['data']['data'];
                             }
@@ -296,6 +328,7 @@
                 )
                 this.$axios.get(this.$api.findPlatformApi).then((response) => {
                         this.platformData = response.data['data'];
+                        this.form.platformId =  this.platformData[0]['id']
                     }
                 )
 
@@ -380,15 +413,14 @@
                     this.$refs.apiFunc.editCopyApiMsg(apiMsgId, status);
                 }, 0)
             },
-            runApi(apiMsgId, status) {
+            runApi(apiMsgId) {
                 //  测试
                 this.loading = true;
                 this.$axios.post(this.$api.runUIcaseApi, {'id': apiMsgId}).then((response) => {
                     this.loading = false;
                     this.messageShow(this, response);
                     
-                    }
-                )
+                })
             },
 
             delApi(apiMsgId) {
@@ -529,10 +561,21 @@
                     }
                 )
             },
+            //调取设备接口
+            getDevices(){
+                this.dialogTableVisible = !this.dialogTableVisible;
+                console.log(this.form.platformId);
 
+                this.$axios.post(this.$api.getDevices,{
+                        platform: this.form.platformId,
+                        is_free: true
+                    }).then((response)=>{
+                        console.log(response.data.data);
+                        this.deviceData=response.data.data;
+                })
+            }
 
         },
-
         mounted() {
             this.initBaseData();
         },
