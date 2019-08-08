@@ -214,7 +214,9 @@
                 <el-table-column property="deviceId" label="设备ID" width="150"></el-table-column>
                 <el-table-column property="deviceName" label="设备名称" width="200"></el-table-column>
                 <el-table-column label="运行">
-                    <el-button type="primary" size="small">运行</el-button>
+                    <el-button type="primary" size="small"
+                        @click.native="runApi(apiMsgList[scope.$index]['id'])"
+                    >运行</el-button>
                 </el-table-column>
             </el-table>
             <span slot="footer" class="dialog-footer">
@@ -579,16 +581,15 @@
                 console.log(this.form.platformId);
 
                 this.$axios.post(this.$api.getDevices,{
-                        platform: "Android",
+                        platform: this.form.platformId,
                         is_free: true
                     }).then((response)=>{
-                        console.log(response.data);
-                        this.deviceData.concat(response.data);
+                        console.log(response.data.data);
+                        this.deviceData.push(...response.data.data);
                 })
             }
 
         },
-
         mounted() {
             this.initBaseData();
         },
