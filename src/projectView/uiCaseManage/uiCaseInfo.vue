@@ -307,10 +307,8 @@
                         moduleId: '',
                         num: '',
                     },
-                    platformId: 2,//假数据，方便测试，后期删除
-                    projectName: "易车app",//假数据，方便测试，后期删除
-                    // platformId:null,
-                    // projectName: null,
+                    platformId:null,
+                    projectName: null,
                     projectId: null,
                     suiteName: null,
                     apiName: null,
@@ -326,14 +324,10 @@
                 this.$axios.get(this.$api.baseUIDataApi).then((response) => {
                         this.proModelData = response.data['data'];
                         this.proAndIdData = response.data['pro_and_id'];
-                        // if (response.data['user_pro']) {
-                        //     this.form.projectName = response.data['user_pro']['pro_name'];
-                        //     if (this.configData[this.form.projectName][0]) {
-                        //         this.form.config = this.configData[this.form.projectName][0];
-                        //     }
-                        //     this.findModule()
-                        // }
-                        this.findModule()
+                        if (response.data['user_pro']) {
+                            this.form.projectName = response.data['user_pro']['pro_name'];
+                            this.findModule()
+                        }
                         this.$axios.post(this.$api.getFuncAddressApi).then((response) => {
                                 this.funcAddress = response['data']['data'];
                             }
@@ -343,6 +337,7 @@
                 )
                 this.$axios.get(this.$api.findPlatformApi).then((response) => {
                         this.platformData = response.data['data'];
+                        this.form.platformId =  this.platformData[0]['id']
                     }
                 )
 
