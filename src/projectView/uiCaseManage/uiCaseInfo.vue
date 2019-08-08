@@ -276,18 +276,17 @@
         methods: {
             initBaseData() {
                 //  初始化页面所需要的数据
-                this.$axios.get(this.$api.baseDataApi).then((response) => {
+                this.$axios.get(this.$api.baseUIDataApi).then((response) => {
                         this.proModelData = response.data['data'];
                         this.proAndIdData = response.data['pro_and_id'];
-                        this.configData = response.data['config_name_list'];
-                        this.proUrlData = response.data['urlData'];
-                        if (response.data['user_pro']) {
-                            this.form.projectName = response.data['user_pro']['pro_name'];
-                            if (this.configData[this.form.projectName][0]) {
-                                this.form.config = this.configData[this.form.projectName][0];
-                            }
-                            this.findModule()
-                        }
+                        // if (response.data['user_pro']) {
+                        //     this.form.projectName = response.data['user_pro']['pro_name'];
+                        //     if (this.configData[this.form.projectName][0]) {
+                        //         this.form.config = this.configData[this.form.projectName][0];
+                        //     }
+                        //     this.findModule()
+                        // }
+                        this.findModule()
                         this.$axios.post(this.$api.getFuncAddressApi).then((response) => {
                                 this.funcAddress = response['data']['data'];
                             }
@@ -382,11 +381,12 @@
                 }, 0)
             },
             runApi(apiMsgId, status) {
-                //  编辑或者复制信息
+                //  测试
+                this.loading = true;
                 this.$axios.post(this.$api.runUIcaseApi, {'id': apiMsgId}).then((response) => {
-                
+                    this.loading = false;
                     this.messageShow(this, response);
-                        
+                    
                     }
                 )
             },
@@ -429,7 +429,7 @@
 
             findModule() {
                 //  查询接口模块
-                this.$axios.post(this.$api.findModuleApi, {
+                this.$axios.post(this.$api.findUIModuleApi, {
                     'projectName': this.form.projectName,
                     'page': this.modulePage.currentPage,
                     'sizePage': this.modulePage.sizePage,
@@ -493,7 +493,7 @@
             },
             addModule() {
                 //  添加模块
-                this.$axios.post(this.$api.addModuleApi, {
+                this.$axios.post(this.$api.addUIModuleApi, {
                     'projectName': this.form.projectName,
                     'name': this.moduleData.name,
                     'id': this.moduleData.id,
@@ -508,7 +508,7 @@
             },
             delModule() {
                 //  删除模块
-                this.$axios.post(this.$api.delModuleApi, {'id': this.form.module.moduleId}).then((response) => {
+                this.$axios.post(this.$api.delUIModuleApi, {'id': this.form.module.moduleId}).then((response) => {
                         this.messageShow(this, response);
                         this.moduleData.name = '';
                         if ((this.modulePage.currentPage - 1) * this.modulePage.sizePage + 1 === this.modulePage.total) {
@@ -520,7 +520,7 @@
             },
             stickModule() {
                 //  置顶模块
-                this.$axios.post(this.$api.stickModuleApi, {
+                this.$axios.post(this.$api.stickUIModuleApi, {
                     'id': this.form.module.moduleId,
                     'projectName': this.form.projectName,
                 }).then((response) => {

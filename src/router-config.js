@@ -12,6 +12,7 @@ import manage from './projectView/manage.vue'
 import projectManage from './projectView/project/project.vue'
 import platformManage from './projectView/project/platform.vue'
 import reportManage from './projectView/report/report.vue'
+import reportUiManage from './projectView/report/report_ui.vue'
 import reportShow from './projectView/report/reportShow.vue'
 import resultSummary from './projectView/report/resultSummary.vue'
 import resultDetail from './projectView/report/resultDetail.vue'
@@ -27,6 +28,7 @@ import taskManage from './projectView/taskManage/task.vue'
 import user from './projectView/userManage/user.vue'
 import sceneConfig from './projectView/config/config.vue'
 import login from './login/login.vue'
+import projectManageUI from './projectView/project/project_ui.vue'
 import errors from './login/errors.vue'
 
 Vue.use(VueRouter);
@@ -47,6 +49,17 @@ const routes = [
                 components: {
                     Header: Header,
                     Manage: projectManage,
+                }
+            },
+            {
+                path: 'projectManageUI',
+                // component:caseManage,
+                meta: {
+                    requireAuth: true,
+                },
+                components: {
+                    Header: Header,
+                    Manage: projectManageUI,
                 }
             },
             {
@@ -143,6 +156,17 @@ const routes = [
                 components: {
                     Header: Header,
                     Manage: reportManage,
+                },
+            },
+            {
+                path: 'reportUiManage',
+                meta: {
+                    requireAuth: true,
+                },
+                // component:caseManage,
+                components: {
+                    Header: Header,
+                    Manage: reportUiManage,
                 },
             },
             {

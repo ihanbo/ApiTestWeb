@@ -102,6 +102,27 @@ const findUIcaseApi = baseUrl+'uicases/list';
 const addUIcaseApi = baseUrl+'uicases/add';
 const delStepInCaseApi = baseUrl+'uicases/delStep';
 const importCasesApi = baseUrl+'uicases/importCases';
+const getDevices = baseUrl+'uicases/get_devices';
+
+//UI测试相关的
+const baseUIDataApi = baseUrl+'proGather/ui_list';
+const findUIProApi = baseUrl+'project/find_ui';
+const addUIProApi = baseUrl+'project/add_ui';
+const editUIProApi = baseUrl+'project/edit_ui';
+const delUIProApi = baseUrl+'project/del_ui';
+
+const findUIModuleApi = baseUrl+'module/find_ui';
+const addUIModuleApi = baseUrl+'module/add_ui';
+const editUIModuleApi = baseUrl+'module/edit_ui';
+const delUIModuleApi = baseUrl+'module/del_ui';
+const stickUIModuleApi = baseUrl+'module/stick_ui';
+
+
+const findUiReportApi = baseUrl+'report/find_ui';
+const seeUiReportApi = baseUrl+'report/see_ui_report';
+const delUiReportApi = baseUrl+'report/del_ui';
+
+
 
 
 export default {
@@ -208,4 +229,22 @@ export default {
     delUIcaseApi,
     delStepInCaseApi,
     importCasesApi,
+    getDevices,
+
+    //UI测试相关的
+    baseUIDataApi,
+    findUIProApi,
+    addUIProApi,
+    editUIProApi,
+    delUIProApi,
+
+    findUIModuleApi,
+    addUIModuleApi,
+    editUIModuleApi,
+    delUIModuleApi ,
+    stickUIModuleApi ,
+
+    findUiReportApi,
+    seeUiReportApi,
+    delUiReportApi,
 }

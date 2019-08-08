@@ -54,10 +54,11 @@
                                 <span>UIcase管理</span>
                             </template>
                             <el-menu-item-group>
-                                <el-menu-item index="/manage/projectManage">项目管理</el-menu-item>
+                                <el-menu-item index="/manage/projectManageUI">项目管理</el-menu-item>
                                 <el-menu-item index="/manage/platformManage">应用平台</el-menu-item>
                                 <el-menu-item index="/manage/uiCaseStepManager">case步骤</el-menu-item>
                                 <el-menu-item index="/manage/uiCaseManager">case信息</el-menu-item>
+                                <el-menu-item index="/manage/reportUiManage">UI测试报告</el-menu-item>
                             </el-menu-item-group>
                         </el-submenu>
                         <el-submenu index="4">
@@ -137,7 +138,7 @@
         data() {
             return {
                 navigationName:'/manage/projectManage',
-                collapsed:false,
+                collapsed:false,//左侧管理栏收缩与否，默认为false
                 role:'',
                 userName:'',
 
