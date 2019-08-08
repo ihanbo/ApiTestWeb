@@ -5,6 +5,7 @@
             <el-form-item label="项目" labelWidth="80px">
                 <el-select v-model="form.projectName"
                            placeholder="请选择项目"
+                           clearable
                            @change="initProjectChoice"
                            style="width: 150px;padding-right:5px">
                     <el-option
@@ -18,6 +19,8 @@
             <el-form-item label="应用平台" v-if="numTab !== 'third'">
                 <el-select v-model="form.platformId"
                            placeholder="请选择平台"
+                           clearable
+                           ref="platform"
                            @change="initPlatformChoice()"
                            style="width: 150px;padding-right:5px">
                     <el-option
@@ -132,8 +135,8 @@
                                     </el-button>
 
                                     <!-- @click.native="runApi(ApiMsgTableData[scope.$index]['id'],'copy')" -->
-                                    <el-button type="primary" icon="el-icon-run" size="mini"
-                                               @click.native="runPopupsShow">
+                                    <el-button type="primary" icon="el-icon-run" size="mini" ref="runBtn" 
+                                               @click.native="getDevices">
                                         运行
                                     </el-button>
                                 </template>
@@ -185,8 +188,8 @@
             </div>
         </el-dialog>
 
-        <result ref="resultFunc">
-        </result>
+        <!-- <result ref="resultFunc">
+        </result> -->
 
         <errorView ref="errorViewFunc">
         </errorView>
@@ -220,8 +223,8 @@
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button @click="runPopupsShow" size="small">取 消</el-button>
-                <el-button type="primary" @click="runPopupsShow" size="small">运 行</el-button>
+                <el-button @click="dialogFormVisible = !dialogFormVisible;" size="small">取 消</el-button>
+                <el-button type="primary" @click="dialogFormVisible = !dialogFormVisible;" size="small">运 行</el-button>
             </div>
         </el-dialog>
     </div>
@@ -237,7 +240,7 @@
     // import { runMain } from 'module';
 
     export default {
-        name: 'uiCaseManager',
+        name: "uiCaseManager",
         components: {
             // result: result,
             importApi: importApi,
@@ -412,8 +415,7 @@
                     this.loading = false;
                     this.messageShow(this, response);
                     
-                    }
-                )
+                })
             },
 
             delApi(apiMsgId) {
@@ -554,11 +556,17 @@
                     }
                 )
             },
-            //运行按钮弹出窗的显示隐藏
-            runPopupsShow(){
+            //调取设备接口
+            getDevices(){
                 this.dialogFormVisible = !this.dialogFormVisible;
-            },
-            
+
+                this.$axios.post(this.$api.getDevices,{
+                        platform: this.form.platformId,
+                        is_free: true
+                    }).then((response)=>{
+                        console.log(response);
+                })
+            }
 
         },
 
