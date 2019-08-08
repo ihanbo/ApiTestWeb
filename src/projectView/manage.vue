@@ -138,7 +138,7 @@
         data() {
             return {
                 navigationName:'/manage/projectManage',
-                collapsed:false,
+                collapsed:false,//左侧管理栏收缩与否，默认为false
                 role:'',
                 userName:'',
 
