@@ -229,7 +229,7 @@ export default {
     delUIcaseApi,
     delStepInCaseApi,
     importCasesApi,
-    getDevices,
+    getDevices, //获取设备信息，platform：1安卓 2ios 3全部 ，is_free：是否空闲
 
     //UI测试相关的
     baseUIDataApi,
