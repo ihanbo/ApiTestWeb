@@ -47,14 +47,14 @@
                     <el-table-column
                             prop="project_name"
                             label="所属项目"
-                            minWidth="50">
+                            minWidth="60">
                     </el-table-column>
 
                     <el-table-column
                             :show-overflow-tooltip=true
                             minWidth="200"
                             prop="name"
-                            label="用例"
+                            label="用例名称"
                     >
                     </el-table-column>
                     <el-table-column
@@ -62,15 +62,15 @@
                             label="时间"
                             minWidth="100">
                     </el-table-column>
-                    <el-table-column
-                            prop="performer"
-                            label="执行者"
-                            minWidth="100">
-                    </el-table-column>
+<!--                    <el-table-column-->
+<!--                            prop="performer"-->
+<!--                            label="执行者"-->
+<!--                            minWidth="100">-->
+<!--                    </el-table-column>-->
                     <el-table-column
                             prop="read_status"
                             label="状态"
-                            width="80">
+                            width="90">
                         <template slot-scope="scope">
                             <!--<div :style="scope.row.read_status === '已读' ? 'color:#2bef2b': 'color:rgb(255, 74, 74)'">-->
                                 <!--{{scope.row.read_status}}-->
@@ -124,7 +124,7 @@
                 tableData: [],
                 total: 1,
                 currentPage: 1,
-                sizePage: 20,
+                sizePage: 10,
                 form: {
                     projectName: '',
                     gathers: [],

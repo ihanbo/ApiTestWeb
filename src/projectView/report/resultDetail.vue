@@ -25,18 +25,27 @@
                 <el-table :data="tableData"
                           max-height="748"
                           stripe>
-
                     <el-table-column
-                            prop="reportId"
-                            label="报告Id"
+                            prop="num"
+                            type="index"
+                            label="序号"
                             minWidth="100">
                     </el-table-column>
-
                     <el-table-column
-                            prop="caseId"
-                            label="用例Id"
+                            prop="projectName"
+                            label="所属项目"
                             minWidth="100">
                     </el-table-column>
+<!--                    <el-table-column-->
+<!--                            prop="reportId"-->
+<!--                            label="报告Id"-->
+<!--                            minWidth="100">-->
+<!--                    </el-table-column>-->
+<!--                    <el-table-column-->
+<!--                            prop="caseId"-->
+<!--                            label="用例Id"-->
+<!--                            minWidth="100">-->
+<!--                    </el-table-column>-->
                     <el-table-column
                             prop="caseName"
                             label="用例名"
@@ -44,34 +53,35 @@
                     </el-table-column>
                     <el-table-column
                             label="用例执行状态"
-                            minWidth="120">
+                            minWidth="110">
                             <template slot-scope="scope">
-                                {{scope.row.caseExecStatus === true ? 'pass' : 'fail'}}
+<!--                                {{scope.row.caseExecStatus === true ? 'pass' : 'fail'}}-->
+                                {{scope.row.caseExecStatus === true ? '成功' : '失败'}}
                             </template>
                     </el-table-column>
                     <el-table-column
                             prop="caseDuration"
-                            label="用例持续时间(sec)"
-                            minWidth="150">
+                            label="执行时间(秒)"
+                            minWidth="100">
                             <template slot-scope="scope">
                                     {{scope.row.caseDuration.toFixed(2)}}
                             </template>
                     </el-table-column>
-                    <el-table-column
-                            prop="caseDataId"
-                            label="用例步骤ID"
-                            minWidth="100">
-                    </el-table-column>
+<!--                    <el-table-column-->
+<!--                            prop="caseDataId"-->
+<!--                            label="用例步骤ID"-->
+<!--                            minWidth="100">-->
+<!--                    </el-table-column>-->
                     <el-table-column
                             prop="caseDataName"
                             label="用例步骤名"
                             minWidth="300">
                     </el-table-column>
-                    <el-table-column
-                            prop="apiMsgId"
-                            label="接口Id"
-                            minWidth="100">
-                    </el-table-column>
+<!--                    <el-table-column-->
+<!--                            prop="apiMsgId"-->
+<!--                            label="接口Id"-->
+<!--                            minWidth="100">-->
+<!--                    </el-table-column>-->
                     <el-table-column
                             prop="apiMsgName"
                             label="接口名"
@@ -84,19 +94,19 @@
                     </el-table-column>
                     <el-table-column
                             prop="responseTime"
-                            label="步骤执行时间(ms)"
+                            label="步骤执行时间(毫秒)"
                             minWidth="150">
                     </el-table-column>
-                    <el-table-column
-                            prop="projectName"
-                            label="所属项目"
-                            minWidth="100">
-                    </el-table-column>
-                    <el-table-column
-                            prop="resultSummaryId"
-                            label="用例概况Id"
-                            minWidth="100">
-                    </el-table-column>
+<!--                    <el-table-column-->
+<!--                            prop="projectName"-->
+<!--                            label="所属项目"-->
+<!--                            minWidth="100">-->
+<!--                    </el-table-column>-->
+<!--                    <el-table-column-->
+<!--                            prop="resultSummaryId"-->
+<!--                            label="用例概况Id"-->
+<!--                            minWidth="100">-->
+<!--                    </el-table-column>-->
                 </el-table>
                 <!--</el-scrollbar>-->
                 <div class="pagination">
@@ -125,7 +135,7 @@
                 tableData: [],
                 total: 1,
                 currentPage: 1,
-                sizePage: 20,
+                sizePage: 10,
                 form: {
                     projectName: '',
                     gathers: [],

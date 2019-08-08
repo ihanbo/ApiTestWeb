@@ -3,7 +3,7 @@
 
         <el-dialog title="接口分类配置" :visible.sync="setData.viewStatus" width="30%">
             <el-form>
-                <el-form-item required="true" label="接口分类名称" label-width="110px">
+                <el-form-item :required="true" label="接口分类名称" label-width="110px">
                     <el-input v-model="setData.name">
                     </el-input>
                 </el-form-item>
@@ -32,6 +32,14 @@
         },
         methods: {
             addSet() {
+                if(!this.setData.name.replace(/(^\s*)|(\s*$)/g, "")){
+                    this.$message({
+                        showClose: true,
+                        message: '接口分类名称不能为空',
+                        type: 'warning',
+                    });
+                    return
+                }
                 this.$axios.post(this.$api.addModuleApi, {
                     'projectName': this.projectName,
                     'name': this.setData.name,

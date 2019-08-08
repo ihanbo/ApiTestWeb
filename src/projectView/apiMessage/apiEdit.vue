@@ -51,15 +51,13 @@
 <!--                          style="width: 70px;text-align:center;">-->
 <!--                </el-input>-->
 <!--            </el-form-item>-->
-            <el-form-item prop="name" style="margin-bottom: 5px">
+            <el-form-item :required="true" prop="name" label="接口名称" style="margin-bottom: 5px">
                 <el-input v-model="apiMsgData.name" placeholder="接口名称" size="small">
                 </el-input>
             </el-form-item>
             <el-form-item prop="name" style="margin-bottom: 5px">
-
                 <el-input v-model="apiMsgData.upFunc" placeholder="set_up_hooks" size="small">
                 </el-input>
-
             </el-form-item>
             <el-form-item prop="name" style="margin-bottom: 5px">
                 <el-input v-model="apiMsgData.downFunc" placeholder="set_down_hooks" size="small">
@@ -552,6 +550,14 @@
                     this.$message({
                         showClose: true,
                         message: '请选择项目',
+                        type: 'warning',
+                    });
+                    return
+                }
+                if (!this.apiMsgData.name.replace(/(^\s*)|(\s*$)/g, "")) {
+                    this.$message({
+                        showClose: true,
+                        message: '接口名称不能为空',
                         type: 'warning',
                     });
                     return

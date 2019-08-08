@@ -95,13 +95,13 @@
             <el-tabs>
                 <el-tab-pane label="基础信息" style="margin-top: 10px">
                     <el-form :inline="true">
-                        <el-form-item required="true" label="项目名称" :label-width="projectData.formLabelWidth">
+                        <el-form-item :required="true" label="项目名称" :label-width="projectData.formLabelWidth">
                             <el-input v-model="projectData.projectName" size="mini" id="project_name"
                                       style="width: 150px">
                             </el-input>
                         </el-form-item>
-                        <el-form-item required="true" label="负责人" label-width="70px">
-                            <el-select v-model="form.user" value-key="user_id" id="user" size="mini"
+                        <el-form-item :required="true" label="负责人" label-width="70px">
+                            <el-select v-model="form.user" filterable value-key="user_id" id="user" size="mini"
                                        style="width: 100px" >
                                 <el-option
                                         v-for="item in userData"
@@ -297,7 +297,7 @@
                 loading: false,
                 reportId: null,
                 currentPage: 1,
-                sizePage: 20,
+                sizePage: 10,
                 form: {
                     projectName: null,
                     user: {
@@ -427,6 +427,14 @@
                 }
             },
             addProject() {
+                if(!this.projectData.projectName.replace(/(^\s*)|(\s*$)/g, "")){
+                    this.$message({
+                        showClose: true,
+                        message: '项目名称不能为空',
+                        type: 'warning',
+                    });
+                    return
+                }
                 this.$axios.post(this.$api.addProApi, {
                     'projectName': this.projectData.projectName,
                     'principal': this.projectData.principal,
