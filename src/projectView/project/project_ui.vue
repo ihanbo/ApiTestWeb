@@ -79,14 +79,19 @@
                 <el-tab-pane label="基础信息" style="margin-top: 10px">
                     <el-form :inline="true">
                         <el-form-item label="项目名称" :label-width="projectData.formLabelWidth">
-                            <el-input v-model="projectData.projectName" size="mini"
+                            <el-input v-model="projectData.projectName"
+                                      size="mini"
                                       id="project_name"
+                                      clearable
                                       style="width: 150px">
                             </el-input>
                         </el-form-item>
-                        <el-form-item label="负责人" label-width="60px">
-                            <el-select v-model="form.user" value-key="user_id" id="user" size="mini"
-                                       style="width: 100px">
+                        <el-form-item label="项目负责人" label-width="88px">
+                            <el-select v-model="form.user"
+                                       value-key="user_id"
+                                       id="user" 
+                                       size="mini"
+                                       style="width: 150px">
                                 <el-option
                                         v-for="item in userData"
                                         :key="item.user_id"
@@ -95,9 +100,38 @@
                                 </el-option>
                             </el-select>
                         </el-form-item>
+
+                        <!-- 新增三项：安卓包名、安卓启动页、ios bundle id -->
+                        <el-form-item label="安卓包名" :label-width="projectData.formLabelWidth">
+                            <el-input v-model="projectData.android_package"
+                                      size="mini"
+                                      id="android_package"
+                                      clearable
+                                      style="width: 150px">
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item label="安卓启动页" label-width="88px">
+                            <el-input v-model="projectData.android_launch"
+                                      size="mini"
+                                      id="android_launch"
+                                      clearable
+                                      style="width: 150px">
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item label="ios bundle id" label-width="103px">
+                            <el-input v-model="projectData.ios_bundle_id"
+                                      size="mini"
+                                      id="ios_bundle_id"
+                                      clearable
+                                      style="width: 120px">
+                            </el-input>
+                        </el-form-item>
+
                         <el-form-item label="函数文件" :label-width="projectData.formLabelWidth">
                             <el-select v-model="projectData.funcFile" placeholder="请选择导入函数文件"
-                                       size="mini" clearable>
+                                       size="mini" 
+                                       clearable
+                                       style="width: 165px">
                                 <el-option
                                         v-for="item in funcAddress"
                                         :key="item.value"
@@ -213,9 +247,9 @@
                     modelFormVisible: false,
                     projectName: null,
                     principal: '管理员',    //负责人
-                    android_package: 'com.yiche.autoeasy',
-                    ios_bundle_id: 'bitauto.application',
-                    android_launch: 'com.yiche.autoeasy.ADActivity',
+                    android_package: 'com.yiche.autoeasy',//安卓包
+                    ios_bundle_id: 'bitauto.application',//ios bundle id
+                    android_launch: 'com.yiche.autoeasy.ADActivity',//安卓启动页
                     formLabelWidth: '80px',
                     funcFile: '',
                     variable: Array(),
@@ -292,15 +326,16 @@
                 this.$axios.post(this.$api.addUIProApi, {
                     'projectName': this.projectData.projectName,
                     'principal': this.projectData.principal,
-                    'android_package':this.projectData.android_package,
-                    'android_launch':this.projectData.android_launch,
-                    'ios_bundle_id':this.projectData.ios_bundle_id,
+                    'android_package':this.projectData.android_package,//安卓包名
+                    'android_launch':this.projectData.android_launch,//安卓启动页
+                    'ios_bundle_id':this.projectData.ios_bundle_id,//ios bundle id
                     'funcFile': this.projectData.funcFile,
                     'header': JSON.stringify(this.projectData.header),
                     'userId': this.form.user.user_id,
                     'id': this.projectData.id,
                     'variable': JSON.stringify(this.projectData.variable),
                 }).then((response) => {
+                        console.log(3333,response);
                         if (this.messageShow(this, response)) {
                             this.projectData.modelFormVisible = false;
                             this.findProject();
@@ -310,15 +345,21 @@
             },
             editProject(id) {
                 this.$axios.post(this.$api.editUIProApi, {'id': id}).then((response) => {
-                        let index = this.userData.map(item => item.user_id).indexOf(response.data['data']['user_id']);
+                        let proData = this.projectData;
+                        let resData = response.data.data;
+                        let index = this.userData.map(item => item.user_id).indexOf(resData['user_id']);
                         this.form.user = this.userData[index];
-                        this.projectData.projectName = response.data['data']['pro_name'];
-                        this.projectData.principal = response.data['data']['principal'];
-                        this.projectData.variable = response.data['data']['variables'];
-                        this.projectData.id = id;
-                        this.projectData.android_package =
-                            this.projectData.funcFile = response.data['data']['func_file'];
-                        this.projectData.modelFormVisible = true;
+                        proData.projectName = resData['pro_name'];
+                        proData.principal = resData['principal'];
+                        proData.variable = resData['variables'];
+                        proData.id = id;
+                        // 新增三项
+                        proData.android_package = resData['android_package'];//安卓包名
+                        proData.android_launch = resData['android_launch'];//安卓启动页
+                        proData.ios_bundle_id = resData['ios_bundle_id'];//ios bundle id
+
+                        proData.funcFile = resData['func_file'];
+                        proData.modelFormVisible = true;
                     }
                 )
             },
@@ -345,6 +386,7 @@
         mounted() {
             this.findProject();
             this.findFuncAddress();
+            console.log(1111111,this.projectData.android_package);
         },
     }
 </script>
