@@ -209,23 +209,17 @@
         </configEdit>
 
         <!-- 运行按钮的弹出层 -->
-        <el-dialog title="测试运行" :visible.sync="dialogFormVisible" width="40%">
-            <el-form ref="form" :model="form"
-                     label-width="50px" 
-                     size="small"
-                     style="padding: 10px"
-                     >
-                <el-form-item label="ID" style="width: 500px">
-                    <el-input v-model="form.id"></el-input>
-                </el-form-item>
-                <el-form-item label="名称" style="width: 500px">
-                    <el-input v-model="form.name"></el-input>
-                </el-form-item>
-            </el-form>
-            <div slot="footer" class="dialog-footer">
-                <el-button @click="dialogFormVisible = !dialogFormVisible;" size="small">取 消</el-button>
-                <el-button type="primary" @click="dialogFormVisible = !dialogFormVisible;" size="small">运 行</el-button>
-            </div>
+       <el-dialog title="设备信息" :visible.sync="dialogTableVisible" center="">
+            <el-table :data="deviceData">
+                <el-table-column property="deviceId" label="设备ID" width="150"></el-table-column>
+                <el-table-column property="deviceName" label="设备名称" width="200"></el-table-column>
+                <el-table-column label="运行">
+                    <el-button type="primary" size="small">运行</el-button>
+                </el-table-column>
+            </el-table>
+            <span slot="footer" class="dialog-footer">
+                <el-button type="warning" plain size="small" @click="dialogTableVisible = false">取 消</el-button>
+            </span>
         </el-dialog>
     </div>
 </template>
@@ -254,7 +248,23 @@
                 apiEditViewStatus: false,// 编辑组件显示控制
                 numTab: 'first',
                 loading: false,  //  页面加载状态开关
-                dialogFormVisible: false,//控制运行按钮弹出层的显示隐藏
+
+                dialogTableVisible: false,//控制运行按钮弹出层的显示隐藏
+                //数据列表,假数据
+                deviceData: [{
+                        deviceId: '1111',
+                        deviceName: 'MI 8',
+                    }, {
+                        deviceId: '2222',
+                        deviceName: 'Huawei p20',
+                    }, {
+                        deviceId: '3333',
+                        deviceName: 'MI 9',
+                    }, {
+                        deviceId: '4444',
+                        deviceName: 'MEIZU 10',
+                    }],
+
                 proModelData: '',
                 proAndIdData: '',
                 configData: '',
@@ -263,6 +273,11 @@
                 apiMsgList: Array(),//  临时存储接口数据
                 funcAddress: null,
                 moduleDataList: [],
+
+                //运行弹出层的信息渲染
+                deviceId: '',
+                deviceName: '',
+
                 defaultProps: {
                     children: 'children',
                     label: 'name'
@@ -560,13 +575,15 @@
             },
             //调取设备接口
             getDevices(){
-                this.dialogFormVisible = !this.dialogFormVisible;
+                this.dialogTableVisible = !this.dialogTableVisible;
+                console.log(this.form.platformId);
 
                 this.$axios.post(this.$api.getDevices,{
-                        platform: this.form.platformId,
+                        platform: "Android",
                         is_free: true
                     }).then((response)=>{
-                        console.log(response);
+                        console.log(response.data);
+                        this.deviceData.concat(response.data);
                 })
             }
 
