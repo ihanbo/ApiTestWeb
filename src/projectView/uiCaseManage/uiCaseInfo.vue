@@ -413,10 +413,10 @@
                     this.$refs.apiFunc.editCopyApiMsg(apiMsgId, status);
                 }, 0)
             },
-            runApi(apiMsgId) {
+            runApi(apiMsgId,udid) {
                 //  测试
                 this.loading = true;
-                this.$axios.post(this.$api.runUIcaseApi, {'id': apiMsgId}).then((response) => {
+                this.$axios.post(this.$api.runUIcaseApi, {'id': apiMsgId,'udid':udid}).then((response) => {
                     this.loading = false;
                     this.messageShow(this, response);
                     
