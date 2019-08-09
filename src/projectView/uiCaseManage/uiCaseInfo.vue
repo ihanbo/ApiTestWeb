@@ -136,7 +136,7 @@
 
                                     <!-- @click.native="runApi(ApiMsgTableData[scope.$index]['id'],'copy')" -->
                                     <el-button type="primary" icon="el-icon-run" size="mini" ref="runBtn" 
-                                               @click.native="getDevices">
+                                               @click.native="getDevices(ApiMsgTableData[scope.$index]['id'])">
                                         运行
                                     </el-button>
                                 </template>
@@ -209,15 +209,17 @@
         </configEdit>
 
         <!-- 运行按钮的弹出层 -->
-       <el-dialog title="设备信息" :visible.sync="dialogTableVisible" center="">
+        <el-dialog title="设备信息" :visible.sync="dialogTableVisible" center="">
             <el-table :data="deviceData">
                 <el-table-column property="device" label="设备ID" width="150"></el-table-column>
                 <el-table-column property="name" label="设备名称" width="200"></el-table-column>
                 <el-table-column label="运行">
+                    <template slot-scope="scopeTwo">
                     <!-- 此处有问题，有待调试 -->
-                    <el-button type="primary" size="small"
-                        @click.native="runApi(1)"
-                    >运行</el-button>
+                        <el-button type="primary" size="small"
+                            @click.native="runApi(ApiMsgTableData[scopeTwo.$index]['id'],deviceData[scopeTwo.$index].device)"
+                        >运行</el-button>
+                    </template>
                 </el-table-column>
             </el-table>
             <span slot="footer" class="dialog-footer">
@@ -257,6 +259,10 @@
                 deviceData: [{
                         device: '1111',
                         name: 'MI 8',
+                    },
+                    {
+                        device: '2222',
+                        name: 'Huawei p20',
                     }],
 
                 proModelData: '',
@@ -377,6 +383,7 @@
                     'page': this.apiMsgPage.currentPage,
                     'sizePage': this.apiMsgPage.sizePage,
                 }).then((response) => {
+                        console.log(1111111,response.data)
                         if (this.messageShow(this, response)) {
                             this.ApiMsgTableData = response.data['data'];
                             this.apiMsgPage.total = response.data['total'];
@@ -412,9 +419,14 @@
             runApi(apiMsgId,udid) {
                 //  测试
                 this.loading = true;
-                this.$axios.post(this.$api.runUIcaseApi, {'id': apiMsgId,'udid':udid}).then((response) => {
+                this.$axios.post(this.$api.runUIcaseApi, {
+                    'id': apiMsgId,
+                    'udid':udid
+                }).then((response) => {
                     this.loading = false;
                     this.messageShow(this, response);
+                    console.log(1111,apiMsgId);
+                    console.log(2222,udid);
                     
                 })
             },
@@ -558,16 +570,17 @@
                 )
             },
             //调取设备接口
-            getDevices(){
+            getDevices(caseId){
+                localStorage.popupId = caseId;
                 this.dialogTableVisible = !this.dialogTableVisible;
-                console.log(this.form.platformId);
-
                 this.$axios.post(this.$api.getDevices,{
                         platform: this.form.platformId,
                         is_free: true
                     }).then(({data})=>{
                         console.log(data.data);
-                        this.deviceData = data.data;
+                        // this.deviceData = data.data;
+                        this.deviceData.push(...data.data);
+                        console.log("deviceData",this.deviceData);
                 })
             }
 
