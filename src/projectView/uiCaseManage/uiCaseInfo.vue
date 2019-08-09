@@ -217,7 +217,7 @@
                     <template slot-scope="scopeTwo">
                     <!-- 此处有问题，有待调试 -->
                         <el-button type="primary" size="small"
-                            @click.native="runApi(ApiMsgTableData[scopeTwo.$index]['id'],deviceData[scopeTwo.$index].device)"
+                            @click.native="runApi(ApiMsgTableData[0]['id'],deviceData[scopeTwo.$index].device)"
                         >运行</el-button>
                     </template>
                 </el-table-column>
@@ -257,13 +257,13 @@
                 dialogTableVisible: false,//控制运行按钮弹出层的显示隐藏
                 //数据列表,假数据
                 deviceData: [{
-                        device: '1111',
-                        name: 'MI 8',
-                    },
-                    {
-                        device: '2222',
-                        name: 'Huawei p20',
-                    }],
+                    device: '1111',
+                    name: 'MI 8',
+                },
+                {
+                    device: '2222',
+                    name: 'Huawei p20',
+                }],
 
                 proModelData: '',
                 proAndIdData: '',
@@ -418,6 +418,7 @@
             },
             runApi(apiMsgId,udid) {
                 //  测试
+                this.dialogTableVisible = !this.dialogTableVisible;
                 this.loading = true;
                 this.$axios.post(this.$api.runUIcaseApi, {
                     'id': apiMsgId,
@@ -571,15 +572,14 @@
             },
             //调取设备接口
             getDevices(caseId){
-                localStorage.popupId = caseId;
+                localStorage.caseId = caseId;
                 this.dialogTableVisible = !this.dialogTableVisible;
                 this.$axios.post(this.$api.getDevices,{
                         platform: this.form.platformId,
                         is_free: true
                     }).then(({data})=>{
-                        console.log(data.data);
-                        // this.deviceData = data.data;
-                        this.deviceData.push(...data.data);
+                        // this.deviceData = data.data;//替换--重新赋值
+                        this.deviceData.push(...data.data);//拼接
                         console.log("deviceData",this.deviceData);
                 })
             }
