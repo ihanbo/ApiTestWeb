@@ -7,7 +7,7 @@
 
                 <el-tab-pane label="基础信息" name="second" style="margin-top: 10px">
                         <el-form :inline="true"  size="small" >
-                            <el-form-item label="项目名称">
+                            <el-form-item :required="true" label="项目名称">
                                 <el-select v-model="configData.projectName" placeholder="请选择项目" size="small">
                                     <el-option
                                             v-for="(item, key) in proModelData"
@@ -16,7 +16,7 @@
                                     </el-option>
                                 </el-select>
                             </el-form-item>
-                            <el-form-item required="true" label="配置名称">
+                            <el-form-item :required="true" label="配置名称">
                                 <el-input v-model="configData.name" size="small">
                                 </el-input>
                             </el-form-item>
@@ -115,7 +115,7 @@
                 this.configData.variable.splice(i, 1);
             },
             addSceneConfig() {
-                if(!this.configData.name){
+                if(!this.configData.name.replace(/(^\s*)|(\s*$)/g, "")){
                     this.$message({
                         showClose:true,
                         message: '请填写配置名称',

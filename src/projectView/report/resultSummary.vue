@@ -24,16 +24,25 @@
                 <el-table :data="tableData"
                           max-height="748"
                           stripe>
-
                     <el-table-column
-                            prop="reportId"
-                            label="报告id"
-                            minWidth="70">
+                            type="index"
+                            label="序号"
+                            minWidth="50">
                     </el-table-column>
+                    <el-table-column
+                            prop="projetName"
+                            label="所属项目"
+                            minWidth="100">
+                    </el-table-column>
+<!--                    <el-table-column-->
+<!--                            prop="reportId"-->
+<!--                            label="报告id"-->
+<!--                            minWidth="70">-->
+<!--                    </el-table-column>-->
 
                     <el-table-column
                             :show-overflow-tooltip=true
-                            minWidth="200"
+                            minWidth="170"
                             prop="startDatetime"
                             label="执行时间"
                     >
@@ -48,38 +57,38 @@
                     <el-table-column
                             prop="caseTotal"
                             label="case总数"
-                            minWidth="100">
+                            minWidth="80">
                     </el-table-column>
                     <el-table-column
                             prop="caseSuccess"
                             label="case成功数"
                             minWidth="100">
                     </el-table-column>
-                    <el-table-column
-                            prop="caseFail"
-                            label="case失败数"
-                            minWidth="100">
-                    </el-table-column>
+<!--                    <el-table-column-->
+<!--                            prop="caseFail"-->
+<!--                            label="case失败数"-->
+<!--                            minWidth="100">-->
+<!--                    </el-table-column>-->
                     <el-table-column
                             prop="stepSuccessRate"
                             label="api通过率"
-                            minWidth="100">
+                            minWidth="90">
                     </el-table-column>
                     <el-table-column
                             prop="stepTotal"
                             label="api总数"
-                            minWidth="100">
+                            minWidth="70">
                     </el-table-column>
                     <el-table-column
                             prop="stepSuccesses"
                             label="api成功数"
-                            minWidth="100">
+                            minWidth="90">
                     </el-table-column>
-                    <el-table-column
-                            prop="projetName"
-                            label="所属项目"
-                            minWidth="100">
-                    </el-table-column>
+<!--                    <el-table-column-->
+<!--                            prop="projetName"-->
+<!--                            label="所属项目"-->
+<!--                            minWidth="100">-->
+<!--                    </el-table-column>-->
                     <el-table-column
                             label="操作"
                             width="200">
@@ -120,7 +129,7 @@
                 tableData: [],
                 total: 1,
                 currentPage: 1,
-                sizePage: 20,
+                sizePage: 10,
                 form: {
                     projectName: '',
                     gathers: [],

@@ -10,7 +10,7 @@
             <el-tabs value="first" @tab-click="changeShow">
                 <el-tab-pane label="用例信息" name="first" style="margin-top: 10px">
                     <el-form size="small" :inline="true">
-                        <el-form-item required="true" label="用例名称" :label-width="caseData.formLabelWidth">
+                        <el-form-item :required="true" label="用例名称" :label-width="caseData.formLabelWidth">
                             <el-input v-model="caseData.name" style="width: 150px">
                             </el-input>
                         </el-form-item>
@@ -661,6 +661,14 @@
                     this.$message({
                         showClose: true,
                         message: '请添加接口信息到执行步骤',
+                        type: 'warning',
+                    });
+                    return
+                }
+                if(!this.caseData.name.replace(/(^\s*)|(\s*$)/g, "")){
+                    this.$message({
+                        showClose: true,
+                        message: '用例名字不能为空',
                         type: 'warning',
                     });
                     return

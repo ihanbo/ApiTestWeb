@@ -1,9 +1,9 @@
 <template>
     <div class="importApi">
 
-        <el-dialog title="接口信息导入" :visible.sync="importApiData.importApiStatus" width="30%">
+        <el-dialog title="接口信息导入" :visible.sync="importApiData.importApiStatus" width="45%">
             <el-form>
-                <el-form-item label="请选择导入格式">
+                <el-form-item :required="true" label="请选择导入格式">
                     <el-radio-group v-model="importApiData.importFormat">
                         <el-radio label="HAR"></el-radio>
                         <el-radio label="postman(JSON)"></el-radio>
@@ -13,7 +13,7 @@
             </el-form>
             <el-form :inline="true" class="demo-form-inline">
                 <el-form-item label="文件地址">
-                    <el-input v-model="importApiData.importApiAddress" size="medium" :disabled="true">
+                    <el-input v-model="importApiData.importApiAddress" style="width:380px" size="medium" :disabled="true">
                     </el-input>
                 </el-form-item>
                 <el-form-item>
