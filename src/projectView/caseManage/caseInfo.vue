@@ -78,9 +78,9 @@
                                        @click.native="delCaseSet(setDataList[scope.$index]['id'],setDataList[scope.$index]['label'])">
                                 删除
                             </el-button>
-                            <el-button type="primary" icon="el-icon-edit" size="mini"
-                                       @click.native="editCaseSet(setDataList[scope.$index]['id'],setDataList[scope.$index]['label'])">编辑
-                            </el-button>
+<!--                            <el-button type="primary" icon="el-icon-edit" size="mini"-->
+<!--                                       @click.native="editCaseSet(setDataList[scope.$index]['id'],setDataList[scope.$index]['label'])">编辑-->
+<!--                            </el-button>-->
                             <el-button type="primary" icon="el-icon-s-operation" size="mini"
                                        @click.native="viewCaseSet(setDataList[scope.$index]['id'],setDataList[scope.$index]['label'])"
                                         >添加用例信息
@@ -211,6 +211,16 @@
                     </el-col>
                 </el-row>
                 -->
+                <div class="pagination">
+                    <el-pagination
+                            @current-change="handleSetCurrentChange"
+                            @size-change="handleSetSizeChange"
+                            :current-page="currentPage"
+                            :page-size="sizePage"
+                            layout="total, sizes, prev, pager, next, jumper"
+                            :total="this.total">
+                    </el-pagination>
+                </div>
             </el-tab-pane>
         </el-tabs>
         <setEdit
@@ -287,6 +297,8 @@
                 }],
                 configData: '',
                 type: 0,
+                currentPage:1,
+                sizePage: 10,
                 caseAll: [],  //  页面table的表格数据
                 casePage: {
                     total: 1,
@@ -466,19 +478,19 @@
             },
             initProjectChoice() {
                 //  当项目选择项改变时，初始化模块和配置的数据
-                this.setPage.currentPage = 1;
-                this.casePage.currentPage = 1;
+                this.currentPage = 1;
+                this.currentPage = 1;
                 this.findSet()
             },
             findSet() {
                 this.$axios.post(this.$api.findCaseSetApi, {
                     'projectName': this.form.projectName,
-                    'page': this.setPage.currentPage,
-                    'sizePage': this.setPage.sizePage,
+                    'page': this.currentPage,
+                    'sizePage': this.sizePage,
                 }).then((response) => {
                         this.setDataList = response.data['data'];
                         this.allSetList[this.form.projectName] = response.data['all_set'];
-                        this.setPage.total = response.data['total'];
+                        this.total = response.data['total'];
                         if (this.setDataList[0]) {
                             this.setTempData.setId = this.setDataList[0]['id'];
                             this.setTempData.name = this.setDataList[0]['label'];
@@ -497,10 +509,16 @@
             },
             handleCaseSizeChange(val) {
                 this.casePage.sizePage = val;
-                this.findCase()
+                // this.findCase()
+                this.findSet()
             },
             handleSetCurrentChange(val) {
-                this.setPage.currentPage = val;
+                this.currentPage = val;
+                this.findSet()
+            },
+            handleSetSizeChange(val) {
+                this.sizePage = val;
+                // this.findCase()
                 this.findSet()
             },
             delCase(caseId) {

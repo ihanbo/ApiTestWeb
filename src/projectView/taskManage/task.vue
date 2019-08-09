@@ -1,5 +1,5 @@
 <template>
-    <div class="modeManage">
+    <div class="modeManage" v-loading="this.loading">
 
         <el-form :inline="true" class="demo-form-inline search-style" size="small">
             <el-form-item label="项目" labelWidth="80px">
@@ -109,7 +109,7 @@
 
         <el-dialog title="任务配置" :visible.sync="taskData.modelFormVisible" width="42%">
             <el-tabs>
-                <el-tab-pane label="messages" style="margin-top: 10px">
+                <el-tab-pane label="任务信息" style="margin-top: 10px">
                     <el-form>
 
                         <!--<el-form-item label="执行类别" :label-width="taskData.formLabelWidth">-->
@@ -118,7 +118,7 @@
                         <!--</el-option>-->
                         <!--</el-select>-->
                         <!--</el-form-item>-->
-                        <el-form-item label="执行选择" :label-width="taskData.formLabelWidth">
+                        <el-form-item :required="true" label="执行选择" :label-width="taskData.formLabelWidth">
                             <el-select v-model="form.projectName" placeholder="选择项目"
                                        style="width: 150px;padding-right:5px"
                                        @change="changeProjectChoice">
@@ -152,7 +152,7 @@
                             </el-select>
 
                         </el-form-item>
-                        <el-form-item required="true" label="任务名称" :label-width="taskData.formLabelWidth">
+                        <el-form-item :required="true" label="任务名称" :label-width="taskData.formLabelWidth">
                             <el-input v-model="taskData.name" auto-complete="off">
                             </el-input>
                         </el-form-item>
@@ -170,7 +170,7 @@
                             </el-input>
                         </el-form-item>
 
-                        <el-form-item required="true"label="时间配置" :label-width="taskData.formLabelWidth">
+                        <el-form-item :required="true"label="时间配置" :label-width="taskData.formLabelWidth">
                             <template>
                                 <el-select v-model="taskData.timeConfig"
                                            style="width: 240px;padding-right:5px"
@@ -216,6 +216,7 @@
                 proModelData: '',
                 runStatus: false,
                 caseStatus: false,
+                loading:false,
                 allSetList: '',
                 allSceneList: '',
                 tableData: [],
@@ -231,7 +232,7 @@
                 }],
                 total: 1,
                 currentPage: 1,
-                sizePage: 20,
+                sizePage: 10,
                 form: {
                     set: {
                         label: null,
@@ -350,7 +351,7 @@
 
             },
             addTask() {
-                if(!this.taskData.name){
+                if(!this.taskData.name.replace(/(^\s*)|(\s*$)/g, "")){
                     this.$message({
                         showClose: true,
                         message: '请填写任务名称',
@@ -452,7 +453,7 @@
                 )
             },
             runNow(id) {
-                this.runStatus = true;
+                this.loading = true;
                 this.$axios.post(this.$api.runTaskApi, {'id': id}).then((response) => {
                         if (this.messageShow(this, response)) {
                             this.findTask();
@@ -462,7 +463,7 @@
                             });
                             window.open(href, '_blank');
                         }
-                        this.runStatus = false;
+                        this.loading = false;
                     }
                 )
             },

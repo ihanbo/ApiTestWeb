@@ -58,9 +58,9 @@
                             <el-button type="primary" icon="el-icon-s-tools" size="mini"  v-if="false"
                                        @click.native="runModule(tableData[scope.$index]['moduleId'])">运行
                             </el-button>
-                            <el-button type="primary" icon="el-icon-edit" size="mini"
-                                       @click.native="editModule(tableData[scope.$index]['moduleId'],tableData[scope.$index]['name'])">编辑
-                            </el-button>
+<!--                            <el-button type="primary" icon="el-icon-edit" size="mini"-->
+<!--                                       @click.native="editModule(tableData[scope.$index]['moduleId'],tableData[scope.$index]['name'])">编辑-->
+<!--                            </el-button>-->
                             <el-button type="danger" icon="el-icon-delete" size="mini"
                                        @click.native="sureView(delModule,tableData[scope.$index]['moduleId'],tableData[scope.$index]['name'])">
                                 删除
@@ -91,7 +91,7 @@
 <!--        模块名称编辑-->
         <el-dialog title="接口分类配置" :visible.sync="moduleData.viewStatus" width="30%">
             <el-form>
-                <el-form-item required="true" label="接口分类名称" label-width="110px">
+                <el-form-item :required="true" label="接口分类名称" label-width="110px">
                     <el-input v-model="moduleData.name">
                     </el-input>
                 </el-form-item>
@@ -142,13 +142,13 @@
                 }],
                 // tableData: Array(),
                 tableData: [],
-                total: 1,
                 funcAddress: '',
                 userData: [],
                 proAndIdData: '',
                 loading: false,
+                total: 1,
                 currentPage: 1,
-                sizePage: 20,
+                sizePage: 10,
                 form: {
                     projectName: null,
                     projectId: null,
@@ -309,7 +309,7 @@
                             this.proAndIdData = response.data['data'];
                             this.form.projectName = this.proAndIdData[0].name;
                             this.form.projectId = this.proAndIdData[0].id;
-                            this.total = response.data['total'];
+                            // this.total = response.data['total'];
                             this.userData = response.data['userData'];
                             this.findModule();
                         }
@@ -348,8 +348,8 @@
             findSet() {
                 this.$axios.post(this.$api.findCaseSetApi, {
                     'projectName': this.form.projectName,
-                    'page': this.setPage.currentPage,
-                    'sizePage': this.setPage.sizePage,
+                    'page': this.currentPage,
+                    'sizePage': this.sizePage,
                 }).then((response) => {
                         this.setDataList = response.data['data'];
                         this.allSetList[this.form.projectName] = response.data['all_set'];

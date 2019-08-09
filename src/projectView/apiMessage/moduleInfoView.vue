@@ -92,13 +92,14 @@
                 <el-pagination
                         @current-change="handleCurrentChange"
                         @size-change="handleSizeChange"
-                        :current-page="apiMsgPage.currentPage"
-                        :page-size="apiMsgPage.sizePage"
+                        :current-page="currentPage"
+                        :page-size="sizePage"
                         layout="total, sizes, prev, pager, next, jumper"
-                        :total="apiMsgPage.total">
+                        :total="this.total">
+                    <!--                        :current-page="apiMsgPage.currentPage"-->
+                    <!--                        :page-size="apiMsgPage.sizePage"-->
                 </el-pagination>
             </div>
-
 
             </el-tab-pane>
             <el-tab-pane label="接口配置" name="second" v-if="apiEditViewStatus"
@@ -174,20 +175,23 @@
                 apiMsgList: Array(),//  临时存储接口数据
                 funcAddress: null,
                 moduleDataList: [],
+                total:1,
+                currentPage: 1,
+                sizePage: 10,
                 defaultProps: {
                     children: 'children',
                     label: 'name'
                 },
-                apiMsgPage: {
-                    total: 1,
-                    currentPage: 1,
-                    sizePage: 20,
-                },
-                modulePage: {
-                    total: 1,
-                    currentPage: 1,
-                    sizePage: 30,
-                },
+                // apiMsgPage: {
+                //     total: 1,
+                //     currentPage: 1,
+                //     sizePage: 10,
+                // },
+                // modulePage: {
+                //     total: 1,
+                //     currentPage: 1,
+                //     sizePage: 10,
+                // },
                 moduleData: {
                     viewStatus: false,
                     id: '',
@@ -264,11 +268,13 @@
             //     }
             // },
             handleCurrentChange(val) {
-                this.apiMsgPage.currentPage = val;
+                // this.apiMsgPage.currentPage = val;
+                this.currentPage = val;
                 this.findApiMsg();
             },
             handleSizeChange(val) {
-                this.apiMsgPage.sizePage = val;
+                // this.apiMsgPage.sizePage = val;
+                this.sizePage = val;
                 this.findApiMsg();
 
             },
@@ -287,12 +293,12 @@
                     'apiName': this.form.apiName,
                     'projectName': this.form.projectName,
                     'moduleId': this.form.module.moduleId,
-                    'page': this.apiMsgPage.currentPage,
-                    'sizePage': this.apiMsgPage.sizePage,
+                    'page': this.currentPage,
+                    'sizePage': this.sizePage,
                 }).then((response) => {
                         if (this.messageShow(this, response)) {
                             this.ApiMsgTableData = response.data['data'];
-                            this.apiMsgPage.total = response.data['total'];
+                            this.total = response.data['total'];
                         }
                     }
                 )
