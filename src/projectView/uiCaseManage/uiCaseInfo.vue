@@ -214,6 +214,7 @@
                 <el-table-column property="device" label="设备ID" width="150"></el-table-column>
                 <el-table-column property="name" label="设备名称" width="200"></el-table-column>
                 <el-table-column label="运行">
+                    <!-- 此处有问题，有待调试 -->
                     <el-button type="primary" size="small"
                         @click.native="runApi(1)"
                     >运行</el-button>
@@ -266,11 +267,6 @@
                 apiMsgList: Array(),//  临时存储接口数据
                 funcAddress: null,
                 moduleDataList: [],
-
-                //运行弹出层的信息渲染
-                deviceId: '',
-                deviceName: '',
-
                 defaultProps: {
                     children: 'children',
                     label: 'name'
@@ -569,9 +565,9 @@
                 this.$axios.post(this.$api.getDevices,{
                         platform: this.form.platformId,
                         is_free: true
-                    }).then((response)=>{
-                        console.log(response.data.data);
-                        this.deviceData=response.data.data;
+                    }).then(({data})=>{
+                        console.log(data.data);
+                        this.deviceData = data.data;
                 })
             }
 

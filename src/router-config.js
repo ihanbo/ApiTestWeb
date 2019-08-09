@@ -14,6 +14,8 @@ import platformManage from './projectView/project/platform.vue'
 import reportManage from './projectView/report/report.vue'
 import reportUiManage from './projectView/report/report_ui.vue'
 import reportShow from './projectView/report/reportShow.vue'
+import uiTestReport from './projectView/report/uiTestReport.vue'
+import uiReportHeader from './projectView/report/uiReportHeader'
 import resultSummary from './projectView/report/resultSummary.vue'
 import resultDetail from './projectView/report/resultDetail.vue'
 import resultCaseSet from './projectView/report/resultCaseSet.vue'
@@ -178,7 +180,18 @@ const routes = [
                     Header: reportHeader,
                     Manage: reportShow,
                 }
-            },{
+            },
+            {
+                path: 'uiTestReport',
+                meta: {
+                    requireAuth: true,
+                },
+                components: {
+                    Header: uiReportHeader,
+                    Manage: uiTestReport,
+                }
+            },
+            {
                 path: 'resultSummary',
                 meta: {
                     requireAuth: true,

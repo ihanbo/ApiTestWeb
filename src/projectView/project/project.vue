@@ -481,6 +481,8 @@
                 //查询报告id
                 let {href} = this.$router.resolve({path: 'reportShow', query: {reportId: reportId}});
                         window.open(href, '_blank');
+                console.log(href)
+
                 // this.$axios.post(this.$api.findProjectReportApi, {'id': id,'projectName':projectName}).then((response) => {
                 //     if (response.data['data']){
                 //         this.reportId = response.data['data'];
