@@ -136,7 +136,7 @@
 
                                     <!-- @click.native="runApi(ApiMsgTableData[scope.$index]['id'],'copy')" -->
                                     <el-button type="primary" icon="el-icon-run" size="mini" ref="runBtn" 
-                                               @click.native="getDevices(ApiMsgTableData[scope.$index]['id'])">
+                                               @click.native="getDevices(scope.row)">
                                         运行
                                     </el-button>
                                 </template>
@@ -217,7 +217,7 @@
                     <template slot-scope="scopeTwo">
                     <!-- 此处有问题，有待调试 -->
                         <el-button type="primary" size="small"
-                            @click.native="runApi(ApiMsgTableData[0]['id'],deviceData[scopeTwo.$index].device)"
+                                   @click.native="runApi(scopeTwo.row)"
                         >运行</el-button>
                     </template>
                 </el-table-column>
@@ -265,6 +265,7 @@
                     name: 'Huawei p20',
                 }],
 
+                popup_case_id:null,
                 proModelData: '',
                 proAndIdData: '',
                 configData: '',
@@ -416,13 +417,14 @@
                     this.$refs.apiFunc.editCopyApiMsg(apiMsgId, status);
                 }, 0)
             },
-            runApi(apiMsgId,udid) {
+            runApi(row) {
                 //  测试
                 this.dialogTableVisible = !this.dialogTableVisible;
                 this.loading = true;
                 this.$axios.post(this.$api.runUIcaseApi, {
-                    'id': apiMsgId,
-                    'udid':udid
+                    'id': this.popup_case_id,
+                    'udid':row.device,
+                    'device_name':row.name,
                 }).then((response) => {
                     this.loading = false;
                     this.messageShow(this, response);
@@ -571,15 +573,16 @@
                 )
             },
             //调取设备接口
-            getDevices(caseId){
-                localStorage.caseId = caseId;
+            getDevices(row){
+                localStorage.caseId = row.id;
+                this.popup_case_id = row.id;
                 this.dialogTableVisible = !this.dialogTableVisible;
                 this.$axios.post(this.$api.getDevices,{
                         platform: this.form.platformId,
                         is_free: true
                     }).then(({data})=>{
-                        // this.deviceData = data.data;//替换--重新赋值
-                        this.deviceData.push(...data.data);//拼接
+                        this.deviceData = data.data;//替换--重新赋值
+                        // this.deviceData.push(...data.data);//拼接
                         console.log("deviceData",this.deviceData);
                 })
             }
