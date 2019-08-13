@@ -122,6 +122,15 @@ const findUiReportApi = baseUrl+'report/find_ui';
 const seeUiReportApi = baseUrl+'report/see_ui_report';
 const delUiReportApi = baseUrl+'report/del_ui';
 
+//ui用例集
+const editUIcaseSetApi = baseUrl+'uicase_set/editAndCopy';
+const delUIcaseSetApi = baseUrl+'uicase_set/delete';
+const runUIcaseSetApi = baseUrl+'uicases_set/run_caseset';
+const findUIcaseSetApi = baseUrl+'uicase_set/list';
+const addUIcaseSetApi = baseUrl+'uicase_set/add';
+const delCaseInCasesetApi = baseUrl+'uicase_set/delCase';
+
+
 
 
 
@@ -247,4 +256,11 @@ export default {
     findUiReportApi,
     seeUiReportApi,
     delUiReportApi,
+
+    editUIcaseSetApi,   //编辑用例集，id
+    delUIcaseSetApi,    //删除用例集，id
+    runUIcaseSetApi ,   //运行用例集，id
+    findUIcaseSetApi,   //查找,projectName:项目名 caseSetName:用例名（可选参数） platform：平台
+    addUIcaseSetApi ,   //添加用例集，project_name：项目名，caseSetId：编辑时有 	，caseSetName：名称，英文 ，caseSetDesc：描述，中文 ，platform：平台1 or 2 ，steps：case列表（每一行id=xxx）
+    delCaseInCasesetApi,//删除用例集中的case，id：id
 }
