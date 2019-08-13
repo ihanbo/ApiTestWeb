@@ -1,7 +1,7 @@
 <template>
     <div class="uiCaseManager" v-loading="this.loading">
-
         <el-form :inline="true" class="demo-form-inline search-style" size="small">
+            <!-- 选择项目 开始 -->
             <el-form-item label="项目" labelWidth="80px">
                 <el-select v-model="form.projectName"
                            placeholder="请选择项目"
@@ -15,7 +15,9 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-
+            <!-- 选择项目 结束 -->
+            
+            <!-- 选择平台 开始 -->
             <el-form-item label="应用平台" v-if="numTab !== 'third'">
                 <el-select v-model="form.platformId"
                            placeholder="请选择平台"
@@ -31,22 +33,29 @@
                     </el-option>
                 </el-select>
             </el-form-item>
+            <!-- 选择平台 结束 -->
 
-            <el-form-item label="case名称" v-if="numTab !== 'third'">
+            <!-- 输入case名称 开始 -->
+            <!-- <el-form-item label="case名称" v-if="numTab !== 'third'">
                 <el-input placeholder="请输入" v-model="form.caseName" clearable style="width: 150px">
                 </el-input>
-            </el-form-item>
+            </el-form-item> -->
+            <!-- 输入case名称 结束 -->
 
+            <!-- 搜索、录入信息、批量导入三按钮 -->
             <el-form-item>
                 <el-button type="primary" icon="el-icon-search" @click.native="handleCurrentChange(1)">搜索</el-button>
                 <el-button type="primary" @click.native="initData()">录入信息</el-button>
                 <el-button type="primary" @click.native="$refs.importApiFunc.initData()">批量导入</el-button>
             </el-form-item>
+            <!-- 搜索、录入信息、批量导入三按钮 -->
         </el-form>
+
         <el-tabs v-model="numTab" class="table_padding" @tab-click="tabChange">
-            <el-tab-pane label="case信息" name="first">
+            <el-tab-pane label="case用例集" name="first">
                 <el-row>
-                    <el-col :span="3"
+                    <!-- case信息左侧操作模块 -->
+                    <!-- <el-col :span="3"
                             style="border:1px solid;border-color: #ffffff rgb(234, 234, 234) #ffffff #ffffff;">
                         <el-row>
                             <el-col style="border:1px solid;border-color: #ffffff #ffffff rgb(234, 234, 234) #ffffff;padding:2px">
@@ -87,8 +96,10 @@
                                     :total="modulePage.total">
                             </el-pagination>
                         </el-row>
-                    </el-col>
+                    </el-col> -->
+                    <!-- case信息左侧操作模块 -->
 
+                    <!-- case信息右侧展示模块 -->
                     <el-col :span="21" style="padding-left: 5px;">
                         <el-table
                                 ref="apiMultipleTable"
@@ -109,13 +120,13 @@
                             <el-table-column
                                     :show-overflow-tooltip=true
                                     prop="name"
-                                    label="case名称"
+                                    label="case用例名称"
                                     width="200">
                             </el-table-column>
                             <el-table-column
                                     :show-overflow-tooltip=true
                                     prop="desc"
-                                    label="case描述">
+                                    label="case用例描述">
                             </el-table-column>
                             <el-table-column
                                     label="操作"
@@ -127,13 +138,12 @@
                                     </el-button>
                                     <el-button type="primary" icon="el-icon-tickets" size="mini"
                                                @click.native="editCopyApi(ApiMsgTableData[scope.$index]['id'],'copy')">
-                                        复制
+                                        添加
                                     </el-button>
                                     <el-button type="danger" icon="el-icon-delete" size="mini"
                                                @click.native="sureView(delApi,ApiMsgTableData[scope.$index]['id'],ApiMsgTableData[scope.$index]['name'])">
                                         删除
                                     </el-button>
-
                                     <!-- @click.native="runApi(ApiMsgTableData[scope.$index]['id'],'copy')" -->
                                     <el-button type="primary" icon="el-icon-run" size="mini" ref="runBtn" 
                                                @click.native="getDevices(ApiMsgTableData[scope.$index]['id'])">
@@ -157,9 +167,10 @@
                             </el-pagination>
                         </div>
                     </el-col>
+                    <!-- case信息右侧展示模块 -->
                 </el-row>
-
             </el-tab-pane>
+
             <el-tab-pane label="编辑" name="second" v-if="apiEditViewStatus"
                          style="background-color: rgb(250, 250, 250);min-height: 780px">
                 <apiEdit
@@ -215,7 +226,7 @@
                 <el-table-column property="name" label="设备名称" width="200"></el-table-column>
                 <el-table-column label="运行">
                     <template slot-scope="scopeTwo">
-                    <!-- 此处有问题，有待调试 -->
+                        <!-- 此处有问题，有待调试 -->
                         <el-button type="primary" size="small"
                             @click.native="runApi(ApiMsgTableData[0]['id'],deviceData[scopeTwo.$index].device)"
                         >运行</el-button>
@@ -264,7 +275,7 @@
                 proUrlData: null,
                 ApiMsgTableData: Array(),//  接口表单数据
                 apiMsgList: Array(),//  临时存储接口数据
-                funcAddress: null,
+                funcAddress: [],
                 moduleDataList: [],
                 defaultProps: {
                     children: 'children',
@@ -307,26 +318,31 @@
         methods: {
             initBaseData() {
                 //  初始化页面所需要的数据
-                this.$axios.get(this.$api.baseUIDataApi).then((response) => {
+                //this.$api.baseUIDataApi
+                this.$axios.get(this.$api.baseUIDataApi)
+                    .then((response) => {
+                        console.log(11111111,response)
+
                         this.proModelData = response.data['data'];
                         this.proAndIdData = response.data['pro_and_id'];
                         if (response.data['user_pro']) {
                             this.form.projectName = response.data['user_pro']['pro_name'];
-                            this.findModule()
+                            this.findModule();
                         }
-                        this.$axios.post(this.$api.getFuncAddressApi).then((response) => {
-                                this.funcAddress = response['data']['data'];
-                            }
-                        )
-
                     }
                 )
                 this.$axios.get(this.$api.findPlatformApi).then((response) => {
                         this.platformData = response.data['data'];
-                        this.form.platformId =  this.platformData[0]['id']
+                        this.form.platformId =  this.platformData[0]['id'];
+                        console.log(43434343,this.platformData);
                     }
                 )
-
+                // this.$axios.get(this.$api.findUIcaseApi,{
+                //     projectName: "易车app",
+                //     platform: "Android"
+                // }).then((response)=>{
+                //     console.log(12121212,response);
+                // })
             },
             moduleCommand(command) {
                 //  模块处理函数，根据命令执行不同操作
@@ -350,8 +366,8 @@
 
             },
 
+            //  查询用例信息
             findCases() {
-                //  查询用例信息
                 if (this.form.module === null) {
                     this.$message({
                         showClose: true,
@@ -384,8 +400,8 @@
                     }
                 )
             },
+            //  初始化数据并进入编辑tab
             initData() {
-                //  初始化数据并进入编辑tab
                 if (!this.form.module) {
                     this.$message({
                         showClose: true,
@@ -400,13 +416,15 @@
                     this.$refs.apiFunc.initApiMsgData();
                 }, 0)
             },
-
+            
+            
+            //  编辑或者复制信息
             editCopyApi(apiMsgId, status) {
-                //  编辑或者复制信息
                 this.apiEditViewStatus = true;
                 this.numTab = 'second';
                 setTimeout(() => {
                     this.$refs.apiFunc.editCopyApiMsg(apiMsgId, status);
+                    console.log(33333,apiMsgId);
                 }, 0)
             },
             runApi(apiMsgId,udid) {
@@ -474,14 +492,13 @@
                             this.modulePage.total = response.data['total'];
                             this.form.module = this.moduleDataList[0];
                             if (this.form.module) {
-                                this.$nextTick(function () {
-                                    this.$refs.testTree.setCurrentKey(this.form.module.moduleId);  //"vuetree"是你自己在树形控件上设置的 ref="vuetree" 的名称
-                                });
+                                // this.$nextTick(function () {
+                                //     this.$refs.testTree.setCurrentKey(this.form.module.moduleId);  //"vuetree"是你自己在树形控件上设置的 ref="vuetree" 的名称
+                                // });
                                 this.findCases();
                             } else {
                                 this.ApiMsgTableData = []
                             }
-
                         }
                     }
                 )
@@ -576,7 +593,6 @@
                         console.log("deviceData",this.deviceData);
                 })
             }
-
         },
         mounted() {
             this.initBaseData();
@@ -584,7 +600,6 @@
     }
 </script>
 <style scoped>
-
     .cm-s-default .cm-property {
         color: rgb(183, 40, 135);
         /*color: rgb(137, 21, 99);*/

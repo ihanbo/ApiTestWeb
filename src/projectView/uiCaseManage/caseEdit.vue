@@ -412,9 +412,12 @@ export default {
         });
     },
     editCopyApiMsg(apiMsgId, status) {
+      //
       this.$axios
         .post(this.$api.editUIcaseApi, { id: apiMsgId })
         .then(response => {
+          console.log(2222222,response);
+          console.log(44444,apiMsgId);
           this.caseData.name = response.data["data"]["name"];
           this.caseData.desc = response.data["data"]["desc"];
           this.caseData.steps = response.data["data"]["steps"];

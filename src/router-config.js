@@ -8,6 +8,7 @@ import caseManage from './projectView/apiMessage/apiMsg.vue'
 import moduleInfo from './projectView/moduleManage/module.vue'
 import uiCaseStepManager from './projectView/uiCaseStepManage/uiCaseStepInfo.vue'
 import uiCaseManager from './projectView/uiCaseManage/uiCaseInfo.vue'
+import uiCaseGather from './projectView/uiCaseManage/uiCaseGather.vue'//用例集
 import manage from './projectView/manage.vue'
 import projectManage from './projectView/project/project.vue'
 import platformManage from './projectView/project/platform.vue'
@@ -147,6 +148,16 @@ const routes = [
                 components: {
                     Header: Header,
                     Manage: uiCaseManager,
+                }
+            },
+            {
+                path: 'uiCaseGather',//用例集路由
+                meta: {
+                    requireAuth: true,
+                },
+                components: {
+                    Header: Header,
+                    Manage: uiCaseGather,
                 }
             },
             {
