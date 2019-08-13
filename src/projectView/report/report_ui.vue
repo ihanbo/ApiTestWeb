@@ -182,14 +182,14 @@
             check(report_id) {
 
                 let {href} = this.$router.resolve({path: 'uiTestReport', query: {report_id: report_id}});
-                        window.open(href, '_blank');
+                window.open(href, '_blank');
                 console.log(report_id);
             
                 this.$axios.post(this.$api.seeUiReportApi, {
                     'report_id': report_id
                     }).then(({data}) => {
                         // this.messageShow(this, response);
-                        console.log(data);
+                        console.log(data.msg);
                     }
                 )
                 

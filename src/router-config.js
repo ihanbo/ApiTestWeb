@@ -14,7 +14,7 @@ import platformManage from './projectView/project/platform.vue'
 import reportManage from './projectView/report/report.vue'
 import reportUiManage from './projectView/report/report_ui.vue'
 import reportShow from './projectView/report/reportShow.vue'
-import uiTestReport from './projectView/report/uiTestReport.vue'
+import uiTestReport from './projectView/report/uiTestReport.vue'//ui测试报告
 import uiReportHeader from './projectView/report/uiReportHeader'
 import resultSummary from './projectView/report/resultSummary.vue'
 import resultDetail from './projectView/report/resultDetail.vue'
@@ -167,7 +167,7 @@ const routes = [
                 },
                 // component:caseManage,
                 components: {
-                    Header: Header,
+                    Header: uiReportHeader,
                     Manage: reportUiManage,
                 },
             },

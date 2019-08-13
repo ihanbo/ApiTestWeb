@@ -299,6 +299,7 @@
                 type: 0,
                 currentPage:1,
                 sizePage: 10,
+                total: 1,
                 caseAll: [],  //  页面table的表格数据
                 casePage: {
                     total: 1,
