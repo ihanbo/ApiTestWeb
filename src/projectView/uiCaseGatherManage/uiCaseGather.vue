@@ -93,7 +93,7 @@
                             <el-table-column
                                     :show-overflow-tooltip=true
                                     prop="name"
-                                    label="步骤名称"
+                                    label="名称"
                                     width="200">
                             </el-table-column>
                             <el-table-column
@@ -316,14 +316,14 @@
             },
             //  查询用例信息
             findCases(acquireCaseId) {
-                if (this.form.module === null) {
-                    this.$message({
-                        showClose: true,
-                        message: '请选择模块',
-                        type: 'warning',
-                    });
-                    return
-                }
+                // if (this.form.module === null) {
+                //     this.$message({
+                //         showClose: true,
+                //         message: '请选择模块',
+                //         type: 'warning',
+                //     });
+                //     return
+                // }
                 if (this.form.platformId === null) {
                     this.$message({
                         showClose: true,
@@ -339,13 +339,13 @@
                     'moduleId': this.form.module.moduleId,
                     'page': this.apiMsgPage.currentPage,
                     'sizePage': this.apiMsgPage.sizePage,
-                }).then(({data}) => {
+                }).then((response) => {
                     //输入框
                     console.log(1111111,response.data)
-                    if (this.messageShow(this, response)) {
-                        this.ApiMsgTableData = response.data['data'];
-                        this.apiMsgPage.total = response.data['total'];
-                    }
+                    // if (this.messageShow(this, response)) {
+                    //     this.ApiMsgTableData = response.data['data'];
+                    //     this.apiMsgPage.total = response.data['total'];
+                    // }
 
                     // 下拉框
                     // console.log("____1",data.data);

@@ -73,7 +73,7 @@
                                            border-color: #ffffff #ffffff rgb(234, 234, 234) #ffffff;"
           >
             <el-col :span="4">编号</el-col>
-            <el-col :span="8">步骤名称</el-col>
+            <el-col :span="8">用例名称</el-col>
             <el-col :span="5">描述</el-col>
             <el-col :span="4" style="padding-left: 50px;">操作</el-col>
           </el-row>
