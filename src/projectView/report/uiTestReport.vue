@@ -17,7 +17,7 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="12" :offset="6">
-            <p class="grid-content bg-purple">测试时间：{{ item.report_dir.slice(item.report_dir.indexOf("2")) }}</p>
+            <p class="grid-content bg-purple">测试时间：{{ item.test_time }}</p>
           </el-col>
         </el-row>
         <el-row :gutter="20">
@@ -69,7 +69,7 @@
             <!-- 图片结束 -->
             </template>
         </el-table-column>
-        <el-table-column label="详细信息" prop="report_dir"></el-table-column>
+        <el-table-column label="详细信息" prop="test_name"></el-table-column>
       </el-table>
     </div>
 </template>
@@ -88,6 +88,7 @@ export default {
       this.$axios.post(this.$api.seeUiReportApi,{
         "report_id": this.$route.query.report_id
       }).then(({data})=>{
+        console.log(data);
         this.tableData.push(JSON.parse(data.msg));
       })
     }
