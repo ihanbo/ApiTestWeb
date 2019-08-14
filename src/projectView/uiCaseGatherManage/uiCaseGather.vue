@@ -37,7 +37,14 @@
             <!-- 选择平台 结束 -->
 
             <!-- 选择case信息 开始 -->
-           <el-form-item label="case信息" v-if="numTabTwo !== 'third'">
+            <!-- 输入框 -->
+             <el-form-item label="case名称" v-if="numTab !== 'third'">
+                <el-input placeholder="请输入" v-model="form.caseName" clearable style="width: 150px">
+                </el-input>
+            </el-form-item>
+
+            <!-- 下拉框 -->
+           <!-- <el-form-item label="case信息" v-if="numTabTwo !== 'third'">
                 <el-select v-model="form.caseName"
                            placeholder="请选择case信息"
                            clearable
@@ -51,7 +58,7 @@
                             :value="item.id">
                     </el-option>
                 </el-select>
-            </el-form-item>
+            </el-form-item> -->
             <!-- 选择case信息 结束 -->
 
             <!-- 搜索、录入信息、批量导入三按钮 -->
@@ -180,7 +187,7 @@
 <script>
     // import result from './result.vue'
     import importApi from './importCases.vue'
-    import apiEdit from './caseEdit.vue'
+    import apiEdit from '../uiCaseGatherManage/caseEditGather.vue'
     import errorView from '../common/errorView.vue'
     import configEdit from '../config/configEdit.vue'
     import { constants } from 'crypto';
@@ -188,7 +195,7 @@
     // import { runMain } from 'module';
 
     export default {
-        name: "uiCaseManager",
+        name: "uiCaseGatherManager",
         components: {
             // result: result,
             importApi: importApi,
@@ -291,10 +298,10 @@
                 // this.findModule();
                 this.findCases()//调用查询用例信息方法
             },
-            // 用例信息改变时的方法
-            initCaseNameChoice(){
-                this.seekCaseName(this.form.caseName);//调用查询用例集的方法
-            },
+            // // 用例信息改变时的方法
+            // initCaseNameChoice(){
+            //     this.seekCaseName(this.form.caseName);//调用查询用例集的方法
+            // },
 
             //查询应用平台
             findPlatform(){
@@ -333,16 +340,23 @@
                     'page': this.apiMsgPage.currentPage,
                     'sizePage': this.apiMsgPage.sizePage,
                 }).then(({data}) => {
-                    console.log("____1",data.data);
-                        this.caseInfoList = data.data;
-                        this.form.caseName = this.caseInfoList[0];//默认上来有被选中项
-                        console.log("this.form.caseName",this.form.caseName)
-                        acquireCaseId = data.data[0].id;
-                        if(this.form.caseName){
-                            this.seekCaseName(acquireCaseId);
-                        }
+                    //输入框
+                    console.log(1111111,response.data)
+                    if (this.messageShow(this, response)) {
+                        this.ApiMsgTableData = response.data['data'];
+                        this.apiMsgPage.total = response.data['total'];
                     }
-                )
+
+                    // 下拉框
+                    // console.log("____1",data.data);
+                    // this.caseInfoList = data.data;
+                    // this.form.caseName = this.caseInfoList[0];//默认上来有被选中项
+                    // console.log("this.form.caseName",this.form.caseName)
+                    // acquireCaseId = data.data[0].id;
+                    // if(this.form.caseName){
+                    //     this.seekCaseName(acquireCaseId);
+                    // }
+                })
             },
             // 查询用例集
             seekCaseName(acquireCaseId){
@@ -504,6 +518,22 @@
                         }
                     }
                 )
+            },
+            //  初始化数据并进入编辑tab
+            initData() {
+                if (!this.form.module) {
+                    this.$message({
+                        showClose: true,
+                        message: '请先创建业务模块',
+                        type: 'warning',
+                    });
+                    return
+                }
+                this.apiEditViewStatus = true;
+                this.numTab = 'second';
+                setTimeout(() => {
+                    this.$refs.apiFunc.initApiMsgData();
+                }, 0)
             },
             // 当选择项发生变化时会触发该事件
             handleApiMsgSelection(val) {

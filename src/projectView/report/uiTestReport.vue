@@ -47,19 +47,21 @@
               <el-form-item label="测试步骤："></el-form-item>
             </el-form>
             <!-- 详细信息内部简介结束 -->
+
             <!-- 详细信息内部表格开始 -->
-            <el-table :data="tableData" style="box-shadow: none" border>
-              <el-table-column label="步骤">{{ "1、" }}</el-table-column>
-              <el-table-column label="名称">{{ props.row.cases[caseIndex].case_step[caseIndex].stepName }}</el-table-column>
-              <el-table-column label="描述">{{ props.row.cases[caseIndex].case_step[caseIndex].stepDesc }}</el-table-column>
-              <el-table-column label="成功">{{ props.row.cases[caseIndex].case_step[caseIndex].succ }}</el-table-column>
-              <el-table-column label="备注">{{ props.row.cases[caseIndex].case_step[caseIndex].excute }}</el-table-column>
+            <el-table :data="tableData2[caseIndex]" style="box-shadow: none" border>
+              <el-table-column type="index" :index="indexMethod" label="步骤"></el-table-column>
+              <el-table-column prop="stepName" label="名称"></el-table-column>
+              <el-table-column prop="stepDesc" label="描述"></el-table-column>
+              <el-table-column prop="succ" label="是否成功"></el-table-column>
+              <el-table-column prop="excute" label="备注"></el-table-column>
             </el-table>
             <!-- 详细信息内部表格结束 -->
+
             <!-- 图片开始 -->
             <div class="demo-image__placeholder">
               <div class="block">
-                <el-image :src="props.row.cases[caseIndex].case_step[caseIndex].pic">
+                <el-image :src="'http://172.20.15.54:9000/'+props.row.cases[caseIndex].case_step[caseIndexLast].pic">
                   <div slot="placeholder" class="image-slot">
                     加载中<span class="dot">...</span>
                   </div>
@@ -80,16 +82,30 @@ export default {
   data() {
     return {
       caseIndex: 0,
+      caseIndexLast: 0,
       tableData: [],
+      tableData2: []
     }
   },
   methods: {
+    indexMethod(index) {
+        return index += 1;
+    },
     reqTestReport(){
       this.$axios.post(this.$api.seeUiReportApi,{
         "report_id": this.$route.query.report_id
       }).then(({data})=>{
-        console.log(data);
-        this.tableData.push(JSON.parse(data.msg));
+        console.log("data是===>",data);
+        if(data.status){
+          //得到的json对象添加进空数组tableData
+          this.tableData.push(JSON.parse(data.msg));
+          // 把得到的数据中关于步骤的内容添加进空数组tableData2
+          this.tableData2.push(this.tableData[this.caseIndex].cases[this.caseIndex].case_step);
+          // tableData2的长度 -1 得到图片
+          this.caseIndexLast = this.tableData2[this.caseIndex].length - 1;
+        }else{
+          this.$message.error('网络连接中断');
+        }
       })
     }
   },
