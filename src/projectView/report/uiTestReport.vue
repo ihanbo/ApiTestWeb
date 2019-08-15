@@ -101,7 +101,7 @@ export default {
           this.tableData.push(JSON.parse(data.msg));
           // 把得到的数据中关于步骤的内容添加进空数组tableData2
           this.tableData2.push(this.tableData[this.caseIndex].cases[this.caseIndex].case_step);
-          // tableData2的长度 -1 得到图片
+          // tableData2的length-1 得到图片
           this.caseIndexLast = this.tableData2[this.caseIndex].length - 1;
         }else{
           this.$message.error('网络连接中断');

@@ -36,7 +36,7 @@
             </el-form-item>
             <!-- 选择平台 结束 -->
 
-            <!-- 选择case信息 开始 -->
+            <!-- 输入case信息 开始 -->
             <!-- 输入框 -->
             <el-form-item label="case名称" v-if="numTab !== 'third'">
                 <el-input placeholder="请输入" v-model="form.caseName" clearable style="width: 150px">
@@ -59,7 +59,7 @@
                      </el-option>
                  </el-select>
              </el-form-item> -->
-            <!-- 选择case信息 结束 -->
+            <!-- 输入case信息 结束 -->
 
             <!-- 搜索、录入信息、批量导入三按钮 -->
             <el-form-item>
@@ -120,10 +120,9 @@
                                                @click.native="sureView(delApi,ApiMsgTableData[scope.$index]['id'],ApiMsgTableData[scope.$index]['name'])">
                                         删除
                                     </el-button>
-                                    <!-- @click.native="runApi(ApiMsgTableData[scope.$index]['id'],'copy')" -->
                                     <el-button type="primary" icon="el-icon-run" size="mini"
                                                ref="runBtn"
-                                               @click.native="runUICaseSet(ApiMsgTableData[scope.$index]['id'])">
+                                               @click.native="getDevicesGather(scope.row)">
                                         运行
                                     </el-button>
                                 </template>
@@ -167,12 +166,7 @@
             </el-tab-pane>
         </el-tabs>
 
-        <!-- <result ref="resultFunc">
-        </result> -->
-
-        <errorView ref="errorViewFunc">
-        </errorView>
-
+        <errorView ref="errorViewFunc"></errorView>
         <importApi
                 :projectName="form.projectName"
                 :moduleData="form.module"
@@ -186,23 +180,41 @@
                 :funcAddress="funcAddress"
                 ref="configEditFunc">
         </configEdit>
+
+        <!-- 运行按钮的弹出层 -->
+        <el-dialog title="设备信息" :visible.sync="dialogTableVisible" center="">
+            <el-table :data="deviceData">
+                <el-table-column property="device" label="设备ID" width="150"></el-table-column>
+                <el-table-column property="name" label="设备名称" width="200"></el-table-column>
+                <el-table-column label="运行">
+                    <template slot-scope="scopeTwo">
+                        <!-- 弹出层的运行按钮 -->
+                        <!-- runUICaseSet(ApiMsgTableData[scope.$index]['id']) -->
+                        <el-button type="primary" size="small"
+                                   @click.native="runUICaseSet(scopeTwo.row)"
+                        >运行</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <span slot="footer" class="dialog-footer">
+                <el-button type="warning" plain size="small" @click="dialogTableVisible = false">取 消</el-button>
+            </span>
+        </el-dialog>
+        <!-- 运行按钮的弹出层 end -->
     </div>
 </template>
 
 <script>
-    // import result from './result.vue'
     import importApi from './importCases.vue'
     import apiEdit from '../uiCaseGatherManage/caseEditGather.vue'
     import errorView from '../common/errorView.vue'
     import configEdit from '../config/configEdit.vue'
     import {constants} from 'crypto';
-
     // import { runMain } from 'module';
 
     export default {
         name: "uiCaseGatherManager",
         components: {
-            // result: result,
             importApi: importApi,
             apiEdit: apiEdit,
             errorView: errorView,
@@ -217,16 +229,14 @@
                 numTabTwo: 'second',
                 loading: false,  //  页面加载状态开关
 
-                // dialogTableVisible: false,//控制运行按钮弹出层的显示隐藏
-                //数据列表,假数据
-                deviceData: [],
+                dialogTableVisible: false,//控制运行按钮弹出层的显示隐藏
+                deviceData: [],//设备信息列表
 
                 seekCaseId: "",
                 proModelData: '',
                 proAndIdData: '',
                 configData: '',
                 proUrlData: null,
-                // caseGatherList: [],
                 ApiMsgTableData: [],//  接口表单数据
                 apiMsgList: [],//  临时存储接口数据
                 funcAddress: [],
@@ -275,52 +285,22 @@
             initBaseData() {
                 this.$axios.get(this.$api.baseUIDataApi)
                     .then((response) => {
-                            this.proModelData = response.data['data'];
-                            this.proAndIdData = response.data['pro_and_id'];
-                            if (response.data['user_pro']) {
-                                this.form.projectName = response.data['user_pro']['pro_name'];
-                            }
-                            this.findCases();
+                        this.proModelData = response.data['data'];
+                        this.proAndIdData = response.data['pro_and_id'];
+                        if (response.data['user_pro']) {
+                            this.form.projectName = response.data['user_pro']['pro_name'];
                         }
-                    )
-                this.$axios.get(this.$api.findPlatformApi).then((response) => {
-                        this.platformData = response.data['data'];
-                        this.form.platformId = this.platformData[0]['id']
-                    }
-                )
+                        this.findPlatform();
+                    })
             },
-            // 项目改变时的方法
-            initProjectChoice() {
-                //  当项目选择项改变时，初始化模块和配置的数据
-                this.form.config = {name: null, configId: null,};
-                this.form.module = {name: null, moduleId: null,};
-                this.modulePage.currentPage = 1;
-                this.apiMsgPage.currentPage = 1;
-                this.form.platformId = "";
-                this.form.caseName = "";
-            },
-            // 平台改变时的方法
-            initPlatformChoice() {
-                //  当选择平台时，清空用例信息和相关用例信息的用例集列表
-                this.form.caseName = "";//清空用例信息
-                this.ApiMsgTableData = [];//清空用例集列表
-                this.findCases()//调用查询用例信息方法
-            },
-            // // 用例信息改变时的方法
-            // initCaseNameChoice(){
-            //     this.seekCaseName(this.form.caseName);//调用查询用例集的方法
-            // },
-
             //查询应用平台
             findPlatform() {
-                this.$axios.get(this.$api.findPlatformApi).then((response) => {
-                        // console.log(1-1-1-11-1,response)
+                this.$axios.get(this.$api.findPlatformApi)
+                    .then((response) => {
                         this.platformData = response.data['data'];
                         this.form.platformId = this.platformData[this.numZero]['id'];
-                        // console.log(43434343,this.platformData);
                         this.findCases();
-                    }
-                )
+                    })
             },
             //  查询用例信息
             findCases() {
@@ -340,7 +320,7 @@
                     'sizePage': this.apiMsgPage.sizePage,
                 }).then((response) => {
                     //输入框
-                    console.log(1111111, response.data)
+                    // console.log(1111111, response.data)
                     if (this.messageShow(this, response)) {
                         this.ApiMsgTableData = response.data['data'];
                         this.apiMsgPage.total = response.data['total'];
@@ -357,29 +337,17 @@
                     // }
                 })
             },
-
-            //添加case用例信息
-            addCaseList() {
-
-            },
-            //  编辑或者添加信息-----编辑按钮--添加按钮----打开同一界面
-            editCopyApi(apiMsgId, status) {
-                this.apiEditViewStatus = true;
-                this.numTab = 'second';
-                setTimeout(() => {
-                    this.$refs.apiFunc.editCopyApiMsg(apiMsgId, status);
-                    // console.log(33333,apiMsgId);
-                }, 0)
-            },
-
             //用例运行
-            runUICaseSet(id) {
+            runUICaseSet({ device,name,is_free }) {
+                console.log("弹出层运行按钮点击后输出==>"+"device是："+device+",name是："+name+",is_free是："+is_free);
+                this.dialogTableVisible = !this.dialogTableVisible;
                 this.loading = true;
                 this.$axios.post(this.$api.runUIcaseSetApi, {
-                    'id': id,
+                    'id': device,
                     'projectName': this.form.projectName,
                     'reportStatus': true,
                 }).then((response) => {
+                    console.log(222222,response);
                     this.loading = false;
                     this.messageShow(this, response);
                         // if (response.data['status'] === 1) {
@@ -411,6 +379,15 @@
             },
 
 
+            //  编辑或者添加信息-----编辑按钮--添加按钮----打开同一界面
+            editCopyApi(apiMsgId, status) {
+                this.apiEditViewStatus = true;
+                this.numTab = 'second';
+                setTimeout(() => {
+                    this.$refs.apiFunc.editCopyApiMsg(apiMsgId, status);
+                    // console.log(33333,apiMsgId);
+                }, 0)
+            },
             //  初始化数据并进入编辑tab
             initData() {
                 if (!this.form.module) {
@@ -426,6 +403,23 @@
                 setTimeout(() => {
                     this.$refs.apiFunc.initApiMsgData();
                 }, 0)
+            },
+            // 项目改变时的方法
+            initProjectChoice() {
+                //  当项目选择项改变时，初始化模块和配置的数据
+                this.form.config = {name: null, configId: null,};
+                this.form.module = {name: null, moduleId: null,};
+                this.modulePage.currentPage = 1;
+                this.apiMsgPage.currentPage = 1;
+                this.form.platformId = "";
+                this.form.caseName = "";
+            },
+            // 平台改变时的方法
+            initPlatformChoice() {
+                //  当选择平台时，清空用例信息和相关用例信息的用例集列表
+                this.form.caseName = "";//清空用例信息
+                this.ApiMsgTableData = [];//清空用例集列表
+                this.findCases()//调用查询用例信息方法
             },
             // 当选择项发生变化时会触发该事件
             handleApiMsgSelection(val) {
@@ -454,8 +448,23 @@
                     this.findCases();
                 }
             },
+             //调取设备信息接口----弹出层
+            getDevicesGather(row){
+                console.log(row);
+                localStorage.row = row;
+                this.dialogTableVisible = !this.dialogTableVisible;
+                this.$axios.post(this.$api.getDevices,{
+                        platform: this.form.platformId,
+                        is_free: true
+                    }).then(({data})=>{
+                        //把得到的数据push进定义的空数组内
+                        if(data.status) this.deviceData.push(...data.data);
+                        else this.$message.error('网络连接中断');
+                })
+            }
         },
         created() {
+            // 数据生成之后先初始化数据
             this.initBaseData();
         },
     }

@@ -21,17 +21,17 @@ export default {
       platformNum: 3,
       deviceData: [
         {
-          device: "001",
+          device: "1",
           name: "MI 8",
           is_free: true
         },
         {
-          device: "002",
+          device: "2",
           name: "iPhone 8s plus",
           is_free: false
         },
         {
-          device: "003",
+          device: "3",
           name: "honor 10",
           is_free: true
         }
