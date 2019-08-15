@@ -302,7 +302,7 @@ export default {
         )
           .then(() => {
             this.$axios
-              .post(this.$api.delStepInCaseApi, {
+              .post(this.$api.delCaseInCasesetApi, {
                 id: this.caseData.steps[i]["id"]
               })
               .then(() => {
@@ -327,9 +327,8 @@ export default {
     // 查询接口
     findApiMsg() {
       this.radio = false;
-      this.$axios.post(this.$api.findUIcaseStepApi, {
+      this.$axios.post(this.$api.findUIcaseApi, {
           projectName: this.stepsInfo.apiMesProjectName,
-          moduleId: this.stepsInfo.module.moduleId,
           caseStepName: this.stepsInfo.apiName,
           platform: this.form.platform.id,
           page: this.apiMsgPage.currentPage,
@@ -400,14 +399,6 @@ export default {
         });
         return;
       }
-      if (!this.form.module) {
-        this.$message({
-          showClose: true,
-          message: "请选择业务模块",
-          type: "warning"
-        });
-        return;
-      }
       if (!this.caseData.name) {
         this.$message({
           showClose: true,
@@ -418,13 +409,12 @@ export default {
       }
 
       return this.$axios
-        .post(this.$api.addUIcaseApi, {
-          moduleId: this.form.module.moduleId,
+        .post(this.$api.addUIcaseSetApi, {
           projectName: this.form.projectName,
-          caseId: this.caseData.id,
-          caseName: this.caseData.name,
+          caseSetId: this.caseData.id,
+          caseSetName: this.caseData.name,
           num: this.caseData.num,
-          desc: this.caseData.desc,
+          caseSetDesc: this.caseData.desc,
           platform: this.form.platform.id,
           steps: this.caseData.steps
         })
@@ -444,7 +434,7 @@ export default {
     editCopyApiMsg(apiMsgId, status) {
       // 
       this.$axios
-        .post(this.$api.editUIcaseApi, { id: apiMsgId })
+        .post(this.$api.editUIcaseSetApi, { id: apiMsgId })
         .then(response => {
           // console.log(2222222,response);
           // console.log(44444,apiMsgId);
@@ -460,7 +450,6 @@ export default {
             this.caseData.id = "";
           }
           this.form.projectName = this.projectName;
-          this.form.module = this.module;
         });
     }
   },
