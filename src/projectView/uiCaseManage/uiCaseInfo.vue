@@ -565,18 +565,16 @@
                     }
                 )
             },
-            //调取设备接口
-            getDevices(row){
-                localStorage.caseId = row.id;
-                this.popup_case_id = row.id;
+            //调取设备信息接口
+            getDevices(){
                 this.dialogTableVisible = !this.dialogTableVisible;
                 this.$axios.post(this.$api.getDevices,{
                         platform: this.form.platformId,
                         is_free: true
                     }).then(({data})=>{
-                        this.deviceData = data.data;//替换--重新赋值
-                        // this.deviceData.push(...data.data);//拼接
-                        console.log("deviceData",this.deviceData);
+                        //把得到的数据push进定义的空数组内
+                        if(data.status) this.deviceData.push(...data.data);
+                        else this.$message.error('网络连接中断');
                 })
             }
 

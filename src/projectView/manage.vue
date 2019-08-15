@@ -56,6 +56,7 @@
                             <el-menu-item-group>
                                 <el-menu-item index="/manage/projectManageUI">项目管理</el-menu-item>
                                 <el-menu-item index="/manage/platformManage">应用平台</el-menu-item>
+                                <el-menu-item index="/manage/deviceInfo">设备信息</el-menu-item>
                                 <el-menu-item index="/manage/uiCaseStepManager">case步骤</el-menu-item>
                                 <el-menu-item index="/manage/uiCaseManager">case信息</el-menu-item>
                                 <el-menu-item index="/manage/uiCaseGather">case用例集</el-menu-item>
