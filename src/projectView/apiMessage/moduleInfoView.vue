@@ -278,7 +278,6 @@
                 this.findApiMsg();
 
             },
-
             findApiMsg() {
                 //  查询接口信息
                 if (this.form.module === null) {
@@ -319,7 +318,6 @@
                     this.$refs.apiFunc.initApiMsgData();
                 }, 0)
             },
-
             editCopyApi(apiMsgId, status) {
                 //  编辑或者复制接口信息
                 this.apiEditViewStatus = true;
@@ -344,21 +342,15 @@
                                 type: 'warning',
                             });
                         }
-
                 })
-
-
-
-
             },
-
             delApi(apiMsgId) {
                 //  删除接口信息
                 this.$axios.post(this.$api.delApiApi, {'apiMsgId': apiMsgId}).then((response) => {
                         this.messageShow(this, response);
                         this.form.apiName = null;
-                        if ((this.apiMsgPage.currentPage - 1) * this.apiMsgPage.sizePage + 1 === this.apiMsgPage.total) {
-                            this.apiMsgPage.currentPage = this.apiMsgPage.currentPage - 1
+                        if ((this.currentPage - 1) * this.sizePage + 1 === this.total) {
+                            this.currentPage = this.currentPage - 1
                         }
                         this.findApiMsg();
                     }

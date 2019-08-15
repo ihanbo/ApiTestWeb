@@ -27,7 +27,7 @@
         <el-tabs value="first" style="padding-left: 10px;padding-right:5px;">
             <el-tab-pane label="用例集信息" name="first">
 
-                <el-table :data="setDataList" stripe max-height="745" @cell-click="handleCaseSetSelect">
+                <el-table :row-style="{height:'45px'}" :cell-style="{padding:'0px'}" :data="setDataList" stripe max-height="745" @cell-click="handleCaseSetSelect">
                     <el-table-column
                             prop="num"
                             type="index"
@@ -297,6 +297,7 @@
                 }],
                 configData: '',
                 type: 0,
+                total:0,
                 currentPage:1,
                 sizePage: 10,
                 total: 1,
@@ -490,7 +491,8 @@
                     'sizePage': this.sizePage,
                 }).then((response) => {
                         this.setDataList = response.data['data'];
-                        this.allSetList[this.form.projectName] = response.data['all_set'];
+                        this.allSetList = response.data['all_set'];
+                        // this.allSetList[this.form.projectName] = response.data['all_set'];
                         this.total = response.data['total'];
                         if (this.setDataList[0]) {
                             this.setTempData.setId = this.setDataList[0]['id'];

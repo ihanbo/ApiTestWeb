@@ -51,7 +51,7 @@
 <!--                          style="width: 70px;text-align:center;">-->
 <!--                </el-input>-->
 <!--            </el-form-item>-->
-            <el-form-item :required="true" prop="name" label="接口名称" style="margin-bottom: 5px">
+            <el-form-item  prop="name" label="接口名称" style="margin-bottom: 5px">
                 <el-input v-model="apiMsgData.name" placeholder="接口名称" size="small">
                 </el-input>
             </el-form-item>

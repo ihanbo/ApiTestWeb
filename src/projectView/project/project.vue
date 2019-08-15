@@ -96,7 +96,7 @@
                 <el-tab-pane label="基础信息" style="margin-top: 10px">
                     <el-form :inline="true">
                         <el-form-item :required="true" label="项目名称" :label-width="projectData.formLabelWidth">
-                            <el-input v-model="projectData.projectName" size="mini" id="project_name"
+                            <el-input :maxlength="20" v-model="projectData.projectName" size="mini" id="project_name"
                                       style="width: 150px">
                             </el-input>
                         </el-form-item>
@@ -427,7 +427,7 @@
                 }
             },
             addProject() {
-                if(!this.projectData.projectName.replace(/(^\s*)|(\s*$)/g, "")){
+                if(!this.projectData.projectName || !this.projectData.projectName.replace(/(^\s*)|(\s*$)/g, "")){
                     this.$message({
                         showClose: true,
                         message: '项目名称不能为空',

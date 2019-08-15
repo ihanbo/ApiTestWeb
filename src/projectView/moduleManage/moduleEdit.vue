@@ -4,7 +4,7 @@
         <el-dialog title="接口分类配置" :visible.sync="setData.viewStatus" width="30%">
             <el-form>
                 <el-form-item :required="true" label="接口分类名称" label-width="110px">
-                    <el-input v-model="setData.name">
+                    <el-input :maxlength="20" v-model="setData.name">
                     </el-input>
                 </el-form-item>
             </el-form>
