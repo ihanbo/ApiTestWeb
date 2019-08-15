@@ -210,7 +210,7 @@
                 deviceData: [],
 
                 seekCaseId: "",
-                proModelData: '',
+                proModelData: '',   //没用了
                 proAndIdData: '',
                 configData: '',
                 proUrlData: null,
@@ -260,15 +260,20 @@
 
         methods: {
             // 初始化页面初始数据
-            initBaseData(id) {
+            initBaseData() {
                 this.$axios.get(this.$api.baseUIDataApi)
                     .then((response) => {
                         this.proModelData = response.data['data'];
                         this.proAndIdData = response.data['pro_and_id'];
                         if (response.data['user_pro']) {
                             this.form.projectName = response.data['user_pro']['pro_name'];
-                            this.findModule();
                         }
+                        findCases();
+                    }
+                )
+                this.$axios.get(this.$api.findPlatformApi).then((response) => {
+                        this.platformData = response.data['data'];
+                        this.form.platformId =  this.platformData[0]['id']
                     }
                 )
             },
@@ -281,19 +286,17 @@
                 this.apiMsgPage.currentPage = 1;
                 this.form.platformId = "";
                 this.form.caseName = "";
-                this.findModule();
             },
             // 平台改变时的方法
             initPlatformChoice(id) {
                 //  当选择平台时，清空用例信息和相关用例信息的用例集列表
                 this.form.caseName = "";//清空用例信息
                 this.ApiMsgTableData = [];//清空用例集列表
-                // this.findModule();
                 this.findCases()//调用查询用例信息方法
             },
             // 用例信息改变时的方法
             initCaseNameChoice(){
-                this.seekCaseName(this.form.caseName);//调用查询用例集的方法
+                // this.seekCaseName(this.form.caseName);//调用查询用例集的方法
             },
 
             //查询应用平台
@@ -308,15 +311,7 @@
                 )
             },
             //  查询用例信息
-            findCases(acquireCaseId) {
-                if (this.form.module === null) {
-                    this.$message({
-                        showClose: true,
-                        message: '请选择模块',
-                        type: 'warning',
-                    });
-                    return
-                }
+            findCases() {
                 if (this.form.platformId === null) {
                     this.$message({
                         showClose: true,
@@ -325,38 +320,21 @@
                     });
                     return
                 }
-                this.$axios.post(this.$api.findUIcaseApi, {
+                this.$axios.post(this.$api.findUIcaseSetApi, {
                     'platform': this.form.platformId,
                     'projectName': this.form.projectName,
-                    'caseName': this.form.caseName,
-                    'moduleId': this.form.module.moduleId,
+                    'caseSetName': this.form.caseName,
                     'page': this.apiMsgPage.currentPage,
                     'sizePage': this.apiMsgPage.sizePage,
                 }).then(({data}) => {
                     console.log("____1",data.data);
                         this.caseInfoList = data.data;
-                        this.form.caseName = this.caseInfoList[0];//默认上来有被选中项
-                        console.log("this.form.caseName",this.form.caseName)
-                        acquireCaseId = data.data[0].id;
-                        if(this.form.caseName){
-                            this.seekCaseName(acquireCaseId);
-                        }
+                        // this.form.caseName = this.caseInfoList[0];//默认上来有被选中项
+                        // acquireCaseId = data.data[0].id;
                     }
                 )
             },
-            // 查询用例集
-            seekCaseName(acquireCaseId){
-                if(this.form.caseName){
-                    this.$axios.post(this.$api.editUIcaseApi,{
-                        id: acquireCaseId
-                    }).then(({data})=>{
-                        console.log(12121212,data);
-                        // this.caseGatherList = data.data.steps;
-                        this.ApiMsgTableData = data.data.steps;
-                    })
-                }
-            },
-            
+
             //添加case用例信息
             addCaseList(){
                 
@@ -366,7 +344,7 @@
                 this.apiEditViewStatus = true;
                 this.numTab = 'second';
                 setTimeout(() => {
-                    this.$refs.apiFunc.editCopyApiMsg(apiMsgId, status);
+                    this.$refs.apiFunc.editUIcaseSetApi(apiMsgId, status);
                     // console.log(33333,apiMsgId);
                 }, 0)
             },
@@ -482,29 +460,6 @@
                 )
             },
 
-
-            //  查询接口模块
-            findModule() {
-                this.$axios.post(this.$api.findUIModuleApi, {
-                    'projectName': this.form.projectName,
-                    'page': this.modulePage.currentPage,
-                    'sizePage': this.modulePage.sizePage,
-                }).then((response) => {
-                    console.log(123455677,response)
-                        if (this.messageShow(this, response)) {
-                            this.moduleDataList = response.data['data'];
-                            this.proModelData[this.form.projectName] = response.data['all_module'];
-                            this.modulePage.total = response.data['total'];
-                            this.form.module = this.moduleDataList[0];
-                            if (this.form.module) {
-                                this.findPlatform();
-                            } else {
-                                this.ApiMsgTableData = []
-                            }
-                        }
-                    }
-                )
-            },
             // 当选择项发生变化时会触发该事件
             handleApiMsgSelection(val) {
                 this.apiMsgList = val;
