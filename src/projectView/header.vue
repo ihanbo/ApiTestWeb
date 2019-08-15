@@ -128,9 +128,6 @@
                 if (path === '/manage/projectManage') {
                     this.title = ['项目管理']
                 }
-                else if (path === '/manage/platformManage') {
-                    this.title = ['UIcase管理', '应用平台列表']
-                }
                 else if (path === '/manage/moduleInfo') {
                     this.title = ['接口管理', '接口信息']
                 }
@@ -143,11 +140,20 @@
                 else if (path === '/manage/buildInFunc') {
                     this.title = ['接口管理', '内置函数']
                 }
+                else if (path === '/manage/projectManageUI') {
+                    this.title = ['UI项目管理']
+                }
+                else if (path === '/manage/platformManage') {
+                    this.title = ['UIcase管理', '应用平台列表']
+                }
                 else if (path === '/manage/uiCaseStepManager') {
                     this.title = ['UIcase管理', 'case步骤']
                 }
                 else if (path === '/manage/uiCaseManager') {
                     this.title = ['UIcase管理', 'case信息']
+                }
+                else if (path === '/manage/uiCaseGather') {
+                    this.title = ['UIcase管理', 'case用例集']
                 }
                 else if (path === '/manage/resultSummary') {
                     this.title = ['报告管理', '用例执行概况列表']

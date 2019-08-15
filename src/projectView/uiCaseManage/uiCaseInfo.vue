@@ -136,7 +136,7 @@
 
                                     <!-- @click.native="runApi(ApiMsgTableData[scope.$index]['id'],'copy')" -->
                                     <el-button type="primary" icon="el-icon-run" size="mini" ref="runBtn" 
-                                               @click.native="getDevices">
+                                               @click.native="getDevices(scope.row)">
                                         运行
                                     </el-button>
                                 </template>
@@ -209,14 +209,17 @@
         </configEdit>
 
         <!-- 运行按钮的弹出层 -->
-       <el-dialog title="设备信息" :visible.sync="dialogTableVisible" center="">
+        <el-dialog title="设备信息" :visible.sync="dialogTableVisible" center="">
             <el-table :data="deviceData">
                 <el-table-column property="device" label="设备ID" width="150"></el-table-column>
                 <el-table-column property="name" label="设备名称" width="200"></el-table-column>
                 <el-table-column label="运行">
-                    <el-button type="primary" size="small"
-                        @click.native="runApi(1)"
-                    >运行</el-button>
+                    <template slot-scope="scopeTwo">
+                    <!-- 此处有问题，有待调试 -->
+                        <el-button type="primary" size="small"
+                                   @click.native="runApi(scopeTwo.row)"
+                        >运行</el-button>
+                    </template>
                 </el-table-column>
             </el-table>
             <span slot="footer" class="dialog-footer">
@@ -253,11 +256,9 @@
 
                 dialogTableVisible: false,//控制运行按钮弹出层的显示隐藏
                 //数据列表,假数据
-                deviceData: [{
-                        device: '1111',
-                        name: 'MI 8',
-                    }],
+                deviceData: [],
 
+                popup_case_id:null,
                 proModelData: '',
                 proAndIdData: '',
                 configData: '',
@@ -266,11 +267,6 @@
                 apiMsgList: Array(),//  临时存储接口数据
                 funcAddress: null,
                 moduleDataList: [],
-
-                //运行弹出层的信息渲染
-                deviceId: '',
-                deviceName: '',
-
                 defaultProps: {
                     children: 'children',
                     label: 'name'
@@ -381,6 +377,7 @@
                     'page': this.apiMsgPage.currentPage,
                     'sizePage': this.apiMsgPage.sizePage,
                 }).then((response) => {
+                        console.log(1111111,response.data)
                         if (this.messageShow(this, response)) {
                             this.ApiMsgTableData = response.data['data'];
                             this.apiMsgPage.total = response.data['total'];
@@ -413,12 +410,19 @@
                     this.$refs.apiFunc.editCopyApiMsg(apiMsgId, status);
                 }, 0)
             },
-            runApi(apiMsgId) {
+            runApi(row) {
                 //  测试
+                this.dialogTableVisible = !this.dialogTableVisible;
                 this.loading = true;
-                this.$axios.post(this.$api.runUIcaseApi, {'id': apiMsgId}).then((response) => {
+                this.$axios.post(this.$api.runUIcaseApi, {
+                    'id': this.popup_case_id,
+                    'udid':row.device,
+                    'device_name':row.name,
+                }).then((response) => {
                     this.loading = false;
                     this.messageShow(this, response);
+                    console.log(1111,apiMsgId);
+                    console.log(2222,udid);
                     
                 })
             },
@@ -562,16 +566,17 @@
                 )
             },
             //调取设备接口
-            getDevices(){
+            getDevices(row){
+                localStorage.caseId = row.id;
+                this.popup_case_id = row.id;
                 this.dialogTableVisible = !this.dialogTableVisible;
-                console.log(this.form.platformId);
-
                 this.$axios.post(this.$api.getDevices,{
                         platform: this.form.platformId,
                         is_free: true
-                    }).then((response)=>{
-                        console.log(response.data.data);
-                        this.deviceData=response.data.data;
+                    }).then(({data})=>{
+                        this.deviceData = data.data;//替换--重新赋值
+                        // this.deviceData.push(...data.data);//拼接
+                        console.log("deviceData",this.deviceData);
                 })
             }
 
@@ -581,7 +586,7 @@
         },
     }
 </script>
-<style>
+<style scoped>
 
     .cm-s-default .cm-property {
         color: rgb(183, 40, 135);

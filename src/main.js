@@ -15,6 +15,7 @@ import ring from 'v-charts/lib/ring.common'
 // import './assets/styles/entirety.css'
 import base from './util/base'
 import api from './util/api'
+import bus from '@/bus'
 
 Vue.config.productionTip = false;
 
@@ -28,6 +29,7 @@ Vue.component(ring.name, ring);
 
 // Vue.use(VueCodeMirror)
 Vue.use(base);
+Vue.use(bus);
 Vue.use(ElementUI);
 Vue.use(contentmenu);
 // Vue.use(VueResource);

@@ -2,59 +2,69 @@
   <div class="uiCaseEdit">
     <el-form :inline="true" style="padding: 10px 20px -10px 10px;">
       <el-form-item label="基础信息" labelWidth="80px" style="margin-bottom: 10px;margin-top:10px">
+        <!-- 选择项目 -->
         <el-select
           v-model="form.projectName"
           placeholder="请选择项目"
           size="small"
           @change="changeProChoice"
-          style="width: 120px;padding-right:5px"
-        >
+          style="width: 120px;padding-right:5px">
           <el-option v-for="(item, key) in proModelData" :key="key" :value="key"></el-option>
         </el-select>
+        <!-- 选择项目 END -->
 
-        <el-select
+        <!-- 选择模块 -->
+        <!-- <el-select
           v-model="form.module"
           placeholder="请选择模块"
           value-key="moduleId"
           size="small"
-          style="width: 120px;padding-right:5px"
-        >
+          style="width: 120px;padding-right:5px">
           <el-option
             v-for="item in proModelData[this.form.projectName]"
             :key="item.moduleId"
             :label="item.name"
-            :value="item"
-          ></el-option>
-        </el-select>
+            :value="item"></el-option>
+        </el-select> -->
+        <!-- 选择模块 END -->
+
+        <!-- 选择平台 -->
         <el-select
           v-model="form.platform"
           placeholder="操作平台"
           value-key="id"
           size="small"
-          style="width: 120px;padding-right:5px"
-        >
+          style="width: 120px;padding-right:5px">
           <el-option v-for="item in platformData" :key="item.id" :label="item.name" :value="item"></el-option>
         </el-select>
+        <!-- 选择平台 END -->
 
+        <!-- case名称输入框 -->
         <el-form-item prop="name" style="margin-bottom: 5px">
           <el-input v-model="caseData.name" placeholder="case名称" size="small"></el-input>
         </el-form-item>
+        <!-- case名称输入框 END -->
 
+        <!-- case描述输入框 -->
         <el-form-item prop="desc" style="margin-bottom: 5px">
           <el-input v-model="caseData.desc" placeholder="case描述" size="small"></el-input>
         </el-form-item>
+        <!-- case名称输入框 END -->
+
+        <!-- 保存按钮 -->
         <el-button
           type="primary"
           @click.native="addCaseInfo()"
           size="small"
-          style="margin-left: 50px"
-        >Save</el-button>
+          style="margin-left: 50px">Save</el-button>
+
       </el-form-item>
     </el-form>
     <hr style="height:1px;border:none;border-top:1px solid rgb(241, 215, 215);margin-top: -5px" />
 
     <div>
       <el-row :gutter="20">
+        <!-- 左侧展示栏 -->
         <el-col :span="12">
           <el-row
             :gutter="12"
@@ -63,7 +73,7 @@
                                            border-color: #ffffff #ffffff rgb(234, 234, 234) #ffffff;"
           >
             <el-col :span="4">编号</el-col>
-            <el-col :span="8">步骤名称</el-col>
+            <el-col :span="8">用例名称</el-col>
             <el-col :span="5">描述</el-col>
             <el-col :span="4" style="padding-left: 50px;">操作</el-col>
           </el-row>
@@ -93,32 +103,32 @@
             </div>
           </draggable>
         </el-col>
-
+        <!-- 左侧展示栏 END -->
+        
+        <!-- 右侧选择栏（搜索） -->
         <el-col :span="12">
+          <!-- 上半部分---搜索 -->
           <el-form :inline="true" style="padding-top: 10px;" size="small">
             <el-form-item label=" " labelWidth="10px">
               <el-select
                 v-model="stepsInfo.apiMesProjectName"
                 style="width: 150px;padding-right:5px"
                 placeholder="请选择项目"
-                @change="changeModuleChoice()"
-              >
+                @change="changeModuleChoice()">
                 <el-option v-for="(item, key) in proModelData" :key="key" :value="key"></el-option>
               </el-select>
 
-              <el-select
+              <!-- <el-select
                 v-model="stepsInfo.module"
                 value-key="moduleId"
                 style="width: 150px;padding-right:5px"
-                placeholder="请选择模块"
-              >
+                placeholder="请选择模块">
                 <el-option
                   v-for="item in proModelData[this.stepsInfo.apiMesProjectName]"
                   :key="item.moduleId"
                   :label="item.name"
-                  :value="item"
-                ></el-option>
-              </el-select>
+                  :value="item"></el-option>
+              </el-select> -->
             </el-form-item>
             <el-form-item label>
               <el-input placeholder="请输入用例" v-model="stepsInfo.apiName" style="width: 150px"></el-input>
@@ -128,19 +138,24 @@
               <el-button type="primary" size="mini" @click.native="addApiData()">添加</el-button>
             </el-form-item>
           </el-form>
-          <hr
-            style="height:1px;border:none;border-top:1px solid rgb(241, 215, 215);margin-top: -5px"
-          />
+          <hr style="height:1px;border:none;border-top:1px solid rgb(241, 215, 215);margin-top: -5px"/>
+          <!-- 上半部分---搜索 END -->
+
+          <!-- 搜索之后的操作区 -->
           <el-row
             :gutter="20"
-            style="margin-top:10px;color: rgb(171, 139, 149);font-weight: 500;font-size: 14px;
-                                            padding-left: 5px;padding-top: 3px;"
-          >
+            style="margin-top:10px;
+                color: rgb(171, 139, 149);
+                font-weight: 500;font-size: 14px;
+                padding-left: 5px;
+                padding-top: 3px;">
             <el-col :span="1">&nbsp;</el-col>
             <el-col :span="3">编号</el-col>
             <el-col :span="8">用例名称</el-col>
             <el-col :span="8">用例描述</el-col>
           </el-row>
+          <!-- 搜索之后的操作区 END -->
+          <!-- 搜索之后的内容显示 -->
           <draggable v-model="ApiMsgData" :options="this.draggableOptions">
             <transition-group name="list-complete">
               <div v-for="(_data, index) in ApiMsgData" :key="_data.num" class="list-complete-item">
@@ -161,6 +176,9 @@
               </div>
             </transition-group>
           </draggable>
+          <!-- 搜索之后的内容显示 END -->
+
+          <!-- 分页 -->
           <el-pagination
             @current-change="handleCurrentCase"
             @size-change="handleSizeCase"
@@ -170,11 +188,13 @@
             layout="total, sizes, prev, pager, next, jumper"
             :total="apiMsgPage.total"
           ></el-pagination>
+          <!-- 分页 END -->
         </el-col>
+        <!-- 右侧选择栏（搜索） END -->
       </el-row>
     </div>
 
-    <result ref="resultFunc"></result>
+    <!-- <result ref="resultFunc"></result> -->
 
     <errorView ref="errorViewFunc"></errorView>
   </div>
@@ -190,7 +210,7 @@ export default {
     // result: result,
     errorView: errorView
   },
-  name: "uiCaseEdit",
+  name: "uiCaseGatherEdit",
   props: ["proModelData", "projectName", "module", "proUrlData"],
   data() {
     return {
@@ -244,15 +264,25 @@ export default {
     };
   },
   methods: {
+    //  页面数据初始化
+    initBaseData() {
+      this.$axios.get(this.$api.findPlatformApi)
+        .then(response => {
+        this.platformData = response.data["data"];
+      });
+    },
+    // 编辑初始化
     editorInit() {
       require("brace/ext/language_tools");
       require("brace/mode/json");
       require("brace/theme/chrome");
       require("brace/snippets/json");
     },
+    // 
     addEvent(dex) {
       this.apiMsgVessel = this.ApiMsgData[dex];
     },
+    // 删除用例
     delStepInCase(i) {
       //判断caseList中是否存在id，存在则在数据库删除信息，否则在前端删除临时数据
       if ("id" in this.caseData.steps[i]) {
@@ -284,24 +314,20 @@ export default {
         this.caseData.steps.splice(i, 1);
       }
     },
+    // 项目选择时，清空数据
     changeProChoice() {
       //  改变项目选项时，清空模块和基础url的选择
       this.form.module = "";
     },
+    // 当前页变化时的事件
     handleCurrentCase(val) {
       this.apiMsgPage.currentPage = val;
       this.findApiMsg();
     },
-    initBaseData() {
-      //  初始化页面所需要的数据
-      this.$axios.get(this.$api.findPlatformApi).then(response => {
-        this.platformData = response.data["data"];
-      });
-    },
+    // 查询接口
     findApiMsg() {
       this.radio = false;
-      this.$axios
-        .post(this.$api.findUIcaseStepApi, {
+      this.$axios.post(this.$api.findUIcaseStepApi, {
           projectName: this.stepsInfo.apiMesProjectName,
           moduleId: this.stepsInfo.module.moduleId,
           caseStepName: this.stepsInfo.apiName,
@@ -310,6 +336,7 @@ export default {
           sizePage: this.apiMsgPage.sizePage
         })
         .then(response => {
+          console.log(11111111,response)
           if (this.messageShow(this, response)) {
             this.radio = false;
             this.ApiMsgData = response.data["data"];
@@ -317,6 +344,7 @@ export default {
           }
         });
     },
+    // 添加接口
     addApiData() {
       if (this.apiMsgVessel.length === 0) {
         this.$message({
@@ -329,7 +357,7 @@ export default {
       this.caseData.steps = this.caseData.steps.concat(this.apiMsgVessel);
       this.caseData.steps = JSON.parse(JSON.stringify(this.caseData.steps));
     },
-
+    // 文件改变时的事件
     fileChange(response, file) {
       if (response["status"] === 0) {
         this.$confirm("服务器已存在相同名字文件，是否覆盖?", "提示", {
@@ -362,6 +390,7 @@ export default {
         }
       }
     },
+    // 添加用例信息
     addCaseInfo(messageClose = false) {
       if (!this.form.projectName) {
         this.$message({
@@ -411,6 +440,7 @@ export default {
           }
         });
     },
+    // 编辑和复制时的事件
     editCopyApiMsg(apiMsgId, status) {
       // 
       this.$axios

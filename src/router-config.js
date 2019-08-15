@@ -8,12 +8,16 @@ import caseManage from './projectView/apiMessage/apiMsg.vue'
 import moduleInfo from './projectView/moduleManage/module.vue'
 import uiCaseStepManager from './projectView/uiCaseStepManage/uiCaseStepInfo.vue'
 import uiCaseManager from './projectView/uiCaseManage/uiCaseInfo.vue'
+import uiCaseGather from './projectView/uiCaseGatherManage/uiCaseGather.vue'//用例集
+// import caseEditGather from './projectView/uiCaseGatherManage/caseEditGather.vue'
 import manage from './projectView/manage.vue'
 import projectManage from './projectView/project/project.vue'
 import platformManage from './projectView/project/platform.vue'
 import reportManage from './projectView/report/report.vue'
 import reportUiManage from './projectView/report/report_ui.vue'
 import reportShow from './projectView/report/reportShow.vue'
+import uiTestReport from './projectView/report/uiTestReport.vue'//ui测试报告
+import uiReportHeader from './projectView/report/uiReportHeader'
 import resultSummary from './projectView/report/resultSummary.vue'
 import resultDetail from './projectView/report/resultDetail.vue'
 import resultCaseSet from './projectView/report/resultCaseSet.vue'
@@ -148,6 +152,16 @@ const routes = [
                 }
             },
             {
+                path: 'uiCaseGather',//用例集路由
+                meta: {
+                    requireAuth: true,
+                },
+                components: {
+                    Header: Header,
+                    Manage: uiCaseGather,
+                }
+            },
+            {
                 path: 'reportManage',
                 meta: {
                     requireAuth: true,
@@ -165,7 +179,7 @@ const routes = [
                 },
                 // component:caseManage,
                 components: {
-                    Header: Header,
+                    Header: uiReportHeader,
                     Manage: reportUiManage,
                 },
             },
@@ -178,7 +192,18 @@ const routes = [
                     Header: reportHeader,
                     Manage: reportShow,
                 }
-            },{
+            },
+            {
+                path: 'uiTestReport',
+                meta: {
+                    requireAuth: true,
+                },
+                components: {
+                    Header: uiReportHeader,
+                    Manage: uiTestReport,
+                }
+            },
+            {
                 path: 'resultSummary',
                 meta: {
                     requireAuth: true,
