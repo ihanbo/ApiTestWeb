@@ -2,13 +2,13 @@
     <div class="buildInFunc"  >
 
         <el-form :inline="true"  class="demo-form-inline search-style" size="small">
-            <el-form-item label="函数文件"  labelWidth="80px">
+            <el-form-item label="方法文件"  labelWidth="80px">
                 <el-autocomplete
                         style="margin-right: 2px"
                         class="inline-input"
                         v-model="comparator"
                         :fetch-suggestions="querySearch"
-                        placeholder="输入或选择文件"
+                        placeholder="请输入或选择文件"
                         size="small">
                 </el-autocomplete >
                 <el-button-group>
@@ -18,8 +18,8 @@
                 </el-button-group>
             </el-form-item>
 
-            <el-form-item label="函数名" labelWidth="80px" >
-                <el-input v-model="funcName" placeholder="输入格式：${func(abc,123)}" size="small">
+            <el-form-item label="方法名" labelWidth="80px" >
+                <el-input v-model="funcName" placeholder="输入格式：${func(abc,123)}" style="width: 220px" size="small">
                 </el-input>
                 <!--</el-form-item>-->
             </el-form-item>
@@ -31,21 +31,19 @@
                 <!--<el-tooltip content="检查语法" placement="top-start">-->
                 <!--<el-button type="primary" icon="el-icon-view" @click.native="checkFunc()" size="small"></el-button>-->
                 <!--</el-tooltip>-->
-                <el-tooltip content="重置文档" placement="top-start">
-                    <el-button type="info"
-                               icon="el-icon-refresh"
-                               @click.native="findFunc()"
-                               size="small">
-
-                    </el-button>
-                </el-tooltip>
-                <el-tooltip content="保存文档" placement="top-start">
-                    <el-button type="success" icon="el-icon-document"
-                               @click.native="saveFunc()"
-                               size="small">
-
-                    </el-button>
-                </el-tooltip>
+<!--                <el-tooltip  placement="top-start">-->
+                <el-button type="info"
+                           icon="el-icon-refresh"
+                           @click.native="findFunc()"
+                           size="small">重置文档
+                </el-button>
+<!--                </el-tooltip>-->
+<!--                <el-tooltip  placement="top-start">-->
+                <el-button type="success" icon="el-icon-document"
+                           @click.native="saveFunc()"
+                           size="small">保存
+                </el-button>
+<!--                </el-tooltip>-->
             </el-button-group>
             </el-form-item>
         </el-form>

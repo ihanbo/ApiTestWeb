@@ -4,7 +4,7 @@
         <el-dialog title="用例集配置" :visible.sync="setData.viewStatus" width="30%">
             <el-form>
                 <el-form-item :required="true" label="用例集名称" label-width="100px">
-                    <el-input v-model="setData.name">
+                    <el-input :maxlength="20" v-model="setData.name">
                     </el-input>
                 </el-form-item>
             </el-form>

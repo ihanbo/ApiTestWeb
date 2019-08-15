@@ -25,7 +25,6 @@
                     <el-button type="primary" size="mini"
                                @click="addCaseParam()">添加
                     </el-button>
-
                     <el-switch
                             v-model="apiCaseData.statusCase.param[0]"
                             inactive-text="启动功能">
@@ -250,19 +249,21 @@
                             inactive-text="启动新参数">
                     </el-switch>
                     <el-table :data="apiCaseData.validate" size="mini" stripe>
-                        <el-table-column property="key" label="Key" header-align="center" minWidth="100">
+                        <el-table-column property="key" label="Key" header-align="center" minWidth="120">
                             <template slot-scope="scope">
                                 <el-input v-model="scope.row.key" size="mini">
                                 </el-input>
                             </template>
                         </el-table-column>
-                        <el-table-column label="Comparator" header-align="center" minWidth="80">
+                        <el-table-column label="Comparator" header-align="center" minWidth="180" >
                             <template slot-scope="scope">
                                 <el-autocomplete
                                         class="inline-input"
+                                        style="width:180px"
                                         v-model="scope.row.comparator"
                                         :fetch-suggestions="querySearch"
-                                        placeholder="请输入内容">
+                                        placeholder="请输入内容"
+                                        size="mini">
                                 </el-autocomplete>
                             </template>
                         </el-table-column>

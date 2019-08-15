@@ -121,12 +121,11 @@
             showResultData(save_result) {
                 this.resultViewStatus = true;
                 this.resultData.resultShowData =JSON.parse(save_result.replace(/\"/g, "\\\"").replace(/'/g, '"')
-                    .replace(/True/g, '"true"').replace(/None/g, '"none"'));
+                    .replace(/True/g, '"true"').replace(/False/g, '"false"').replace(/None/g, '"none"'));
                 // this.resultData.resultShowData =eval("("+(save_result.replace(/'/g, '"')
                 //     .replace(/True/g, '"true"').replace(/None/g, '"none"'))+")");
             },
         },
-
     }
 </script>
 <style>
