@@ -17,12 +17,12 @@
                                 </el-select>
                             </el-form-item>
                             <el-form-item :required="true" label="配置名称">
-                                <el-input v-model="configData.name" size="small">
+                                <el-input :maxlength="20" v-model="configData.name" size="small">
                                 </el-input>
                             </el-form-item>
                         </el-form>
                     <el-form :inline="true"  size="small" class="demo-form-inline" >
-                        <el-form-item label="函数文件">
+                        <el-form-item label="函数文件" style="padding-left: 9px">
                             <el-select v-model="configData.funcAddress" multiple  placeholder="请选择导入函数文件" size="small">
                                 <el-option
                                         v-for="item in this.funcAddress"

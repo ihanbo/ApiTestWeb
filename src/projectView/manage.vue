@@ -3,7 +3,7 @@
     <div id="manage">
         <el-container>
 
-            <el-aside width="auto" style="min-height: 936px">
+            <el-aside width="auto" style="min-height:936px;background-color:#304156">
                 <!--<div style="margin: 0 0 40px;line-height: 30px;">-->
                     <!--测试平台-->
                 <!--</div>-->
@@ -14,7 +14,8 @@
                 <el-scrollbar wrap-class="specialList">
                     <el-menu
                             :default-active="navigationName"
-                            background-color="#545c64"
+                            :unique-opened="true"
+                            background-color="#304156"
                             text-color="#fff"
                             active-text-color="#ffd04b"
                             :router="true"
@@ -36,7 +37,7 @@
                         <el-submenu index="2">
                             <template slot="title">
                                 <i class="el-icon-document"></i>
-                                <span>接口管理</span>
+                                <span>服务端自动化测试</span>
                             </template>
                             <el-menu-item-group>
                                 <el-menu-item index="/manage/projectManage">项目管理</el-menu-item>
@@ -44,14 +45,17 @@
                                 <el-menu-item index="/manage/caseInfo">用例管理</el-menu-item>
                                 <el-menu-item index="/manage/moduleInfo">接口管理</el-menu-item>
 <!--                                <el-menu-item index="/manage/caseManage">接口信息</el-menu-item>-->
-                                <el-menu-item index="/manage/buildInFunc">内置方法</el-menu-item>
-                                <el-menu-item index="/manage/sceneConfig">业务配置</el-menu-item>
+                                <el-submenu index="1-4">
+                                    <template slot="title">其他方法</template>
+                                    <el-menu-item index="/manage/buildInFunc">内置方法</el-menu-item>
+                                    <el-menu-item index="/manage/sceneConfig">业务配置</el-menu-item>
+                                </el-submenu>
                             </el-menu-item-group>
                         </el-submenu>
                         <el-submenu index="3">
                             <template slot="title">
                                 <i class="el-icon-document"></i>
-                                <span>UIcase管理</span>
+                                <span>客户端自动化测试</span>
                             </template>
                             <el-menu-item-group>
                                 <el-menu-item index="/manage/projectManageUI">项目管理</el-menu-item>
@@ -85,7 +89,7 @@
                         <el-submenu index="5" v-show="role === '2'">
                             <template slot="title">
                                 <i class="el-icon-setting"></i>
-                                <span>系统管理</span>
+                                <span>系统设置</span>
                             </template>
                             <el-menu-item-group >
                                 <el-menu-item index="/manage/userManage">用户管理</el-menu-item>
@@ -108,9 +112,9 @@
                 </el-scrollbar>
             </el-aside>
             <el-container>
-                <el-header style="height: 40px;">
-                    <router-view class="view one" name="Header"></router-view>
-                </el-header>
+<!--                <el-header style="height: 40px;">-->
+<!--                    <router-view class="view one" name="Header"></router-view>-->
+<!--                </el-header>-->
 
                 <!--<el-header style="height: 40px;">-->
                 <!--<el-breadcrumb separator-class="el-icon-arrow-right">-->
@@ -178,12 +182,15 @@
 </script>
 
 <style>
-    .el-menu-vertical-demo:not(.el-menu--collapse) {
-        width: 220px;
+    #manage{
 
     }
+    .el-menu-vertical-demo:not(.el-menu--collapse) {
+        width: 200px;
+        background-color:#304156
+    }
     .menu-toggle {
-        background: #434650;
+        background: #304156;
         text-align: center;
         color: white;
         height: 26px;

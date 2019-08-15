@@ -58,9 +58,9 @@
                             <el-button type="primary" icon="el-icon-s-tools" size="mini"  v-if="false"
                                        @click.native="runModule(tableData[scope.$index]['moduleId'])">运行
                             </el-button>
-<!--                            <el-button type="primary" icon="el-icon-edit" size="mini"-->
-<!--                                       @click.native="editModule(tableData[scope.$index]['moduleId'],tableData[scope.$index]['name'])">编辑-->
-<!--                            </el-button>-->
+                            <el-button type="primary" icon="el-icon-edit" size="mini"
+                                       @click.native="editModule(tableData[scope.$index]['moduleId'],tableData[scope.$index]['name'])">编辑
+                            </el-button>
                             <el-button type="danger" icon="el-icon-delete" size="mini"
                                        @click.native="sureView(delModule,tableData[scope.$index]['moduleId'],tableData[scope.$index]['name'])">
                                 删除
@@ -92,7 +92,7 @@
         <el-dialog title="接口分类配置" :visible.sync="moduleData.viewStatus" width="30%">
             <el-form>
                 <el-form-item :required="true" label="接口分类名称" label-width="110px">
-                    <el-input v-model="moduleData.name">
+                    <el-input :maxlength="20" v-model="moduleData.name">
                     </el-input>
                 </el-form-item>
             </el-form>
@@ -242,6 +242,14 @@
             },
             //编辑保存
             addModule(){
+                if(!this.moduleData.name.replace(/(^\s*)|(\s*$)/g, "")){
+                    this.$message({
+                        showClose: true,
+                        message: '接口分类名称不能为空',
+                        type: 'warning',
+                    });
+                    return
+                }
                 this.$axios.post(this.$api.addModuleApi, {
                     'projectName': this.form.projectName,
                     'name': this.moduleData.name,
@@ -367,11 +375,13 @@
             },
             proHandleCurrentChange(val) {
                 this.currentPage = val;
-                this.findProject()
+                // this.findPageProject()
+                this.findModule();
             },
             proHandleSizeChange(val) {
                 this.sizePage = val;
-                this.findProject()
+                // this.findPageProject()
+                this.findModule();
             },
 
             findFuncAddress() {
