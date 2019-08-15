@@ -8,7 +8,8 @@ import caseManage from './projectView/apiMessage/apiMsg.vue'
 import moduleInfo from './projectView/moduleManage/module.vue'
 import uiCaseStepManager from './projectView/uiCaseStepManage/uiCaseStepInfo.vue'
 import uiCaseManager from './projectView/uiCaseManage/uiCaseInfo.vue'
-import uiCaseGather from './projectView/uiCaseManage/uiCaseGather.vue'//用例集
+import uiCaseGather from './projectView/uiCaseGatherManage/uiCaseGather.vue'//用例集
+// import caseEditGather from './projectView/uiCaseGatherManage/caseEditGather.vue'
 import manage from './projectView/manage.vue'
 import projectManage from './projectView/project/project.vue'
 import platformManage from './projectView/project/platform.vue'
