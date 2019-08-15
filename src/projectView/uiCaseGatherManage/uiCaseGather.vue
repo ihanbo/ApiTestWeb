@@ -376,7 +376,7 @@
             runUICaseSet(id) {
                 this.loading = true;
                 this.$axios.post(this.$api.runUIcaseSetApi, {
-                    'case_Id': id,
+                    'id': id,
                     'projectName': this.form.projectName,
                     'reportStatus': true,
                 }).then((response) => {
