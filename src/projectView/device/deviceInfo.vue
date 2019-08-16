@@ -3,12 +3,13 @@
     <el-table :data="deviceData" :row-class-name="tableRowClassName" class="device_info_container_table" border  fit highlight-current-row>
       <el-table-column prop="device" label="设备ID" width="282"></el-table-column>
       <el-table-column prop="name" label="设备名称" width="282"></el-table-column>
-      <el-table-column prop="is_free" label="设备状态">
-        <template slot-scope="scope">
-          <font v-if="scope.row.is_free === true" class="device_info_free">空闲</font>
-          <font v-else class="device_info_busy">繁忙</font>
-        </template>
-      </el-table-column>
+      <el-table-column prop="state" label="设备状态" width="282"></el-table-column>
+<!--      <el-table-column prop="is_free" label="设备状态">-->
+<!--        <template slot-scope="scope">-->
+<!--          <font v-if="scope.row.is_free === true" class="device_info_free">空闲</font>-->
+<!--          <font v-else class="device_info_busy">繁忙</font>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
     </el-table>
   </div>
 </template>
@@ -23,18 +24,15 @@ export default {
         {
           device: "1",
           name: "MI 8",
+          state:'假数据',
           is_free: true
         },
         {
           device: "2",
           name: "iPhone 8s plus",
+          state:'假数据',
           is_free: false
         },
-        {
-          device: "3",
-          name: "honor 10",
-          is_free: true
-        }
       ]
     };
   },
@@ -46,7 +44,7 @@ export default {
         is_free: false
       }).then(({ data }) => {
         //使用三点运算符，把三个数组拼接成新的数组
-        if(data.status) this.deviceData = [...this.deviceData,...data.data.android,...data.data.ios];
+        if(data.status) this.deviceData = [...data.data.android,...data.data.ios];
         else this.$message.error('网络连接中断');
       });
     },

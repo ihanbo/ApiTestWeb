@@ -277,6 +277,7 @@
                     caseName: null,
 
                 },
+                popup_caseset:null,
             }
         },
 
@@ -338,12 +339,13 @@
                 })
             },
             //用例运行
-            runUICaseSet({ device,name,is_free }) {
-                console.log("弹出层运行按钮点击后输出==>"+"device是："+device+",name是："+name+",is_free是："+is_free);
+            runUICaseSet(row) {
                 this.dialogTableVisible = !this.dialogTableVisible;
                 this.loading = true;
                 this.$axios.post(this.$api.runUIcaseSetApi, {
-                    'id': device,
+                    'udid': row.device,
+                    'device_name':row.name,
+                    'id':this.popup_caseset.id,
                     'projectName': this.form.projectName,
                     'reportStatus': true,
                 }).then((response) => {
@@ -452,13 +454,14 @@
             getDevicesGather(row){
                 console.log(row);
                 localStorage.row = row;
+                this.popup_caseset = row;
                 this.dialogTableVisible = !this.dialogTableVisible;
                 this.$axios.post(this.$api.getDevices,{
                         platform: this.form.platformId,
                         is_free: true
                     }).then(({data})=>{
                         //把得到的数据push进定义的空数组内
-                        if(data.status) this.deviceData.push(...data.data);
+                        if(data.status) this.deviceData=data.data;
                         else this.$message.error('网络连接中断');
                 })
             }
