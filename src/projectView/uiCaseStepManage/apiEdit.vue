@@ -20,6 +20,7 @@
                            placeholder="请选择模块"
                            value-key="moduleId"
                            size="small"
+                           @change="changeModuleChoice"
                            style="width: 150px;padding-right:5px">
                     <el-option
                             v-for="item in proModelData[this.form.projectName]"
@@ -88,17 +89,23 @@
                     </el-input>
                 </el-form-item>
 
+                <el-form-item prop="ui_selector" style="margin-bottom: 5px">
+                    <el-input v-model="caseStepData.ui_selector" placeholder="ui_selector" size="small">
+                    </el-input>
+                </el-form-item>
+                
                 <el-select v-model="caseStepData.action"
                            placeholder="元素行为"
                            value-key="id"
                            size="small">
                     <el-option
-                            v-for="(item) in this.action"
+                            v-for="(item) in action"
                             :key="item.id"
                             :label="item.action_name"
                             :value="item">
                     </el-option>
-                </el-select>
+                </el-select><br/>
+
                 <el-form-item prop="extraParam" style="margin-bottom: 5px">
                     <el-input v-model="caseStepData.extraParam" placeholder="携带参数" size="small">
                     </el-input>
@@ -153,13 +160,14 @@
                     num: null,
                     desc: null,
                     platform: null,
-                    xpath: null,
-                    resourceid: null,
-                    text: null,
-                    action: null,
-                    extraParam: null,
-                    set_up_hooks: null,
-                    set_down_hooks: null,
+                    xpath:null,
+                    resourceid:null,
+                    text:null,
+                    action:null,
+                    extraParam:null,
+                    ui_selector:null,
+                    set_up_hooks:null,
+                    set_down_hooks:null,
                 },
 
             }
@@ -171,9 +179,14 @@
                 require('brace/theme/chrome');
                 require('brace/snippets/json')
             },
+            //  改变项目选项时，清空模块和基础url的选择
             changeProChoice() {
-                //  改变项目选项时，清空模块和基础url的选择
                 this.form.module = '';
+                this.changeModuleChoice();
+            },
+            //改变模块是，清空平台
+            changeModuleChoice(){
+                this.caseStepData.platform = "";
             },
 
             initBaseData() {
@@ -193,15 +206,16 @@
                 this.caseStepData.num = null;
                 this.caseStepData.desc = null;
                 this.caseStepData.id = null;
-                this.caseStepData.platform = null,
-                    this.caseStepData.xpath = null,
-                    this.caseStepData.resourceid = null,
-                    this.caseStepData.text = null,
-                    this.caseStepData.action = null,
-                    this.caseStepData.extraParam = null,
-                    this.caseStepData.set_up_hooks = null,
-                    this.caseStepData.set_down_hooks = null,
-                    this.form.projectName = this.projectName;
+                this.caseStepData.platform=null;
+                this.caseStepData.xpath=null;
+                this.caseStepData.resourceid=null;
+                this.caseStepData.text=null;
+                this.caseStepData.action=null;
+                this.caseStepData.extraParam=null;
+                this.caseStepData.ui_selector=null;
+                this.caseStepData.set_up_hooks=null;
+                this.caseStepData.set_down_hooks=null;
+                this.form.projectName = this.projectName;
                 this.form.module = this.module;
             },
 

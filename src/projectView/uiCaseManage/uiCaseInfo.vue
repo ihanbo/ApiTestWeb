@@ -21,7 +21,7 @@
                            placeholder="请选择平台"
                            clearable
                            ref="platform"
-                           @change="initPlatformChoice()"
+                           @change="initPlatformChoice"
                            style="width: 150px;padding-right:5px">
                     <el-option
                             v-for="(item) in this.platformData"
