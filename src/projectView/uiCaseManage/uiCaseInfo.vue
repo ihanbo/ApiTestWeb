@@ -21,7 +21,7 @@
                            placeholder="请选择平台"
                            clearable
                            ref="platform"
-                           @change="initPlatformChoice()"
+                           @change="initPlatformChoice"
                            style="width: 150px;padding-right:5px">
                     <el-option
                             v-for="(item) in this.platformData"
@@ -564,7 +564,7 @@
                         is_free: true
                     }).then(({data})=>{
                         //把得到的数据push进定义的空数组内
-                        if(data.status) this.deviceData.push(...data.data);
+                        if(data.status) this.deviceData=data.data;
                         else this.$message.error('网络连接中断');
                 })
             }
