@@ -2,7 +2,8 @@
     <div class="uiCaseEdit">
 
         <el-form :inline="true" style="padding: 10px 20px -10px 10px;">
-            <el-form-item label="基础信息" labelWidth="80px" style="margin-bottom: 10px;margin-top:10px">
+            <el-form-item label="基础信息" labelWidth="80px"
+                          style="margin-bottom: 10px;margin-top:10px">
                 <el-select v-model="form.projectName"
                            placeholder="请选择项目"
                            size="small"
@@ -38,7 +39,9 @@
                             :value="item">
                     </el-option>
                 </el-select>
-                <el-button type="primary" @click.native="addCaseInfo()" size="small" style="margin-left: 50px">Save</el-button>
+                <el-button type="primary" @click.native="addCaseInfo()" size="small"
+                           style="margin-left: 50px">Save
+                </el-button>
             </el-form-item>
         </el-form>
         <hr style="height:1px;border:none;border-top:1px solid rgb(241, 215, 215);margin-top: -5px"/>
@@ -55,12 +58,14 @@
                 </el-form-item>
 
                 <el-form-item prop="set_up_hooks" style="margin-bottom: 5px">
-                    <el-input v-model="caseStepData.set_up_hooks" placeholder="set_up_hooks" size="small">
+                    <el-input v-model="caseStepData.set_up_hooks" placeholder="set_up_hooks"
+                              size="small">
                     </el-input>
                 </el-form-item>
 
                 <el-form-item prop="set_down_hooks" style="margin-bottom: 5px">
-                    <el-input v-model="caseStepData.set_down_hooks" placeholder="set_down_hooks" size="small">
+                    <el-input v-model="caseStepData.set_down_hooks" placeholder="set_down_hooks"
+                              size="small">
                     </el-input>
                 </el-form-item>
 
@@ -82,7 +87,7 @@
                     <el-input v-model="caseStepData.text" placeholder="元素文本（不推荐）" size="small">
                     </el-input>
                 </el-form-item>
-                
+
                 <el-select v-model="caseStepData.action"
                            placeholder="元素行为"
                            value-key="id"
@@ -140,21 +145,21 @@
                         moduleId: null,
                     },
                 },
-                platformData:[],
-                action:[],
+                platformData: [],
+                action: [],
                 caseStepData: {
                     id: null,
                     name: null,
                     num: null,
                     desc: null,
                     platform: null,
-                    xpath:null,
-                    resourceid:null,
-                    text:null,
-                    action:null,
-                    extraParam:null,
-                    set_up_hooks:null,
-                    set_down_hooks:null,
+                    xpath: null,
+                    resourceid: null,
+                    text: null,
+                    action: null,
+                    extraParam: null,
+                    set_up_hooks: null,
+                    set_down_hooks: null,
                 },
 
             }
@@ -170,7 +175,7 @@
                 //  改变项目选项时，清空模块和基础url的选择
                 this.form.module = '';
             },
-            
+
             initBaseData() {
                 //  初始化页面所需要的数据
                 this.$axios.get(this.$api.findPlatformApi).then((response) => {
@@ -188,15 +193,15 @@
                 this.caseStepData.num = null;
                 this.caseStepData.desc = null;
                 this.caseStepData.id = null;
-                this.caseStepData.platform=null,
-                this.caseStepData.xpath=null,
-                this.caseStepData.resourceid=null,
-                this.caseStepData.text=null,
-                this.caseStepData.action=null,
-                this.caseStepData.extraParam=null,
-                this.caseStepData.set_up_hooks=null,
-                this.caseStepData.set_down_hooks=null,
-                this.form.projectName = this.projectName;
+                this.caseStepData.platform = null,
+                    this.caseStepData.xpath = null,
+                    this.caseStepData.resourceid = null,
+                    this.caseStepData.text = null,
+                    this.caseStepData.action = null,
+                    this.caseStepData.extraParam = null,
+                    this.caseStepData.set_up_hooks = null,
+                    this.caseStepData.set_down_hooks = null,
+                    this.form.projectName = this.projectName;
                 this.form.module = this.module;
             },
 
@@ -259,13 +264,32 @@
                     });
                     return
                 }
-                if (!this.caseStepData.xpath && !this.caseStepData.resourceid && !this.caseStepData.text) {
+                if (!this.caseStepData.desc) {
                     this.$message({
                         showClose: true,
-                        message: '必填！路径，资源id，文本至少整一炮',
+                        message: '请输入名称',
                         type: 'warning',
                     });
                     return
+                }
+                if (!this.caseStepData.platform) {
+                    this.$message({
+                        showClose: true,
+                        message: '请选择平台',
+                        type: 'warning',
+                    });
+                    return
+                }
+                alert(this.caseStepData.action.action)
+                if (this.caseStepData.action.action == 'click' || this.caseStepData.action.action == 'input') {
+                    if (!this.caseStepData.xpath && !this.caseStepData.resourceid && !this.caseStepData.text) {
+                        this.$message({
+                            showClose: true,
+                            message: '必填！路径，资源id，文本至少整一炮',
+                            type: 'warning',
+                        });
+                        return
+                    }
                 }
 
                 return this.$axios.post(this.$api.addUIcaseStepApi, {
@@ -275,12 +299,15 @@
                     'caseStepName': this.caseStepData.name,
                     'num': this.caseStepData.num,
                     'desc': this.caseStepData.desc,
-                    'platform':this.caseStepData.platform.id,
+                    'platform': this.caseStepData.platform.id,
                     'xpath': this.caseStepData.xpath,
                     'resourceid': this.caseStepData.resourceid,
                     'text': this.caseStepData.text,
-                    'action':this.caseStepData.action.id,
-                    'extraParam':this.caseStepData.extraParam,
+                    'action_id': this.caseStepData.action.id,
+                    'action_name': this.caseStepData.action.action,
+                    'set_up': this.caseStepData.set_up_hooks,
+                    'tear_down': this.caseStepData.set_down_hooks,
+                    'extraParam': this.caseStepData.extraParam,
                 }).then((response) => {
                         if (messageClose) {
                             return response
@@ -304,12 +331,14 @@
                             this.caseStepData.num = '';
                             this.caseStepData.id = '';
                         }
-                        
+
                         this.caseStepData.desc = response.data['data']['desc'];
                         this.caseStepData.platform = response.data['data']['platform'];
                         this.caseStepData.action = response.data['data']['action'];
                         this.caseStepData.xpath = response.data['data']['xpath'];
                         this.caseStepData.text = response.data['data']['text'];
+                        this.caseStepData.set_up_hooks = response.data['data']['set_up'];
+                        this.caseStepData.set_down_hooks = response.data['data']['tear_down'];
                         this.caseStepData.resourceid = response.data['data']['resourceid'];
                         this.caseStepData.extraParam = response.data['data']['extraParam'];
                         this.form.projectName = this.projectName;
