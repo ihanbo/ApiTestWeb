@@ -248,4 +248,8 @@ export default {
     .el-header{
         background-color: #072140;
     }
+    .el-menu--horizontal>.el-submenu .el-submenu__title{
+        height: 70px;
+        line-height: 70px;
+     }
 </style>
