@@ -428,8 +428,7 @@ export default {
             return response;
           } else {
             if (this.messageShow(this, response)) {
-              this.caseData.id = response.data["caseId"];
-              this.caseData.num = response.data["num"];
+              this.initApiMsgData()
               return true;
             }
           }
