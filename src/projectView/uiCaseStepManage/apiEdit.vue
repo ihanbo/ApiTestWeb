@@ -286,8 +286,7 @@
                             return response
                         } else {
                             if (this.messageShow(this, response)) {
-                                this.caseStepData.id = response.data['caseStepId'];
-                                this.caseStepData.num = response.data['num'];
+                                this.initApiMsgData()
                                 return true
                             }
                         }
