@@ -40,6 +40,10 @@ Vue.use(VueRouter);
 
 const routes = [
     {
+        path: '/',
+        redirect: '/manage/projectManage',
+    },
+    {
         path: '/manage',
         // component:caseManage,
         component: manage,
@@ -206,6 +210,7 @@ const routes = [
             },
             {
                 path: 'uiTestReport',
+                // redirect: '/manage/uiTestReport',
                 meta: {
                     requireAuth: true,
                 },

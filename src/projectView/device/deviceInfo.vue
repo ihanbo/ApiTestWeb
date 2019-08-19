@@ -1,15 +1,21 @@
 <template>
   <div class="device_info_container_div">
-    <el-table :data="deviceData" :row-class-name="tableRowClassName" class="device_info_container_table" border  fit highlight-current-row>
-      <el-table-column prop="device" label="设备ID" width="282"></el-table-column>
-      <el-table-column prop="name" label="设备名称" width="282"></el-table-column>
-      <el-table-column prop="state" label="设备状态" width="282"></el-table-column>
-<!--      <el-table-column prop="is_free" label="设备状态">-->
-<!--        <template slot-scope="scope">-->
-<!--          <font v-if="scope.row.is_free === true" class="device_info_free">空闲</font>-->
-<!--          <font v-else class="device_info_busy">繁忙</font>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
+    <el-table :data="deviceData"
+              class="device_info_container_table"
+              border
+              stripe
+              fit
+              highlight-current-row>
+      <!-- 三格时宽度是：341，四格时宽度是：255 -->
+      <el-table-column prop="device" label="设备ID" width="255"></el-table-column><!-- 1 -->
+      <el-table-column prop="name" label="设备名称" width="255"></el-table-column><!-- 2 -->
+      <el-table-column prop="state" label="数据状态" width="255"></el-table-column><!-- 3.请求到后台数据时删除此项 -->
+      <el-table-column prop="is_free" label="设备状态"><!-- 4 -->
+        <template slot-scope="scope">
+          <font v-if="scope.row.is_free === true" class="device_info_free">空闲</font>
+          <font v-else class="device_info_busy">繁忙</font>
+        </template>
+      </el-table-column>
     </el-table>
   </div>
 </template>
@@ -20,12 +26,13 @@ export default {
   data() {
     return {
       platformNum: 3,
+      // 当能请求到后台数据后不需要渲染假数据，把deviceData设为空数组，或者删除赋值时的 ...this.deviceData 均可
       deviceData: [
         {
-          device: "1",
-          name: "MI 8",
-          state:'假数据',
-          is_free: true
+          device: "1",   //设备ID
+          name: "MI 8",  //设备名称
+          state:'假数据', //标识此数据为开发时使用的假数据
+          is_free: true  //设备状态
         },
         {
           device: "2",
@@ -43,16 +50,19 @@ export default {
         platform: this.platformNum,
         is_free: false
       }).then(({ data }) => {
+        console.log(data);
         //使用三点运算符，把三个数组拼接成新的数组
-        if(data.status) this.deviceData = [...data.data.android,...data.data.ios];
+        // 当能请求到后台数据后不需要渲染假数据，把deviceData设为空数组，或者删除赋值时的 ...this.deviceData 均可
+        if(data.status) this.deviceData = [...this.deviceData,...data.data.android,...data.data.ios];
         else this.$message.error('网络连接中断');
+        console.log(this.deviceData)
       });
     },
-    tableRowClassName({row, rowIndex}) {
-      console.log(row.is_free);
-      if (row.is_free === true) return 'device_info_success-row';
-      else return 'device_info_warning-row';
-    }
+    // tableRowClassName({row, rowIndex}) {
+    //   console.log(row.is_free);
+    //   if (row.is_free === true) return 'device_info_success-row';
+    //   else return 'device_info_warning-row';
+    // }
   },
   created() {
     this.getDevices();
@@ -75,6 +85,14 @@ export default {
         margin: 0 auto;
         color: #444;
     }
+    /* 鼠标划过当前行时的颜色 */
+    .el-table--enable-row-hover .el-table__body tr:hover>td{
+      background-color: #9FB6CD !important;
+    }
+    /* 选中的当前行的高亮颜色 */
+    .el-table__body tr.current-row>td {
+        background: #ffec8b !important;
+    }
     /* 状态为 "繁忙" 时的字体颜色 */
     .device_info_busy{
       color: #f56c6c;
@@ -84,19 +102,11 @@ export default {
       color: #67c23a;
     }
     /* 状态为 "繁忙" 时当前行的颜色 */
-    .el-table .device_info_warning-row {
+    /* .el-table .device_info_warning-row {
       background: oldlace;
-    }
+    } */
     /* 状态为 "空闲" 时当前行的颜色 */
-    .el-table .device_info_success-row {
+    /* .el-table .device_info_success-row {
       background: #f0f9eb;
-    }
-    /* 选中的当前行的高亮颜色 */
-    .el-table__body tr.current-row>td {
-        background: #ffec8b !important;
-    }
-    /* 鼠标划过当前行时的颜色 */
-    /* .el-table--enable-row-hover .el-table__body tr:hover>td{
-      background-color: #9FB6CD !important;
     } */
 </style>
