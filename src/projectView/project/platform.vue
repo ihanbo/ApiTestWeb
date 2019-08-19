@@ -3,7 +3,7 @@
 
         <el-form :inline="true" class="demo-form-inline search-style" size="small">
             <el-form-item>
-                <el-button type="primary" @click.native="initProjectData()">添加平台
+                <el-button class=" platform-btn-left" type="primary" @click.native="initProjectData()">添加平台
                 </el-button>
             </el-form-item>
         </el-form>
@@ -52,7 +52,7 @@
             </el-tabs>
 
             <div slot="footer" class="dialog-footer">
-                <el-button @click="this.modelFormVisible = false" size="small">取 消</el-button>
+                <el-button @click="modelFormVisible = false" size="small">取 消</el-button>
                 <el-button type="primary" id="sure_btn"
                            @click.native="addPlatform()" size="small">确 定
                 </el-button>
@@ -127,5 +127,8 @@
         },
     }
 </script>
-<style>
+<style scoped>
+    .platform-btn-left{
+        margin-left: 15px;
+    }
 </style>

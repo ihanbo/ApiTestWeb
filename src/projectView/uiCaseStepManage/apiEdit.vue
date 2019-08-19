@@ -54,6 +54,16 @@
                     </el-input>
                 </el-form-item>
 
+                <el-form-item prop="set_up_hooks" style="margin-bottom: 5px">
+                    <el-input v-model="caseStepData.set_up_hooks" placeholder="set_up_hooks" size="small">
+                    </el-input>
+                </el-form-item>
+
+                <el-form-item prop="set_down_hooks" style="margin-bottom: 5px">
+                    <el-input v-model="caseStepData.set_down_hooks" placeholder="set_down_hooks" size="small">
+                    </el-input>
+                </el-form-item>
+
             </el-form-item>
         </el-form>
         <el-form :inline="true" style="padding: 10px 20px -10px 10px;">
@@ -143,6 +153,8 @@
                     text:null,
                     action:null,
                     extraParam:null,
+                    set_up_hooks:null,
+                    set_down_hooks:null,
                 },
 
             }
@@ -182,6 +194,8 @@
                 this.caseStepData.text=null,
                 this.caseStepData.action=null,
                 this.caseStepData.extraParam=null,
+                this.caseStepData.set_up_hooks=null,
+                this.caseStepData.set_down_hooks=null,
                 this.form.projectName = this.projectName;
                 this.form.module = this.module;
             },

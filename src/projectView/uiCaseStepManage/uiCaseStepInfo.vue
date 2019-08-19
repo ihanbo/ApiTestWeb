@@ -18,10 +18,10 @@
             <el-form-item label="应用平台" v-if="numTab !== 'third'">
                 <el-select v-model="form.platformId"
                            placeholder="请选择平台"
-                           @change="initPlatformChoice()"
+                           @change="initPlatformChoice"
                            style="width: 150px;padding-right:5px">
                     <el-option
-                            v-for="(item) in this.platformData"
+                            v-for="(item) in platformData"
                             :label="item.name"
                             :key="item.id"
                             :value="item.id">
@@ -306,7 +306,6 @@
             handleSizeChange(val) {
                 this.apiMsgPage.sizePage = val;
                 this.findCases();
-
             },
 
             //  查询用例信息
@@ -317,9 +316,8 @@
                         message: '请选择模块',
                         type: 'warning',
                     });
-                    return
-                }
-                if (this.form.platformId === null) {
+                    this.platformData = null;
+                }else if (this.form.platformId === null) {
                     this.$message({
                         showClose: true,
                         message: '请选择平台',
@@ -390,10 +388,11 @@
                 this.form.module = {name: null, moduleId: null,};
                 this.modulePage.currentPage = 1;
                 this.apiMsgPage.currentPage = 1;
+                this.form.platformId = null;
                 this.findModule()
             },
             //  当平台选择项改变时，初始化模块和配置的数据
-            initPlatformChoice(id) {
+            initPlatformChoice() {
                 this.findCases()
             },   
             //  查询接口模块
