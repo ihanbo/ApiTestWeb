@@ -17,6 +17,7 @@
           placeholder="请选择模块"
           value-key="moduleId"
           size="small"
+          @change="changeModuleChoice"
           style="width: 120px;padding-right:5px"
         >
           <el-option
@@ -97,7 +98,6 @@
         <el-col :span="12">
           <el-form :inline="true" style="padding-top: 10px;" size="small">
             <el-form-item label=" " labelWidth="10px">
-              <!--  @change="changeModuleChoice()" -->
               <el-select
                 v-model="stepsInfo.apiMesProjectName"
                 style="width: 150px;padding-right:5px"
@@ -304,14 +304,14 @@ export default {
         this.caseData.steps.splice(i, 1);
       }
     },
+    //  改变项目选项时，清空模块和基础url的选择
     changeProChoice() {
-      //  改变项目选项时，清空模块和基础url的选择
       this.form.module = "";
-      this.form.platform = "";
+      this.changeModuleChoice();
     },
-    // 看不懂的事件
+    // 改变模块时，清空平台
     changeModuleChoice(){
-
+      this.form.platform = "";
     },
     handleCurrentCase(val) {
       this.apiMsgPage.currentPage = val;

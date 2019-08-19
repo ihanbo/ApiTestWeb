@@ -330,6 +330,7 @@ export default {
     // 项目选择时，清空数据
     changeProChoice() {
       //  改变项目选项时，清空模块和基础url的选择
+      this.form.platform = "";
       this.form.module = "";
     },
     //看不懂的事件
