@@ -295,7 +295,7 @@
                     return
                 }
                 if (this.caseStepData.action.action == 'click' || this.caseStepData.action.action == 'input') {
-                    if (!this.caseStepData.xpath && !this.caseStepData.resourceid && !this.caseStepData.text) {
+                    if (!this.caseStepData.xpath && !this.caseStepData.resourceid && !this.caseStepData.text&& !this.caseStepData.ui_selector) {
                         this.$message({
                             showClose: true,
                             message: '必填！路径，资源id，文本至少整一个',
@@ -316,6 +316,7 @@
                     'xpath': this.caseStepData.xpath,
                     'resourceid': this.caseStepData.resourceid,
                     'text': this.caseStepData.text,
+                    'ui_selector': this.caseStepData.ui_selector,
                     'action_id': this.caseStepData.action.id,
                     'action_name': this.caseStepData.action.action,
                     'set_up': this.caseStepData.set_up_hooks,
