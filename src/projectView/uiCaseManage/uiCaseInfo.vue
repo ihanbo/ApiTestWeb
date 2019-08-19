@@ -563,7 +563,7 @@
                         is_free: true
                     }).then(({data})=>{
                         //把得到的数据push进定义的空数组内
-                        if(data.status) this.deviceData.push(...data.data);
+                        if(data.status) this.deviceData=data.data;
                         else this.$message.error('网络连接中断');
                 })
             }
