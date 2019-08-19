@@ -284,7 +284,7 @@
                     if (!this.caseStepData.xpath && !this.caseStepData.resourceid && !this.caseStepData.text) {
                         this.$message({
                             showClose: true,
-                            message: '必填！路径，资源id，文本至少整一炮',
+                            message: '必填！路径，资源id，文本至少整一个',
                             type: 'warning',
                         });
                         return
