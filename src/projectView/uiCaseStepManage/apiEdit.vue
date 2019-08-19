@@ -280,7 +280,6 @@
                     });
                     return
                 }
-                alert(this.caseStepData.action.action)
                 if (this.caseStepData.action.action == 'click' || this.caseStepData.action.action == 'input') {
                     if (!this.caseStepData.xpath && !this.caseStepData.resourceid && !this.caseStepData.text) {
                         this.$message({
