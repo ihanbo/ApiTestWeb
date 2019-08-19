@@ -339,7 +339,7 @@
             handleApiMsgSelection(val) {
                 this.apiMsgList = val;
             },
-            // 当前页改变时会触发该事件
+            //当前页改变时会触发该事件
             handleCurrentChange(val) {
                 this.apiMsgPage.currentPage = val;
                 this.findCases();
@@ -376,7 +376,7 @@
                     'page': this.apiMsgPage.currentPage,
                     'sizePage': this.apiMsgPage.sizePage,
                 }).then((response) => {
-                        console.log(1111111,response.data)
+                        // console.log(1111111,response.data)
                         if (this.messageShow(this, response)) {
                             this.ApiMsgTableData = response.data['data'];
                             this.apiMsgPage.total = response.data['total'];
@@ -445,6 +445,7 @@
                 this.form.module = {name: null, moduleId: null,};
                 this.modulePage.currentPage = 1;
                 this.apiMsgPage.currentPage = 1;
+                this.form.platformId = "";
                 this.findModule()
             },
             //  当平台选择项改变时，初始化模块和配置的数据

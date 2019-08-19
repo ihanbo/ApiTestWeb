@@ -4,7 +4,7 @@
             :default-active="navigationName"  
             class="el-menu-demo"
             mode="horizontal"
-            background-color="#304156"
+            background-color="#002142"
             text-color="#fff"
             active-text-color="#ffd04b"
             :router="true">
