@@ -68,6 +68,7 @@
                     <!--</el-table-column>-->
                     <el-table-column
                             label="操作"
+                            width="400"
                     >
                         <template slot-scope="scope">
                             <el-button type="primary" icon="el-icon-s-tools" size="mini"
@@ -490,6 +491,7 @@
                     'page': this.currentPage,
                     'sizePage': this.sizePage,
                 }).then((response) => {
+                        this.proAndIdData = response.data['project_set'];
                         this.setDataList = response.data['data'];
                         this.allSetList = response.data['all_set'];
                         // this.allSetList[this.form.projectName] = response.data['all_set'];
@@ -618,6 +620,7 @@
             };
             if(this.type == 1){
                 this.findSet();
+                // this.initData();
             }
 
         },

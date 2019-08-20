@@ -23,7 +23,7 @@
                         </el-form>
                     <el-form :inline="true"  size="small" class="demo-form-inline" >
                         <el-form-item label="函数文件" style="padding-left: 9px">
-                            <el-select v-model="configData.funcAddress" multiple  placeholder="请选择导入函数文件" size="small">
+                            <el-select v-model="configData.funcAddress"   placeholder="请选择导入函数文件" size="mini">
                                 <el-option
                                         v-for="item in this.funcAddress"
                                         :key="item.value"

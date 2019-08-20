@@ -72,7 +72,8 @@
                         let form = new FormData();
                         form.append("file", file.raw);
                         form.append("skip", '1');
-                        this.$axios.post('/api/upload',form ).then((response) => {
+                        // this.$axios.post('/api/upload',form ).then((response) => {
+                        this.$axios.post(this.$api.uploadFileApi,form ).then((response) => {
                                 this.$message({
                                     showClose: true,
                                     message: response.data['msg'],
