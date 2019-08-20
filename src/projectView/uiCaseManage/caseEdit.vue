@@ -255,6 +255,7 @@ export default {
         this.caseData.id = null;
         this.caseData.module.name = null,
         this.caseData.module.moduleId = null,
+        this.caseData.steps = null,
         // this.caseData.platform=null,
         // this.caseData.xpath=null,
         // this.caseData.resourceid=null,
@@ -350,6 +351,7 @@ export default {
         });
         return;
       }
+
       this.caseData.steps = this.caseData.steps.concat(this.apiMsgVessel);
       this.caseData.steps = JSON.parse(JSON.stringify(this.caseData.steps));
     },

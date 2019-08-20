@@ -279,6 +279,7 @@ export default {
         this.caseGatherData.num = null;
         this.caseGatherData.desc = null;
         this.caseGatherData.id = null;
+        this.caseGatherData.steps = null;
         this.caseGatherData.module.name = null,
         this.caseGatherData.module.moduleId = null,
         this.form.projectName = this.projectName;
