@@ -7,15 +7,14 @@
               fit
               highlight-current-row>
       <!-- 三格时宽度是：341，四格时宽度是：255 -->
-      <el-table-column prop="device" label="设备ID" width="255"></el-table-column><!-- 1 -->
-      <el-table-column prop="name" label="设备名称" width="255"></el-table-column><!-- 2 -->
-      <el-table-column prop="state" label="数据状态" width="255"></el-table-column><!-- 3.请求到后台数据时删除此项 -->
-<!--      <el-table-column prop="is_free" label="设备状态">&lt;!&ndash; 4 &ndash;&gt;-->
-<!--        <template slot-scope="scope">-->
-<!--          <font v-if="scope.row.is_free === true" class="device_info_free">空闲</font>-->
-<!--          <font v-else class="device_info_busy">繁忙</font>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
+      <el-table-column prop="device" label="设备ID" width="255"></el-table-column>
+      <el-table-column prop="name" label="设备名称" width="255"></el-table-column>
+      <el-table-column prop="state" label="设备状态">
+        <template slot-scope="scope">
+          <font v-if="scope.row.state === '空闲'" class="device_info_free">空闲</font>
+          <font v-else class="device_info_busy">繁忙</font>
+        </template>
+      </el-table-column>
     </el-table>
   </div>
 </template>
@@ -26,21 +25,19 @@ export default {
   data() {
     return {
       platformNum: 3,
-      // 当能请求到后台数据后不需要渲染假数据，把deviceData设为空数组，或者删除赋值时的 ...this.deviceData 均可
-      deviceData: [
-        {
-          device: "1",   //设备ID
-          name: "MI 8",  //设备名称
-          state:'假数据', //标识此数据为开发时使用的假数据
-          is_free: true  //设备状态
-        },
-        {
-          device: "2",
-          name: "iPhone 8s plus",
-          state:'假数据',
-          is_free: false
-        },
-      ]
+      /**
+       * {
+       *  device: "1",   //设备ID
+       *  name: "MI 8",  //设备名称
+       *  state:"繁忙" //设备状态
+       * },
+       * {
+       *  device: "2",
+       *  name: "iPhone 8s plus",
+       *  state: "空闲"
+       * },
+       */
+      deviceData: []
     };
   },
   methods: {
@@ -52,17 +49,11 @@ export default {
       }).then(({ data }) => {
         console.log(data);
         //使用三点运算符，把三个数组拼接成新的数组
-        // 当能请求到后台数据后不需要渲染假数据，把deviceData设为空数组，或者删除赋值时的 ...this.deviceData 均可
-        if(data.status) this.deviceData = [...this.deviceData,...data.data.android,...data.data.ios];
+        if(data.status) this.deviceData = [...data.data.android,...data.data.ios];
         else this.$message.error('网络连接中断');
         console.log(this.deviceData)
       });
-    },
-    // tableRowClassName({row, rowIndex}) {
-    //   console.log(row.is_free);
-    //   if (row.is_free === true) return 'device_info_success-row';
-    //   else return 'device_info_warning-row';
-    // }
+    }
   },
   created() {
     this.getDevices();

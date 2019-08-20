@@ -61,7 +61,7 @@
             <!-- 图片开始 -->
             <div class="demo-image__placeholder">
               <div class="block">
-                <el-image :src="'http://172.20.15.54:9000/'+props.row.cases[caseIndex].case_step[caseIndexLast].pic">
+                <el-image :src="'http://172.20.15.54:9000/api/'+props.row.cases[caseIndex].case_step[caseIndexLast].pic">
                   <div slot="placeholder" class="image-slot">
                     加载中<span class="dot">...</span>
                   </div>

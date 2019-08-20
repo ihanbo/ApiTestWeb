@@ -67,8 +67,7 @@
                            @click.native="handleCurrentChange(1)">搜索
                 </el-button>
                 <el-button type="primary" @click.native="initData()">录入信息</el-button>
-                <el-button type="primary" @click.native="$refs.importApiFunc.initData()">批量导入
-                </el-button>
+                <!-- <el-button type="primary" @click.native="$refs.importApiFunc.initData()">批量导入</el-button> -->
             </el-form-item>
             <!-- 搜索、录入信息、批量导入三按钮 -->
         </el-form>
@@ -112,10 +111,10 @@
                                                @click.native="editCopyApi(ApiMsgTableData[scope.$index]['id'],'edit')">
                                         编辑
                                     </el-button>
-                                    <el-button type="primary" icon="el-icon-tickets" size="mini"
-                                               @click.native="editCopyApi(ApiMsgTableData[scope.$index]['id'],'add')">
-                                        添加
-                                    </el-button>
+                                    <!-- <el-button type="primary" icon="el-icon-tickets" size="mini" -->
+                                               <!-- @click.native="editCopyApi(ApiMsgTableData[scope.$index]['id'],'add')"> -->
+                                        <!-- 添加 -->
+                                    <!-- </el-button> -->
                                     <el-button type="danger" icon="el-icon-delete" size="mini"
                                                @click.native="sureView(delApi,ApiMsgTableData[scope.$index]['id'],ApiMsgTableData[scope.$index]['name'])">
                                         删除

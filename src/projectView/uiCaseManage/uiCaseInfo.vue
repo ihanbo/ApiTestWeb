@@ -40,7 +40,7 @@
             <el-form-item>
                 <el-button type="primary" icon="el-icon-search" @click.native="handleCurrentChange(1)">搜索</el-button>
                 <el-button type="primary" @click.native="initData()">录入信息</el-button>
-                <el-button type="primary" @click.native="$refs.importApiFunc.initData()">批量导入</el-button>
+                <!-- <el-button type="primary" @click.native="$refs.importApiFunc.initData()">批量导入</el-button> -->
             </el-form-item>
         </el-form>
         <el-tabs v-model="numTab" class="table_padding" @tab-click="tabChange">
@@ -125,10 +125,10 @@
                                                @click.native="editCopyApi(ApiMsgTableData[scope.$index]['id'],'edit')">
                                         编辑
                                     </el-button>
-                                    <el-button type="primary" icon="el-icon-tickets" size="mini"
-                                               @click.native="editCopyApi(ApiMsgTableData[scope.$index]['id'],'copy')">
-                                        复制
-                                    </el-button>
+                                    <!-- <el-button type="primary" icon="el-icon-tickets" size="mini" -->
+                                               <!-- @click.native="editCopyApi(ApiMsgTableData[scope.$index]['id'],'copy')"> -->
+                                        <!-- 复制 -->
+                                    <!-- </el-button> -->
                                     <el-button type="danger" icon="el-icon-delete" size="mini"
                                                @click.native="sureView(delApi,ApiMsgTableData[scope.$index]['id'],ApiMsgTableData[scope.$index]['name'])">
                                         删除
