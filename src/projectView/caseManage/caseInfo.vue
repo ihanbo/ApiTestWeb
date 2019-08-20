@@ -68,7 +68,6 @@
                     <!--</el-table-column>-->
                     <el-table-column
                             label="操作"
-                            width="400"
                     >
                         <template slot-scope="scope">
                             <el-button type="primary" icon="el-icon-s-tools" size="mini"
