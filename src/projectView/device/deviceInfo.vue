@@ -6,9 +6,8 @@
               stripe
               fit
               highlight-current-row>
-      <!-- 三格时宽度是：341，四格时宽度是：255 -->
-      <el-table-column prop="device" label="设备ID" width="255"></el-table-column>
-      <el-table-column prop="name" label="设备名称" width="255"></el-table-column>
+      <el-table-column prop="device" label="设备ID" width="341"></el-table-column>
+      <el-table-column prop="name" label="设备名称" width="341"></el-table-column>
       <el-table-column prop="state" label="设备状态">
         <template slot-scope="scope">
           <font v-if="scope.row.state === '空闲'" class="device_info_free">空闲</font>
