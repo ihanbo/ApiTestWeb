@@ -139,21 +139,13 @@
             }
         },
         methods: {
-            handleCurrentChange(val) {
-                this.currentPage = val;
-                this.findReport()
-            },
-            handleSizeChange(val) {
-                this.sizePage = val;
-                this.findReport()
-            },
             initData() {
-                this.$axios.get(this.$api.baseUIDataApi).then((response) => {
+                this.$axios.get(this.$api.baseUIDataApi)
+                    .then((response) => {
                         this.form.projectName = response.data['user_pro']['pro_name'];
-                        this.findReport()
                         this.proData = response.data['pro_and_id'];
-                    }
-                );
+                        this.findReport();
+                });
             },
             findReport() {
                 this.$axios.post(this.$api.findUiReportApi, {
@@ -161,47 +153,48 @@
                     'projectName': this.form.projectName,
                     'sizePage': this.sizePage,
                 }).then((response) => {
-                        if (this.messageShow(this, response)) {
-                            this.tableData = response.data['data'];
-                            this.total = response.data['total'];
-                        }
+                    if (this.messageShow(this, response)) {
+                        this.tableData = response.data['data'];
+                        this.total = response.data['total'];
                     }
-                )
+                })
             },
             delReport(report_id) {
                 this.$axios.post(this.$api.delUiReportApi, {'report_id': report_id}).then((response) => {
-                        this.messageShow(this, response);
-                        if ((this.currentPage - 1) * this.sizePage + 1 === this.total) {
-                            this.currentPage = this.currentPage - 1
-                        }
-                        this.findReport();
+                    this.messageShow(this, response);
+                    if ((this.currentPage - 1) * this.sizePage + 1 === this.total) {
+                        this.currentPage = this.currentPage - 1
                     }
-                )
+                    this.findReport();
+                })
             },
-            //ui测试报告
+            //打开ui测试报告
             check(report_id) {
-
-                let {href} = this.$router.resolve({path: 'uiTestReport', query: {report_id: report_id}});
-                window.open(href, '_blank');
-                console.log(report_id);
-            
                 this.$axios.post(this.$api.seeUiReportApi, {
                     'report_id': report_id
-                    }).then(({data}) => {
-                        // this.messageShow(this, response);
-                        console.log(data.msg);
+                }).then(({data}) => {
+                    // this.messageShow(this, response);
+                    console.log(data);
+                    if(data.status){
+                        let {href} = this.$router.resolve({path: 'uiTestReport', query: {report_id: report_id}});
+                        window.open(href, '_blank');
+                        this.findReport();
+                    }else{
+                        this.$message.error('网络连接错误');
                     }
-                )
-                
+                })
             },
-            
-
+            handleCurrentChange(val) {
+                this.currentPage = val;
+                this.findReport()
+            },
+            handleSizeChange(val) {
+                this.sizePage = val;
+                this.findReport()
+            }
         },
         mounted() {
             this.initData();
-            // this.findReport();
-
-
         },
     }
 </script>
