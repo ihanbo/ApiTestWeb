@@ -17,7 +17,7 @@
                 </el-select>
             </el-form-item>
             <!-- 选择项目 结束 -->
-            
+
             <!-- 选择平台 开始 -->
             <el-form-item label="应用平台" v-if="numTab !== 'third'">
                 <el-select v-model="form.platformId"
@@ -36,36 +36,38 @@
             </el-form-item>
             <!-- 选择平台 结束 -->
 
-            <!-- 选择case信息 开始 -->
+            <!-- 输入case信息 开始 -->
             <!-- 输入框 -->
-             <el-form-item label="case名称" v-if="numTab !== 'third'">
+            <el-form-item label="case名称" v-if="numTab !== 'third'">
                 <el-input placeholder="请输入" v-model="form.caseName" clearable style="width: 150px">
                 </el-input>
             </el-form-item>
 
             <!-- 下拉框 -->
-           <!-- <el-form-item label="case信息" v-if="numTabTwo !== 'third'">
-                <el-select v-model="form.caseName"
-                           placeholder="请选择case信息"
-                           clearable
-                           ref="caseInfo"
-                           @change="initCaseNameChoice()"
-                           style="width: 150px;padding-right:5px">
-                    <el-option
-                            v-for="(item) in caseInfoList"
-                            :label="item.name"
-                            :key="item.id"
-                            :value="item.id">
-                    </el-option>
-                </el-select>
-            </el-form-item> -->
-            <!-- 选择case信息 结束 -->
+            <!-- <el-form-item label="case信息" v-if="numTabTwo !== 'third'">
+                 <el-select v-model="form.caseName"
+                            placeholder="请选择case信息"
+                            clearable
+                            ref="caseInfo"
+                            @change="initCaseNameChoice()"
+                            style="width: 150px;padding-right:5px">
+                     <el-option
+                             v-for="(item) in caseInfoList"
+                             :label="item.name"
+                             :key="item.id"
+                             :value="item.id">
+                     </el-option>
+                 </el-select>
+             </el-form-item> -->
+            <!-- 输入case信息 结束 -->
 
             <!-- 搜索、录入信息、批量导入三按钮 -->
             <el-form-item>
-                <el-button type="primary" icon="el-icon-search" @click.native="handleCurrentChange(1)">搜索</el-button>
+                <el-button type="primary" icon="el-icon-search"
+                           @click.native="handleCurrentChange(1)">搜索
+                </el-button>
                 <el-button type="primary" @click.native="initData()">录入信息</el-button>
-                <el-button type="primary" @click.native="$refs.importApiFunc.initData()">批量导入</el-button>
+                <!-- <el-button type="primary" @click.native="$refs.importApiFunc.initData()">批量导入</el-button> -->
             </el-form-item>
             <!-- 搜索、录入信息、批量导入三按钮 -->
         </el-form>
@@ -109,24 +111,25 @@
                                                @click.native="editCopyApi(ApiMsgTableData[scope.$index]['id'],'edit')">
                                         编辑
                                     </el-button>
-                                    <el-button type="primary" icon="el-icon-tickets" size="mini"
-                                               @click.native="editCopyApi(ApiMsgTableData[scope.$index]['id'],'add')">
-                                        添加
-                                    </el-button>
+                                    <!-- <el-button type="primary" icon="el-icon-tickets" size="mini" -->
+                                               <!-- @click.native="editCopyApi(ApiMsgTableData[scope.$index]['id'],'add')"> -->
+                                        <!-- 添加 -->
+                                    <!-- </el-button> -->
                                     <el-button type="danger" icon="el-icon-delete" size="mini"
                                                @click.native="sureView(delApi,ApiMsgTableData[scope.$index]['id'],ApiMsgTableData[scope.$index]['name'])">
                                         删除
                                     </el-button>
-                                    <!-- @click.native="runApi(ApiMsgTableData[scope.$index]['id'],'copy')" -->
-                                    <el-button type="primary" icon="el-icon-run" size="mini" ref="runBtn" 
-                                               @click.native="runApi(ApiMsgTableData[scope.$index]['id']),'copy'">
+                                    <el-button type="primary" icon="el-icon-run" size="mini"
+                                               ref="runBtn"
+                                               @click.native="getDevicesGather(scope.row)">
                                         运行
                                     </el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
 
-                        <el-button @click="cancelSelection()" size="mini" style="position: absolute;margin-top: 2px;">
+                        <el-button @click="cancelSelection()" size="mini"
+                                   style="position: absolute;margin-top: 2px;">
                             取消选择
                         </el-button>
                         <!-- 分页部分 -->
@@ -162,12 +165,7 @@
             </el-tab-pane>
         </el-tabs>
 
-        <!-- <result ref="resultFunc">
-        </result> -->
-
-        <errorView ref="errorViewFunc">
-        </errorView>
-
+        <errorView ref="errorViewFunc"></errorView>
         <importApi
                 :projectName="form.projectName"
                 :moduleData="form.module"
@@ -181,23 +179,41 @@
                 :funcAddress="funcAddress"
                 ref="configEditFunc">
         </configEdit>
+
+        <!-- 运行按钮的弹出层 -->
+        <el-dialog title="设备信息" :visible.sync="dialogTableVisible" center="">
+            <el-table :data="deviceData">
+                <el-table-column property="device" label="设备ID" width="150"></el-table-column>
+                <el-table-column property="name" label="设备名称" width="200"></el-table-column>
+                <el-table-column label="运行">
+                    <template slot-scope="scopeTwo">
+                        <!-- 弹出层的运行按钮 -->
+                        <!-- runUICaseSet(ApiMsgTableData[scope.$index]['id']) -->
+                        <el-button type="primary" size="small"
+                                   @click.native="runUICaseSet(scopeTwo.row)"
+                        >运行</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <span slot="footer" class="dialog-footer">
+                <el-button type="warning" plain size="small" @click="dialogTableVisible = false">取 消</el-button>
+            </span>
+        </el-dialog>
+        <!-- 运行按钮的弹出层 end -->
     </div>
 </template>
 
 <script>
-    // import result from './result.vue'
     import importApi from './importCases.vue'
     import apiEdit from '../uiCaseGatherManage/caseEditGather.vue'
     import errorView from '../common/errorView.vue'
     import configEdit from '../config/configEdit.vue'
-    import { constants } from 'crypto';
-
+    import {constants} from 'crypto';
     // import { runMain } from 'module';
 
     export default {
         name: "uiCaseGatherManager",
         components: {
-            // result: result,
             importApi: importApi,
             apiEdit: apiEdit,
             errorView: errorView,
@@ -212,16 +228,14 @@
                 numTabTwo: 'second',
                 loading: false,  //  页面加载状态开关
 
-                // dialogTableVisible: false,//控制运行按钮弹出层的显示隐藏
-                //数据列表,假数据
-                deviceData: [],
+                dialogTableVisible: false,//控制运行按钮弹出层的显示隐藏
+                deviceData: [],//设备信息列表
 
                 seekCaseId: "",
                 proModelData: '',
                 proAndIdData: '',
                 configData: '',
                 proUrlData: null,
-                // caseGatherList: [],
                 ApiMsgTableData: [],//  接口表单数据
                 apiMsgList: [],//  临时存储接口数据
                 funcAddress: [],
@@ -240,7 +254,7 @@
                     currentPage: 1,
                     sizePage: 30,
                 },
-                platformData:[],
+                platformData: [],
                 caseInfoList: [],
                 moduleData: {
                     viewStatus: false,
@@ -254,76 +268,42 @@
                         moduleId: '',
                         num: '',
                     },
-                    platformId:null,
+                    platformId: null,
                     projectName: null,
                     projectId: null,
                     suiteName: null,
                     apiName: null,
-                    caseName:null,
+                    caseName: null,
 
                 },
+                popup_caseset:null,
             }
         },
 
         methods: {
             // 初始化页面初始数据
-            initBaseData(id) {
+            initBaseData() {
                 this.$axios.get(this.$api.baseUIDataApi)
                     .then((response) => {
                         this.proModelData = response.data['data'];
                         this.proAndIdData = response.data['pro_and_id'];
                         if (response.data['user_pro']) {
                             this.form.projectName = response.data['user_pro']['pro_name'];
-                            this.findModule();
                         }
-                    }
-                )
+                        this.findPlatform();
+                    })
             },
-            // 项目改变时的方法
-            initProjectChoice() {
-                //  当项目选择项改变时，初始化模块和配置的数据
-                this.form.config = {name: null, configId: null,};
-                this.form.module = {name: null, moduleId: null,};
-                this.modulePage.currentPage = 1;
-                this.apiMsgPage.currentPage = 1;
-                this.form.platformId = "";
-                this.form.caseName = "";
-                this.findModule();
-            },
-            // 平台改变时的方法
-            initPlatformChoice(id) {
-                //  当选择平台时，清空用例信息和相关用例信息的用例集列表
-                this.form.caseName = "";//清空用例信息
-                this.ApiMsgTableData = [];//清空用例集列表
-                // this.findModule();
-                this.findCases()//调用查询用例信息方法
-            },
-            // // 用例信息改变时的方法
-            // initCaseNameChoice(){
-            //     this.seekCaseName(this.form.caseName);//调用查询用例集的方法
-            // },
-
             //查询应用平台
-            findPlatform(){
-                this.$axios.get(this.$api.findPlatformApi).then((response) => {
-                    // console.log(1-1-1-11-1,response)
+            findPlatform() {
+                this.$axios.get(this.$api.findPlatformApi)
+                    .then((response) => {
                         this.platformData = response.data['data'];
-                        this.form.platformId =  this.platformData[this.numZero]['id'];
-                        // console.log(43434343,this.platformData);
+                        this.form.platformId = this.platformData[this.numZero]['id'];
                         this.findCases();
-                    }
-                )
+                    })
             },
             //  查询用例信息
-            findCases(acquireCaseId) {
-                // if (this.form.module === null) {
-                //     this.$message({
-                //         showClose: true,
-                //         message: '请选择模块',
-                //         type: 'warning',
-                //     });
-                //     return
-                // }
+            findCases() {
                 if (this.form.platformId === null) {
                     this.$message({
                         showClose: true,
@@ -332,20 +312,19 @@
                     });
                     return
                 }
-                this.$axios.post(this.$api.findUIcaseApi, {
+                this.$axios.post(this.$api.findUIcaseSetApi, {
                     'platform': this.form.platformId,
                     'projectName': this.form.projectName,
-                    'caseName': this.form.caseName,
-                    'moduleId': this.form.module.moduleId,
+                    'caseSetName': this.form.caseName,
                     'page': this.apiMsgPage.currentPage,
                     'sizePage': this.apiMsgPage.sizePage,
                 }).then((response) => {
                     //输入框
-                    console.log(1111111,response.data)
-                    // if (this.messageShow(this, response)) {
-                    //     this.ApiMsgTableData = response.data['data'];
-                    //     this.apiMsgPage.total = response.data['total'];
-                    // }
+                    // console.log(1111111, response.data)
+                    if (this.messageShow(this, response)) {
+                        this.ApiMsgTableData = response.data['data'];
+                        this.apiMsgPage.total = response.data['total'];
+                    }
 
                     // 下拉框
                     // console.log("____1",data.data);
@@ -358,23 +337,49 @@
                     // }
                 })
             },
-            // 查询用例集
-            seekCaseName(acquireCaseId){
-                if(this.form.caseName){
-                    this.$axios.post(this.$api.editUIcaseApi,{
-                        id: acquireCaseId
-                    }).then(({data})=>{
-                        console.log(12121212,data);
-                        // this.caseGatherList = data.data.steps;
-                        this.ApiMsgTableData = data.data.steps;
-                    })
-                }
+            //用例运行
+            runUICaseSet(row) {
+                this.dialogTableVisible = !this.dialogTableVisible;
+                this.loading = true;
+                this.$axios.post(this.$api.runUIcaseSetApi, {
+                    'udid': row.device,
+                    'device_name':row.name,
+                    'id':this.popup_caseset.id,
+                    'projectName': this.form.projectName,
+                    'reportStatus': true,
+                }).then((response) => {
+                    console.log(222222,response);
+                    this.loading = false;
+                    this.messageShow(this, response);
+                        // if (response.data['status'] === 1) {
+                        //     this.loading = false;
+                        //     this.$message({
+                        //         showClose: true,
+                        //         message: response.data['msg'],
+                        //         type: 'success',
+                        //     });
+                        // }
+                    }
+                )
             },
-            
-            //添加case用例信息
-            addCaseList(){
-                
+            // 删除用例
+            delApi(apiMsgId) {
+                // this.$refs.apiFunc.delStepInCase(apiMsgId);
+                // this.findCases();
+                //  删除接口信息
+                //delUIcaseApi
+                this.$axios.post(this.$api.delUIcaseSetApi, {'id': apiMsgId}).then((response) => {
+                        this.messageShow(this, response);
+                        this.form.apiName = null;
+                        if ((this.apiMsgPage.currentPage - 1) * this.apiMsgPage.sizePage + 1 === this.apiMsgPage.total) {
+                            this.apiMsgPage.currentPage = this.apiMsgPage.currentPage - 1
+                        }
+                        this.findCases();
+                    }
+                )
             },
+
+
             //  编辑或者添加信息-----编辑按钮--添加按钮----打开同一界面
             editCopyApi(apiMsgId, status) {
                 this.apiEditViewStatus = true;
@@ -383,141 +388,6 @@
                     this.$refs.apiFunc.editCopyApiMsg(apiMsgId, status);
                     // console.log(33333,apiMsgId);
                 }, 0)
-            },
-
-            runApi(apiMsgId) {
-                //  测试--runUIcaseApi
-                this.loading = true;
-                this.$axios.post(this.$api.runUIcaseApi, {
-                    'id': apiMsgId
-                }).then((response) => {
-                    this.loading = false;
-                    console.log(11111,response);
-                    this.messageShow(this, response);
-                    // console.log(1111,apiMsgId);
-                    
-                })
-            },
-            //用例运行
-            runUICaseSet(id){
-                this.loading = true;
-                this.$axios.post(this.$api.runUIcaseSetApi, {
-                    'case_Id': id,
-                    'projectName': this.form.projectName,
-                    'reportStatus': true,
-                }).then((response) => {
-                    if (response.data['status'] === 1) {
-                        this.loading = false;
-                        this.$message({
-                            showClose: true,
-                            message: response.data['msg'],
-                            type: 'success',
-                         });
-                    }
-                    this.findCases(id);
-                    }
-                )
-            },
-            runUICaseScene(sceneIds, status = false, reportStatus = false) {
-                //  status，为true时，批量运行用例，为false运行单用例
-                //  reportStatus，为true时生成报告，为false时返回临时数据
-                let _sceneIds = [];
-                if (sceneIds.length === 0) {
-                    this.$message({
-                        showClose: true,
-                        message: '请选择测试用例',
-                        type: 'warning',
-                    });
-                    return
-                }
-                if (status) {
-                    //  为true时，提取选中用例的id
-                    for (let i = 0; i < sceneIds.length; i++) {
-                        _sceneIds.push(sceneIds[i].sceneId);
-                    }
-                } else {
-                    _sceneIds.push(sceneIds)
-                }
-                this.loading = true;
-                //runCaseApi
-                this.$axios.post(this.$api.runUIcaseApi, {
-                    'reportStatus': reportStatus,
-                    'sceneIds': _sceneIds,
-                    'projectName': this.form.projectName
-                }).then((response) => {
-                        this.loading = false;
-                        if (response.data['status'] === 0) {
-                            this.$message({
-                                showClose: true,
-                                message: response.data['msg'],
-                                type: 'warning',
-                            });
-                            if (response.data['error']) {
-                                this.$refs.errorViewFunc.showData(response.data['error']);
-                            }
-                        } else {
-                            this.$message({
-                                showClose: true,
-                                message: response.data['msg'],
-                                type: 'success',
-                            });
-                            if (reportStatus) {
-                                let {href} = this.$router.resolve({
-                                    path: 'reportShow',
-                                    query: {reportId: response.data['data']['report_id']}
-                                });
-                                window.open(href, '_blank');
-                            } else {
-                                let tempData = {'details': [{'records': [], 'in_out': {'out': ''}}]};
-
-                                for (let i = 0; i < response['data']['data']['data']['details'].length; i++) {
-                                    tempData['details'][0]['records'] = tempData['details'][0]['records'].concat(response['data']['data']['data']['details'][i]['records'])
-                                }
-                                this.$refs.resultFunc.showData(tempData);
-                            }
-                        }
-                    }
-                );
-            },
-            // 删除用例
-            delApi(apiMsgId) {
-                // this.$refs.apiFunc.delStepInCase(apiMsgId);
-                // this.findCases();
-                //  删除接口信息
-                //delUIcaseApi
-                this.$axios.post(this.$api.delUIcaseApi, {'id': apiMsgId}).then((response) => {
-                        this.messageShow(this, response);
-                        this.form.apiName = null;
-                        if ((this.apiMsgPage.currentPage - 1) * this.apiMsgPage.sizePage + 1 === this.apiMsgPage.total) {
-                            this.apiMsgPage.currentPage = this.apiMsgPage.currentPage - 1
-                        }
-                        this.findCases(apiMsgId);
-                    }
-                )
-            },
-
-
-            //  查询接口模块
-            findModule() {
-                this.$axios.post(this.$api.findUIModuleApi, {
-                    'projectName': this.form.projectName,
-                    'page': this.modulePage.currentPage,
-                    'sizePage': this.modulePage.sizePage,
-                }).then((response) => {
-                    console.log(123455677,response)
-                        if (this.messageShow(this, response)) {
-                            this.moduleDataList = response.data['data'];
-                            this.proModelData[this.form.projectName] = response.data['all_module'];
-                            this.modulePage.total = response.data['total'];
-                            this.form.module = this.moduleDataList[0];
-                            if (this.form.module) {
-                                this.findPlatform();
-                            } else {
-                                this.ApiMsgTableData = []
-                            }
-                        }
-                    }
-                )
             },
             //  初始化数据并进入编辑tab
             initData() {
@@ -535,6 +405,23 @@
                     this.$refs.apiFunc.initApiMsgData();
                 }, 0)
             },
+            // 项目改变时的方法
+            initProjectChoice() {
+                //  当项目选择项改变时，初始化模块和配置的数据
+                this.form.config = {name: null, configId: null,};
+                this.form.module = {name: null, moduleId: null,};
+                this.modulePage.currentPage = 1;
+                this.apiMsgPage.currentPage = 1;
+                this.form.platformId = "";
+                this.form.caseName = "";
+            },
+            // 平台改变时的方法
+            initPlatformChoice() {
+                //  当选择平台时，清空用例信息和相关用例信息的用例集列表
+                this.form.caseName = "";//清空用例信息
+                this.ApiMsgTableData = [];//清空用例集列表
+                this.findCases()//调用查询用例信息方法
+            },
             // 当选择项发生变化时会触发该事件
             handleApiMsgSelection(val) {
                 this.apiMsgList = val;
@@ -546,7 +433,7 @@
             },
             //每页显示条数改变时会触发该事件
             handleSizeChange(val) {
-                console.log("val+++++++",val)
+                console.log("val+++++++", val)
                 this.apiMsgPage.sizePage = val;
                 this.findCases();
             },
@@ -562,8 +449,24 @@
                     this.findCases();
                 }
             },
+             //调取设备信息接口----弹出层
+            getDevicesGather(row){
+                console.log(row);
+                localStorage.row = row;
+                this.popup_caseset = row;
+                this.dialogTableVisible = !this.dialogTableVisible;
+                this.$axios.post(this.$api.getDevices,{
+                        platform: this.form.platformId,
+                        is_free: true
+                    }).then(({data})=>{
+                        //把得到的数据push进定义的空数组内
+                        if(data.status) this.deviceData=data.data;
+                        else this.$message.error('网络连接中断');
+                })
+            }
         },
         created() {
+            // 数据生成之后先初始化数据
             this.initBaseData();
         },
     }

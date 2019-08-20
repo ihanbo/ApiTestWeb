@@ -17,6 +17,7 @@
           placeholder="请选择模块"
           value-key="moduleId"
           size="small"
+          @change="changeModuleChoice"
           style="width: 120px;padding-right:5px"
         >
           <el-option
@@ -100,9 +101,7 @@
               <el-select
                 v-model="stepsInfo.apiMesProjectName"
                 style="width: 150px;padding-right:5px"
-                placeholder="请选择项目"
-                @change="changeModuleChoice()"
-              >
+                placeholder="请选择项目">
                 <el-option v-for="(item, key) in proModelData" :key="key" :value="key"></el-option>
               </el-select>
 
@@ -110,14 +109,12 @@
                 v-model="stepsInfo.module"
                 value-key="moduleId"
                 style="width: 150px;padding-right:5px"
-                placeholder="请选择模块"
-              >
+                placeholder="请选择模块">
                 <el-option
                   v-for="item in proModelData[this.stepsInfo.apiMesProjectName]"
                   :key="item.moduleId"
                   :label="item.name"
-                  :value="item"
-                ></el-option>
+                  :value="item"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label>
@@ -173,8 +170,7 @@
         </el-col>
       </el-row>
     </div>
-
-    <result ref="resultFunc"></result>
+    <!-- <result ref="resultFunc"></result> -->
 
     <errorView ref="errorViewFunc"></errorView>
   </div>
@@ -183,12 +179,14 @@
 <script>
 // import result from "./result.vue";
 import errorView from "../common/errorView.vue";
+import draggable from "vuedraggable";
 
 export default {
   components: {
-    editor: require("vue2-ace-editor"),
+    // editor: require("vue2-ace-editor"),
     // result: result,
-    errorView: errorView
+    errorView: errorView,
+    draggable: draggable
   },
   name: "uiCaseEdit",
   props: ["proModelData", "projectName", "module", "proUrlData"],
@@ -244,6 +242,29 @@ export default {
     };
   },
   methods: {
+    initBaseData() {
+      //  初始化页面所需要的数据
+      this.$axios.get(this.$api.findPlatformApi).then(response => {
+        this.platformData = response.data["data"];
+      });
+    },
+    initApiMsgData() {
+        this.caseData.name = null;
+        this.caseData.num = null;
+        this.caseData.desc = null;
+        this.caseData.id = null;
+        this.caseData.module.name = null,
+        this.caseData.module.moduleId = null,
+        this.caseData.steps = null,
+        // this.caseData.platform=null,
+        // this.caseData.xpath=null,
+        // this.caseData.resourceid=null,
+        // this.caseData.text=null,
+        // this.caseData.action=null,
+        // this.caseData.extraParam=null,
+        this.form.projectName = this.projectName;
+        this.form.module = this.module;
+    },
     editorInit() {
       require("brace/ext/language_tools");
       require("brace/mode/json");
@@ -284,24 +305,27 @@ export default {
         this.caseData.steps.splice(i, 1);
       }
     },
+    //  改变项目选项时，清空模块和基础url的选择
     changeProChoice() {
-      //  改变项目选项时，清空模块和基础url的选择
       this.form.module = "";
+      this.changeModuleChoice();
+    },
+    // 改变模块时，清空平台
+    changeModuleChoice(){
+      this.form.platform = "";
     },
     handleCurrentCase(val) {
       this.apiMsgPage.currentPage = val;
       this.findApiMsg();
     },
-    initBaseData() {
-      //  初始化页面所需要的数据
-      this.$axios.get(this.$api.findPlatformApi).then(response => {
-        this.platformData = response.data["data"];
-      });
+    handleSizeCase(val) {
+        this.apiMsgPage.sizePage = val;
+        this.findCases();
+
     },
     findApiMsg() {
       this.radio = false;
-      this.$axios
-        .post(this.$api.findUIcaseStepApi, {
+      this.$axios.post(this.$api.findUIcaseStepApi, {
           projectName: this.stepsInfo.apiMesProjectName,
           moduleId: this.stepsInfo.module.moduleId,
           caseStepName: this.stepsInfo.apiName,
@@ -310,6 +334,7 @@ export default {
           sizePage: this.apiMsgPage.sizePage
         })
         .then(response => {
+          console.log(111112343411,response);
           if (this.messageShow(this, response)) {
             this.radio = false;
             this.ApiMsgData = response.data["data"];
@@ -326,6 +351,7 @@ export default {
         });
         return;
       }
+
       this.caseData.steps = this.caseData.steps.concat(this.apiMsgVessel);
       this.caseData.steps = JSON.parse(JSON.stringify(this.caseData.steps));
     },
@@ -404,8 +430,7 @@ export default {
             return response;
           } else {
             if (this.messageShow(this, response)) {
-              this.caseData.id = response.data["caseId"];
-              this.caseData.num = response.data["num"];
+              this.initApiMsgData()
               return true;
             }
           }
@@ -432,7 +457,7 @@ export default {
           this.form.projectName = this.projectName;
           this.form.module = this.module;
         });
-    }
+    },
   },
   mounted() {
     this.initBaseData();

@@ -127,7 +127,7 @@ const delUiReportApi = baseUrl+'report/del_ui';
 //ui用例集
 const editUIcaseSetApi = baseUrl+'uicase_set/editAndCopy';
 const delUIcaseSetApi = baseUrl+'uicase_set/delete';
-const runUIcaseSetApi = baseUrl+'uicases_set/run_caseset';
+const runUIcaseSetApi = baseUrl+'uicase_set/run_caseset';
 const findUIcaseSetApi = baseUrl+'uicase_set/list';
 const addUIcaseSetApi = baseUrl+'uicase_set/add';
 const delCaseInCasesetApi = baseUrl+'uicase_set/delCase';

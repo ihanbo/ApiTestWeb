@@ -41,13 +41,13 @@
 
         <!-- case名称输入框 -->
         <el-form-item prop="name" style="margin-bottom: 5px">
-          <el-input v-model="caseData.name" placeholder="case名称" size="small"></el-input>
+          <el-input v-model="caseGatherData.name" placeholder="case名称" size="small"></el-input>
         </el-form-item>
         <!-- case名称输入框 END -->
 
         <!-- case描述输入框 -->
         <el-form-item prop="desc" style="margin-bottom: 5px">
-          <el-input v-model="caseData.desc" placeholder="case描述" size="small"></el-input>
+          <el-input v-model="caseGatherData.desc" placeholder="case描述" size="small"></el-input>
         </el-form-item>
         <!-- case名称输入框 END -->
 
@@ -78,11 +78,11 @@
             <el-col :span="4" style="padding-left: 50px;">操作</el-col>
           </el-row>
           <draggable
-            v-model="caseData.steps"
+            v-model="caseGatherData.steps"
             :options="{group:'apiData',animation:300}"
             style="width: 99%;min-height: 10px;"
           >
-            <div v-for="(_data, index) in caseData.steps" :key="index" class="list-complete-item">
+            <div v-for="(_data, index) in caseGatherData.steps" :key="index" class="list-complete-item">
               <el-row :gutter="12">
                 <el-col
                   :span="2"
@@ -110,11 +110,11 @@
           <!-- 上半部分---搜索 -->
           <el-form :inline="true" style="padding-top: 10px;" size="small">
             <el-form-item label=" " labelWidth="10px">
+              <!-- @change="changeModuleChoice()" -->
               <el-select
                 v-model="stepsInfo.apiMesProjectName"
                 style="width: 150px;padding-right:5px"
-                placeholder="请选择项目"
-                @change="changeModuleChoice()">
+                placeholder="请选择项目">
                 <el-option v-for="(item, key) in proModelData" :key="key" :value="key"></el-option>
               </el-select>
 
@@ -134,7 +134,7 @@
               <el-input placeholder="请输入用例" v-model="stepsInfo.apiName" style="width: 150px"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click.native="handleCurrentCase(1)" size="mini">搜索</el-button>
+              <el-button type="primary" @click.native="handleCurrentCaseGather(1)" size="mini">搜索</el-button>
               <el-button type="primary" size="mini" @click.native="addApiData()">添加</el-button>
             </el-form-item>
           </el-form>
@@ -180,8 +180,8 @@
 
           <!-- 分页 -->
           <el-pagination
-            @current-change="handleCurrentCase"
-            @size-change="handleSizeCase"
+            @current-change="handleCurrentCaseGather"
+            @size-change="handleSizeCaseGather"
             :current-page="apiMsgPage.currentPage"
             :page-size="apiMsgPage.sizePage"
             :page-sizes="[15, 30, 45, 60]"
@@ -203,12 +203,14 @@
 <script>
 // import result from "./result.vue";
 import errorView from "../common/errorView.vue";
+import draggable from "vuedraggable";
 
 export default {
   components: {
-    editor: require("vue2-ace-editor"),
+    // editor: require("vue2-ace-editor"),
     // result: result,
-    errorView: errorView
+    errorView: errorView,
+    draggable: draggable
   },
   name: "uiCaseGatherEdit",
   props: ["proModelData", "projectName", "module", "proUrlData"],
@@ -250,7 +252,7 @@ export default {
         }
       },
       platformData: [],
-      caseData: {
+      caseGatherData: {
         module: {
           name: null,
           moduleId: null
@@ -271,6 +273,18 @@ export default {
         this.platformData = response.data["data"];
       });
     },
+    //
+    initApiMsgData() {
+        this.caseGatherData.name = null;
+        this.caseGatherData.num = null;
+        this.caseGatherData.desc = null;
+        this.caseGatherData.id = null;
+        this.caseGatherData.steps = null;
+        this.caseGatherData.module.name = null,
+        this.caseGatherData.module.moduleId = null,
+        this.form.projectName = this.projectName;
+        this.form.module = this.module;
+    },
     // 编辑初始化
     editorInit() {
       require("brace/ext/language_tools");
@@ -285,11 +299,11 @@ export default {
     // 删除用例
     delStepInCase(i) {
       //判断caseList中是否存在id，存在则在数据库删除信息，否则在前端删除临时数据
-      if ("id" in this.caseData.steps[i]) {
+      if ("id" in this.caseGatherData.steps[i]) {
         this.$confirm(
           "是否删除用例中已保存的步骤：" +
             '<strong style="color: red;">' +
-            this.caseData.steps[i]["name"] +
+            this.caseGatherData.steps[i]["name"] +
             "</strong>" +
             "?",
           "提示",
@@ -302,34 +316,44 @@ export default {
         )
           .then(() => {
             this.$axios
-              .post(this.$api.delStepInCaseApi, {
-                id: this.caseData.steps[i]["id"]
+              .post(this.$api.delCaseInCasesetApi, {
+                id: this.caseGatherData.steps[i]["id"]
               })
               .then(() => {
-                this.caseData.steps.splice(i, 1);
+                this.caseGatherData.steps.splice(i, 1);
               });
           })
           .catch(() => {});
       } else {
-        this.caseData.steps.splice(i, 1);
+        this.caseGatherData.steps.splice(i, 1);
       }
     },
     // 项目选择时，清空数据
     changeProChoice() {
       //  改变项目选项时，清空模块和基础url的选择
+      this.form.platform = "";
       this.form.module = "";
     },
+    //看不懂的事件
+    changeModuleChoice(){
+
+    },
     // 当前页变化时的事件
-    handleCurrentCase(val) {
+    handleCurrentCaseGather(val) {
       this.apiMsgPage.currentPage = val;
       this.findApiMsg();
+    },
+    //每页显示条数改变时会触发该事件
+    handleSizeCaseGather(val) {
+        this.apiMsgPage.sizePage = val;
+        this.findCases();
+
     },
     // 查询接口
     findApiMsg() {
       this.radio = false;
-      this.$axios.post(this.$api.findUIcaseStepApi, {
+      this.$axios.post(this.$api.findUIcaseApi, {
           projectName: this.stepsInfo.apiMesProjectName,
-          moduleId: this.stepsInfo.module.moduleId,
           caseStepName: this.stepsInfo.apiName,
           platform: this.form.platform.id,
           page: this.apiMsgPage.currentPage,
@@ -354,8 +378,8 @@ export default {
         });
         return;
       }
-      this.caseData.steps = this.caseData.steps.concat(this.apiMsgVessel);
-      this.caseData.steps = JSON.parse(JSON.stringify(this.caseData.steps));
+      this.caseGatherData.steps = this.caseGatherData.steps.concat(this.apiMsgVessel);
+      this.caseGatherData.steps = JSON.parse(JSON.stringify(this.caseGatherData.steps));
     },
     // 文件改变时的事件
     fileChange(response, file) {
@@ -400,15 +424,7 @@ export default {
         });
         return;
       }
-      if (!this.form.module) {
-        this.$message({
-          showClose: true,
-          message: "请选择业务模块",
-          type: "warning"
-        });
-        return;
-      }
-      if (!this.caseData.name) {
+      if (!this.caseGatherData.name) {
         this.$message({
           showClose: true,
           message: "请输入名称",
@@ -418,23 +434,22 @@ export default {
       }
 
       return this.$axios
-        .post(this.$api.addUIcaseApi, {
-          moduleId: this.form.module.moduleId,
+        .post(this.$api.addUIcaseSetApi, {
           projectName: this.form.projectName,
-          caseId: this.caseData.id,
-          caseName: this.caseData.name,
-          num: this.caseData.num,
-          desc: this.caseData.desc,
+          caseSetId: this.caseGatherData.id,
+          caseSetName: this.caseGatherData.name,
+          num: this.caseGatherData.num,
+          caseSetDesc: this.caseGatherData.desc,
           platform: this.form.platform.id,
-          steps: this.caseData.steps
+          steps: this.caseGatherData.steps
         })
         .then(response => {
           if (messageClose) {
             return response;
           } else {
             if (this.messageShow(this, response)) {
-              this.caseData.id = response.data["caseId"];
-              this.caseData.num = response.data["num"];
+              this.caseGatherData.id = response.data["caseId"];
+              this.caseGatherData.num = response.data["num"];
               return true;
             }
           }
@@ -443,24 +458,22 @@ export default {
     // 编辑和复制时的事件
     editCopyApiMsg(apiMsgId, status) {
       // 
-      this.$axios
-        .post(this.$api.editUIcaseApi, { id: apiMsgId })
+      this.$axios.post(this.$api.editUIcaseSetApi, { id: apiMsgId })
         .then(response => {
           // console.log(2222222,response);
           // console.log(44444,apiMsgId);
-          this.caseData.name = response.data["data"]["name"];
-          this.caseData.desc = response.data["data"]["desc"];
-          this.caseData.steps = response.data["data"]["steps"];
+          this.caseGatherData.name = response.data["data"]["name"];
+          this.caseGatherData.desc = response.data["data"]["desc"];
+          this.caseGatherData.steps = response.data["data"]["steps"];
           this.form.platform = response.data["data"]["platform"];
           if (status === "edit") {
-            this.caseData.num = response.data["data"]["num"];
-            this.caseData.id = apiMsgId;
+            this.caseGatherData.num = response.data["data"]["num"];
+            this.caseGatherData.id = apiMsgId;
           } else {
-            this.caseData.num = "";
-            this.caseData.id = "";
+            this.caseGatherData.num = "";
+            this.caseGatherData.id = "";
           }
           this.form.projectName = this.projectName;
-          this.form.module = this.module;
         });
     }
   },

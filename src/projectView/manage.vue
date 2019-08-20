@@ -1,195 +1,109 @@
 <template>
-
-    <div id="manage">
+    <div>
+        <el-menu
+            :default-active="navigationName"  
+            class="el-menu-demo"
+            mode="horizontal"
+            background-color="#002142"
+            text-color="#fff"
+            active-text-color="#ffd04b"
+            :router="true">
+            <el-submenu index="1">
+                <template slot="title">服务端自动化测试</template>
+                <el-menu-item index="/manage/projectManage" exact>项目管理</el-menu-item>
+                <el-menu-item index="/manage/caseInfo">用例管理</el-menu-item>
+                <el-menu-item index="/manage/moduleInfo">接口管理</el-menu-item>
+                <el-submenu index="1-4">
+                    <template slot="title">其他方法</template>
+                    <el-menu-item index="/manage/buildInFunc">内置方法</el-menu-item>
+                    <el-menu-item index="/manage/sceneConfig">业务配置</el-menu-item>
+                </el-submenu>
+            </el-submenu>
+            <el-submenu index="2">
+                <template slot="title">客户端自动化测试</template>
+                <el-menu-item index="/manage/projectManageUI">项目管理</el-menu-item>
+                <el-menu-item index="/manage/platformManage">应用平台</el-menu-item>
+                <el-menu-item index="/manage/deviceInfo">设备信息</el-menu-item>
+                <el-menu-item index="/manage/uiCaseStepManager">case步骤</el-menu-item>
+                <el-menu-item index="/manage/uiCaseManager">case信息</el-menu-item>
+                <el-menu-item index="/manage/uiCaseGather">case用例集</el-menu-item>
+                <el-menu-item index="/manage/reportUiManage">UI测试报告</el-menu-item>
+            </el-submenu>
+            <el-submenu index="3">
+                <template slot="title">报告管理</template>
+                <el-menu-item index="/manage/resultSummary">执行概况</el-menu-item>
+                <el-menu-item index="/manage/resultDetail">执行详细</el-menu-item>
+                <el-menu-item index="/manage/reportManage">测试报告</el-menu-item>
+                <el-menu-item index="/manage/taskManage">定时任务</el-menu-item>
+            </el-submenu>
+            <el-submenu index="4">
+                <template slot="title">系统设置</template>
+                <el-menu-item index="/manage/userManage">用户管理</el-menu-item>
+            </el-submenu>
+        </el-menu>
+        <!-- 页面信息 -->
         <el-container>
-
-            <el-aside width="auto" style="min-height:936px;background-color:#304156">
-                <!--<div style="margin: 0 0 40px;line-height: 30px;">-->
-                    <!--测试平台-->
-                <!--</div>-->
-                <div class="menu-toggle" @click.prevent="collapse">
-                    <i class="my-icon-xiangzuo-copy" v-show="!collapsed"></i>
-                    <i class="my-icon-xiangyou" v-show="collapsed"></i>
-                </div>
-                <el-scrollbar wrap-class="specialList">
-                    <el-menu
-                            :default-active="navigationName"
-                            :unique-opened="true"
-                            background-color="#304156"
-                            text-color="#fff"
-                            active-text-color="#ffd04b"
-                            :router="true"
-                            :collapse="collapsed"
-                            class="el-menu-vertical-demo" >
-
-                        <!--<el-submenu index="1">-->
-                            <!--<template slot="title">-->
-                                <!--<i class="el-icon-menu"></i>-->
-                                <!--<span>项目管理</span>-->
-                            <!--</template>-->
-
-                            <!--<el-menu-item-group>-->
-                                <!--<el-menu-item index="/manage/projectManage">项目</el-menu-item>-->
-                                <!--&lt;!&ndash;<el-menu-item index="/manage/test">测试</el-menu-item>&ndash;&gt;-->
-
-                            <!--</el-menu-item-group>-->
-                        <!--</el-submenu>-->
-                        <el-submenu index="2">
-                            <template slot="title">
-                                <i class="el-icon-document"></i>
-                                <span>服务端自动化测试</span>
-                            </template>
-                            <el-menu-item-group>
-                                <el-menu-item index="/manage/projectManage">项目管理</el-menu-item>
-                                <!--<el-menu-item index="/manage/modelManage">接口模块</el-menu-item>-->
-                                <el-menu-item index="/manage/caseInfo">用例管理</el-menu-item>
-                                <el-menu-item index="/manage/moduleInfo">接口管理</el-menu-item>
-<!--                                <el-menu-item index="/manage/caseManage">接口信息</el-menu-item>-->
-                                <el-submenu index="1-4">
-                                    <template slot="title">其他方法</template>
-                                    <el-menu-item index="/manage/buildInFunc">内置方法</el-menu-item>
-                                    <el-menu-item index="/manage/sceneConfig">业务配置</el-menu-item>
-                                </el-submenu>
-                            </el-menu-item-group>
-                        </el-submenu>
-                        <el-submenu index="3">
-                            <template slot="title">
-                                <i class="el-icon-document"></i>
-                                <span>客户端自动化测试</span>
-                            </template>
-                            <el-menu-item-group>
-                                <el-menu-item index="/manage/projectManageUI">项目管理</el-menu-item>
-                                <el-menu-item index="/manage/platformManage">应用平台</el-menu-item>
-                                <el-menu-item index="/manage/uiCaseStepManager">case步骤</el-menu-item>
-                                <el-menu-item index="/manage/uiCaseManager">case信息</el-menu-item>
-                                <el-menu-item index="/manage/uiCaseGather">case用例集</el-menu-item>
-                                <el-menu-item index="/manage/reportUiManage">UI测试报告</el-menu-item>
-                            </el-menu-item-group>
-                        </el-submenu>
-                        <el-submenu index="4">
-                            <template slot="title">
-                                <i class="el-icon-time"></i>
-                                <span>报告管理</span>
-                            </template>
-                            <el-menu-item-group>
-                                <el-menu-item index="/manage/resultSummary">执行概况</el-menu-item>
-                            </el-menu-item-group>
-                            <el-menu-item-group>
-                                <el-menu-item index="/manage/resultDetail">执行详细</el-menu-item>
-                            </el-menu-item-group>
-                            <el-menu-item-group>
-                                    <el-menu-item index="/manage/reportManage">测试报告</el-menu-item>
-                            </el-menu-item-group>
-                            <el-menu-item-group>
-                                <el-menu-item index="/manage/taskManage">定时任务</el-menu-item>
-                            </el-menu-item-group>
-                        </el-submenu>
-
-                        <el-submenu index="5" v-show="role === '2'">
-                            <template slot="title">
-                                <i class="el-icon-setting"></i>
-                                <span>系统设置</span>
-                            </template>
-                            <el-menu-item-group >
-                                <el-menu-item index="/manage/userManage">用户管理</el-menu-item>
-
-
-                                <!--<el-menu-item index="/manage/batch">批量添加</el-menu-item>-->
-                            </el-menu-item-group>
-                        </el-submenu>
-
-                        <!-- <el-submenu index="6">
-                            <template slot="title">
-                                <i class="el-icon-time"></i>
-                                <span>其他程序</span>
-                            </template>
-                            <el-menu-item-group>
-                                <el-menu-item index="/manage/testTool">小工具</el-menu-item>
-                            </el-menu-item-group>
-                        </el-submenu> -->
-                    </el-menu>
-                </el-scrollbar>
-            </el-aside>
-            <el-container>
-<!--                <el-header style="height: 40px;">-->
-<!--                    <router-view class="view one" name="Header"></router-view>-->
-<!--                </el-header>-->
-
-                <!--<el-header style="height: 40px;">-->
-                <!--<el-breadcrumb separator-class="el-icon-arrow-right">-->
-                <!--<el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>-->
-                <!--<el-breadcrumb-item>活动管理</el-breadcrumb-item>-->
-                <!--<el-breadcrumb-item>活动列表</el-breadcrumb-item>-->
-                <!--<el-breadcrumb-item>活动详情</el-breadcrumb-item>-->
-                <!--</el-breadcrumb>-->
-                <!--</el-header>-->
-
-                <el-main>
-                    <router-view class="view two" name="Manage" style="font-family: Arial"></router-view>
-                </el-main>
-
-                <!--<el-footer style="height: 30px;">-->
-                <!--<span class="demonstration">author</span>-->
-                <!--</el-footer>-->
-            </el-container>
+            <!-- <el-header style="height: 40px;">
+                <router-view class="view one" name="Header"></router-view>
+            </el-header> -->
+            <el-main>
+                <router-view class="view two" name="Manage" style="font-family: Arial"></router-view>
+            </el-main>
         </el-container>
     </div>
 </template>
 
 <script>
-    export default {
-        name: 'manage',
+export default {
+    name: 'manage',    
+    data() {
+      return {
+        activeIndex: '1',
+        activeIndex2: '1',
+        navigationName:'/manage/projectManage',
+        collapsed:false,//左侧管理栏收缩与否，默认为false
+        role:'',
+        userName:'',
+      };
+    },
+    methods: {
+        collapse: function () {
+            this.collapsed = !this.collapsed;
+        },
+        closeNavigation(){
+            this.role = this.$store.state.roles;
+            this.userName = this.$store.state.userName;
 
-        data() {
-            return {
-                navigationName:'/manage/projectManage',
-                collapsed:false,//左侧管理栏收缩与否，默认为false
-                role:'',
-                userName:'',
-
+            this.navigationName = this.$route.path;
+            if(this.$route.path === '/manage/reportShow'){
+                this.collapsed = true;
             }
-        },
-        methods: {
-            collapse: function () {
-                this.collapsed = !this.collapsed;
-            },
-            closeNavigation(){
-                this.role = this.$store.state.roles;
-                this.userName = this.$store.state.userName;
+        }
+    },
+    watch: {
+        "$route": function (to) {
 
-                this.navigationName = this.$route.path;
-                if(this.$route.path === '/manage/reportShow'){
-                    this.collapsed = true;
-                }
+            if (to.path === '/manage/reportShow'){
+                this.collapsed = true
             }
-        },
-        watch: {
-            "$route": function (to) {
-
-                if (to.path === '/manage/reportShow'){
-                    this.collapsed = true
-                }
-                //from 对象中包含当前地址
-                //to 对象中包含目标地址
-                //其实还有一个next参数的，这个参数是控制路由是否跳转的，如果没写，可以不用写next()来代表允许路由跳转，如果写了就必须写next(),否则路由是不会生效的。
-            }
-        },
-        mounted() {
-            this.closeNavigation()
-        },
-    }
+            //from 对象中包含当前地址
+            //to 对象中包含目标地址
+            //其实还有一个next参数的，这个参数是控制路由是否跳转的，如果没写，可以不用写next()来代表允许路由跳转，如果写了就必须写next(),否则路由是不会生效的。
+        }
+    },
+    mounted() {
+        this.closeNavigation()
+    },
+}
 </script>
 
 <style>
-    #manage{
-
-    }
     .el-menu-vertical-demo:not(.el-menu--collapse) {
-        width: 200px;
-        background-color:#304156
+        width: 220px;
+        background-color:#304156;
     }
     .menu-toggle {
-        background: #304156;
+        background: #434650;
         text-align: center;
         color: white;
         height: 26px;
@@ -200,6 +114,10 @@
     }
     .el-menu {
         border-right: solid 0px #e6e6e6;
+    }
+    /* 去掉导航栏底下的白边 */
+    .el-menu.el-menu--horizontal{
+        border-bottom: none;
     }
     .el-footer {
         background-color: #8db7ef;
@@ -227,31 +145,30 @@
     .el-container:nth-child(7) .el-aside {
         line-height: 320px;
     }
-    .el-form-item--mini.el-form-item, .el-form-item--small.el-form-item{
-        margin-bottom:  10px;
+    .el-form-item--mini.el-form-item,
+    .el-form-item--small.el-form-item {
+        margin-bottom: 10px;
     }
-    .search-style{
-        background-color:  #f5f5f5;
+    .search-style {
+        background-color: #f5f5f5;
         padding-top: 10px;
     }
     .el-main {
         color: #333;
         text-align: left;
         line-height: 20px;
-        padding:0 0 20px 0;
-
+        padding: 0 0 20px 0;
     }
 
     /*.el-tabs--top .el-tabs__item.is-top:nth-child(2){*/
-        /*padding-left:5px;*/
+    /*padding-left:5px;*/
     /*}*/
     .el-button--mini {
         padding: 5px 9px;
     }
 
-
-    .el-tabs__header{
-        margin: 0 ;
+    .el-tabs__header {
+        margin: 0;
     }
     .row-bg {
         padding: 5px 0;
@@ -263,37 +180,36 @@
 
     .el-dialog__header {
         padding: 2px 10px 2px;
-        background-color:#f5f7fa;
-        border-radius:5px;
+        background-color: #f5f7fa;
+        border-radius: 5px;
     }
     .el-dialog__body {
         padding: 5px 10px;
     }
     .el-dialog__title {
         color: #6a6d71;
-        font-size:15px;
-
+        font-size: 15px;
     }
-    .el-dialog__headerbtn{
-        top:6px;
-        right:15px;
+    .el-dialog__headerbtn {
+        top: 6px;
+        right: 15px;
     }
 
-    .el-input--mini .el-input__inner{
-        line-height:20px;
+    .el-input--mini .el-input__inner {
+        line-height: 20px;
     }
 
     /*分页的基本样式*/
-    .pagination{
+    .pagination {
         float: right;
         position: relative;
-        margin-right: 40px
+        margin-right: 40px;
     }
 
     /**/
-    .table_padding{
+    .table_padding {
         padding-left: 10px;
-        padding-right:5px;
+        padding-right: 5px;
     }
 
     /*改变el-table的默认滚动条样式*/
@@ -302,9 +218,9 @@
         height: 10px;
     }
     .el-table__body-wrapper::-webkit-scrollbar-thumb {
-          background-color: rgba(69, 100, 160, 0.3);
-          border-radius: 4px;
-      }
+        background-color: rgba(69, 100, 160, 0.3);
+        border-radius: 4px;
+    }
 
     .ace_scrollbar::-webkit-scrollbar {
         width: 8px;
@@ -323,10 +239,17 @@
     }
 
     /* 改变下拉菜单的高度*/
-    .el-popper[x-placement^=bottom] {
+    .el-popper[x-placement^="bottom"] {
         margin-top: 5px;
     }
     .el-textarea__inner {
         overflow-y: hidden;
     }
+    .el-header{
+        background-color: #072140;
+    }
+    .el-menu--horizontal>.el-submenu .el-submenu__title{
+        height: 70px;
+        line-height: 70px;
+     }
 </style>

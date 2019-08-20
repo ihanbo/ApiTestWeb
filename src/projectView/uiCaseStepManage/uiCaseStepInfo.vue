@@ -18,10 +18,10 @@
             <el-form-item label="应用平台" v-if="numTab !== 'third'">
                 <el-select v-model="form.platformId"
                            placeholder="请选择平台"
-                           @change="initPlatformChoice()"
+                           @change="initPlatformChoice"
                            style="width: 150px;padding-right:5px">
                     <el-option
-                            v-for="(item) in this.platformData"
+                            v-for="(item) in platformData"
                             :label="item.name"
                             :key="item.id"
                             :value="item.id">
@@ -166,6 +166,7 @@
             </el-tab-pane>
         </el-tabs>
 
+
         <el-dialog title="模块配置" :visible.sync="moduleData.viewStatus" width="30%">
             <el-form>
                 <el-form-item label="模块名称" label-width="100px">
@@ -179,13 +180,9 @@
             </div>
         </el-dialog>
 
-        <result ref="resultFunc">
-        </result>
 
-        <errorView ref="errorViewFunc">
-        </errorView>
-
-
+        <!-- <result ref="resultFunc"></result> -->
+        <errorView ref="errorViewFunc"></errorView>
         <configEdit
                 :proModelData="proModelData"
                 :projectName="form.projectName"
@@ -207,7 +204,6 @@
             apiEdit: apiEdit,
             errorView: errorView,
             configEdit: configEdit,
-
         },
         name: 'uiCaseStepManager',
         data() {
@@ -262,8 +258,8 @@
         },
 
         methods: {
+            //  初始化页面所需要的数据
             initBaseData() {
-                //  初始化页面所需要的数据
                 this.$axios.get(this.$api.baseUIDataApi).then((response) => {
                         this.proModelData = response.data['data'];
                         this.proAndIdData = response.data['pro_and_id'];
@@ -273,20 +269,20 @@
                         }
                         this.$axios.post(this.$api.getFuncAddressApi).then((response) => {
                                 this.funcAddress = response['data']['data'];
-                            }
-                        )
-
-                    }
-                )
+                            })
+                    })
+                this.findPlatform();
+            },
+            //查询平台
+            findPlatform(){
                 this.$axios.get(this.$api.findPlatformApi).then((response) => {
                         this.platformData = response.data['data'];
                         this.form.platformId =  this.platformData[0]['id']
                     }
                 )
-
             },
+            //  模块处理函数，根据命令执行不同操作
             moduleCommand(command) {
-                //  模块处理函数，根据命令执行不同操作
                 if (command === 'add') {
                     this.initModuleData()
                 } else if (command === 'edit') {
@@ -297,27 +293,31 @@
                     this.sureView(this.delModule, null, this.form.module.name)
                 }
             },
+            // 当选择项发生变化时会触发该事件
+            handleApiMsgSelection(val) {
+                this.apiMsgList = val;
+            },
+            // 当前页改变时会触发该事件
             handleCurrentChange(val) {
                 this.apiMsgPage.currentPage = val;
                 this.findCases();
             },
+            //每页显示条数改变时会触发该事件
             handleSizeChange(val) {
                 this.apiMsgPage.sizePage = val;
                 this.findCases();
-
             },
 
+            //  查询用例信息
             findCases() {
-                //  查询用例信息
                 if (this.form.module === null) {
                     this.$message({
                         showClose: true,
                         message: '请选择模块',
                         type: 'warning',
                     });
-                    return
-                }
-                if (this.form.platformId === null) {
+                    this.platformData = null;
+                }else if (this.form.platformId === null) {
                     this.$message({
                         showClose: true,
                         message: '请选择平台',
@@ -340,8 +340,8 @@
                     }
                 )
             },
+            //  初始化数据并进入编辑tab
             initData() {
-                //  初始化数据并进入编辑tab
                 if (!this.form.module) {
                     this.$message({
                         showClose: true,
@@ -356,9 +356,8 @@
                     this.$refs.apiFunc.initApiMsgData();
                 }, 0)
             },
-
+            //  编辑或者复制信息
             editCopyApi(apiMsgId, status) {
-                //  编辑或者复制信息
                 this.apiEditViewStatus = true;
                 this.numTab = 'second';
                 setTimeout(() => {
@@ -366,8 +365,8 @@
                 }, 0)
             },
 
+            //  删除接口信息
             delApi(apiMsgId) {
-                //  删除接口信息
                 this.$axios.post(this.$api.delUIcaseStepApi, {'id': apiMsgId}).then((response) => {
                         this.messageShow(this, response);
                         this.form.apiName = null;
@@ -379,31 +378,25 @@
                 )
             },
 
-            handleApiMsgSelection(val) {
-                this.apiMsgList = val;
-            },
-
+            //  清除选择
             cancelSelection() {
-                //  清除选择
                 this.$refs.apiMultipleTable.clearSelection();
             },
-
+            //  当项目选择项改变时，初始化模块和配置的数据
             initProjectChoice() {
-                //  当项目选择项改变时，初始化模块和配置的数据
                 this.form.config = {name: null, configId: null,};
                 this.form.module = {name: null, moduleId: null,};
                 this.modulePage.currentPage = 1;
                 this.apiMsgPage.currentPage = 1;
+                this.form.platformId = null;
                 this.findModule()
             },
-
-            initPlatformChoice(id) {
-                //  当项目选择项改变时，初始化模块和配置的数据
+            //  当平台选择项改变时，初始化模块和配置的数据
+            initPlatformChoice() {
                 this.findCases()
             },   
-
+            //  查询接口模块
             findModule() {
-                //  查询接口模块
                 this.$axios.post(this.$api.findUIModuleApi, {
                     'projectName': this.form.projectName,
                     'page': this.modulePage.currentPage,
@@ -427,14 +420,14 @@
                     }
                 )
             },
+            //  当tab切换到接口信息时，刷新列表
             tabChange(tab) {
-                //  当tab切换到接口信息时，刷新列表
                 if (tab.label === 'case步骤') {
                     this.findCases()
                 }
             },
+            //  点击节点时，初始化数据并获取对应的接口信息
             treeClick(data) {
-                //  点击节点时，初始化数据并获取对应的接口信息
                 let index = this.moduleDataList.map(item => item.moduleId).indexOf(data['moduleId']);  //  获取当前节点的下标
                 this.form.module = this.moduleDataList[index];
                 this.apiMsgPage.currentPage = 1;
@@ -444,15 +437,15 @@
                 this.modulePage.currentPage = val;
                 this.findModule()
             },
+            //  打开窗口时，初始化模块窗口数据
             initModuleData() {
-                //  打开窗口时，初始化模块窗口数据
                 this.moduleData.name = '';
                 this.moduleData.id = '';
                 this.moduleData.num = '';
                 this.moduleData.viewStatus = true;
             },
+            //  编辑模块
             editModule() {
-                //  编辑模块
                 if (!this.form.module) {
                     this.$message({
                         showClose: true,
@@ -466,8 +459,8 @@
                 this.moduleData.num = this.form.module.num;
                 this.moduleData.viewStatus = true;
             },
+            //  添加模块
             addModule() {
-                //  添加模块
                 this.$axios.post(this.$api.addUIModuleApi, {
                     'projectName': this.form.projectName,
                     'name': this.moduleData.name,
@@ -481,8 +474,8 @@
                     }
                 )
             },
+            //  删除模块
             delModule() {
-                //  删除模块
                 this.$axios.post(this.$api.delUIModuleApi, {'id': this.form.module.moduleId}).then((response) => {
                         this.messageShow(this, response);
                         this.moduleData.name = '';
@@ -493,8 +486,8 @@
                     }
                 )
             },
+            //  置顶模块
             stickModule() {
-                //  置顶模块
                 this.$axios.post(this.$api.stickUIModuleApi, {
                     'id': this.form.module.moduleId,
                     'projectName': this.form.projectName,
@@ -504,11 +497,10 @@
                     }
                 )
             },
-
-
         },
 
         mounted() {
+            // 页面加载完毕初始化数据
             this.initBaseData();
         },
     }

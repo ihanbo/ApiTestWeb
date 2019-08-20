@@ -146,6 +146,9 @@
                 else if (path === '/manage/platformManage') {
                     this.title = ['UIcase管理', '应用平台列表']
                 }
+                else if (path === '/manage/deviceInfo') {
+                    this.title = ['UIcase管理', '设备信息']
+                }
                 else if (path === '/manage/uiCaseStepManager') {
                     this.title = ['UIcase管理', 'case步骤']
                 }
