@@ -10,12 +10,12 @@
       <el-table-column prop="device" label="设备ID" width="255"></el-table-column><!-- 1 -->
       <el-table-column prop="name" label="设备名称" width="255"></el-table-column><!-- 2 -->
       <el-table-column prop="state" label="数据状态" width="255"></el-table-column><!-- 3.请求到后台数据时删除此项 -->
-      <el-table-column prop="is_free" label="设备状态"><!-- 4 -->
-        <template slot-scope="scope">
-          <font v-if="scope.row.is_free === true" class="device_info_free">空闲</font>
-          <font v-else class="device_info_busy">繁忙</font>
-        </template>
-      </el-table-column>
+<!--      <el-table-column prop="is_free" label="设备状态">&lt;!&ndash; 4 &ndash;&gt;-->
+<!--        <template slot-scope="scope">-->
+<!--          <font v-if="scope.row.is_free === true" class="device_info_free">空闲</font>-->
+<!--          <font v-else class="device_info_busy">繁忙</font>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
     </el-table>
   </div>
 </template>
