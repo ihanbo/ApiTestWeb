@@ -359,12 +359,10 @@
                     }
                 );
             },
-        }
-        ,
+        },
         mounted() {
             this.initBaseData();
         }
-        ,
     }
 </script>
 <style>
