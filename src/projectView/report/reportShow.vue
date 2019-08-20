@@ -191,7 +191,12 @@
                             <tr v-show="statusShow[8]">
                                 <td class="my-table">resp_data</td>
                                 <td class="content">
-                                    <pre style="white-space: pre-wrap;word-wrap: break-word;">{{this.meta_datas.data[0].response.json}}</pre>
+                                    <JsonViewer
+                                            :expand-depth=5
+                                            copyable
+                                            sort
+                                            v-model = "this.meta_datas.data[0].response.json"></JsonViewer>
+<!--                                    <pre style="white-space: pre-wrap;word-wrap: break-word;">{{this.meta_datas.data[0].response.json}}</pre>-->
                                     <!--<pre v-show="this.meta_data['response']['json'] !== ''"-->
                                          <!--style="white-space: pre-wrap;word-wrap: break-word;">{{this.meta_data['response']['content']}}</pre>-->
                                 </td>
@@ -223,6 +228,10 @@
 </template>
 
 <script>
+
+    import Vue from 'vue'
+    import JsonViewer from 'vue-json-viewer'
+    Vue.use(JsonViewer)
 
     export default {
         name: 'reportShow',

@@ -554,13 +554,20 @@
                     });
                     return
                 }
-                if (!this.apiMsgData.name.replace(/(^\s*)|(\s*$)/g, "")) {
+                if(!this.apiMsgData.name){
                     this.$message({
                         showClose: true,
                         message: '接口名称不能为空',
                         type: 'warning',
                     });
                     return
+                }else if(!this.apiMsgData.name.replace(/(^\s*)|(\s*$)/g, "")) {
+                        this.$message({
+                            showClose: true,
+                            message: '接口名称不能为空',
+                            type: 'warning',
+                        });
+                        return
                 }
                 return this.$axios.post(this.$api.addApiApi, {
                     'moduleId': this.form.module.moduleId,
@@ -642,6 +649,21 @@
                 );
             },
             saveAndRun() {
+                if(!this.apiMsgData.name){
+                    this.$message({
+                        showClose: true,
+                        message: '接口名称不能为空',
+                        type: 'warning',
+                    });
+                    return
+                }else if(!this.apiMsgData.name.replace(/(^\s*)|(\s*$)/g, "")) {
+                    this.$message({
+                        showClose: true,
+                        message: '接口名称不能为空',
+                        type: 'warning',
+                    });
+                    return
+                }
                 //  保存并执行接口
                 this.addApiMsg(true).then(res => {
                     //  先判断保存是否成功，再决定是否执行接口

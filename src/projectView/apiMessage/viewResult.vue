@@ -13,7 +13,12 @@
                         <el-tab-pane label="返回结果">
                             <el-scrollbar wrapStyle="max-height:540px;">
                                 <div>
-                                    <pre style="overflow: auto;">{{resultDeal(item.meta_datas.data[0].response.json)}}</pre>
+                                    <JsonViewer
+                                            :expand-depth=6
+                                            copyable
+                                            sort
+                                            v-model = "item.meta_datas.data[0].response.json"></JsonViewer>
+<!--                                    <pre style="overflow: auto;">{{resultDeal(item.meta_datas.data[0].response.json)}}</pre>-->
                                 </div>
                             </el-scrollbar>
                         </el-tab-pane>
@@ -77,6 +82,10 @@
 </template>
 
 <script>
+    import Vue from 'vue'
+    import JsonViewer from 'vue-json-viewer'
+    Vue.use(JsonViewer)
+
     export default {
         name: 'viewResult',
         data() {

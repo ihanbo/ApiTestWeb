@@ -52,6 +52,7 @@ const stickCaseSetApi = baseUrl+'caseSet/stick';
 const addCaseSetEnvironment = baseUrl+'caseSet/addEnvironment';
 const runCaseSetApi =  baseUrl+'caseSet/run';
 const viewCaseSetResultApi = baseUrl+'resultCaseSet/find';
+const delApiCaseApi = baseUrl+'apiCase/del';
 
 const startTaskApi = baseUrl+'task/start';
 const pauseTaskApi = baseUrl+'task/pause';
@@ -74,6 +75,7 @@ const configDataApi = baseUrl+'config/data';
 const fileUploadingApi = baseUrl+'upload';
 const checkFileApi = baseUrl+'checkFile';
 const importApiApi = baseUrl+'apiMsg/fileChange';
+const uploadFileApi = baseUrl+'upload';
 
 const findFuncApi = baseUrl+'func/find';
 const createFuncApi = baseUrl+'func/create';
@@ -181,6 +183,7 @@ export default {
     runCaseSetApi,
     stickCaseSetApi,
     viewCaseSetResultApi,
+    delApiCaseApi,
 
     findProApi,
     addProApi,
@@ -218,6 +221,7 @@ export default {
 
     fileUploadingApi,
     importApiApi,
+    uploadFileApi,
 
     addPlatformApi,
     delPlatformApi,

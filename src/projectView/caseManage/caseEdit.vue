@@ -164,11 +164,11 @@
                                            width: 100%;border-style:solid;border-width: 1px;
                                            border-color: #ffffff #ffffff rgb(234, 234, 234) #ffffff;"
               >
-                <el-col :span="3" style="padding-left: 20px">状态</el-col>
+                <el-col :span="3" style="padding-left: 15px">状态</el-col>
                 <el-col :span="5">步骤名称</el-col>
-                <el-col :span="4">接口名称</el-col>
+                <el-col :span="5">接口名称</el-col>
                 <el-col :span="4">次数</el-col>
-                <el-col :span="6" style="padding-left: 50px;">操作</el-col>
+                <el-col :span="5" style="padding-left: 50px;">操作</el-col>
                 <el-col :span="2">
                   <div @click.prevent="showApiData" style="color: #55a9ff">
                     <i class="my-icon-xiangzuo-copy" v-show="!showApiDataStatus"></i>
@@ -233,10 +233,11 @@
                   </el-select>
 
                   <el-select
-                    v-model="form.module"
+                    v-model= "form.module"
                     value-key="moduleId"
                     style="width: 150px;padding-right:5px"
-                    placeholder="请选择模块"
+                    placeholder="全部"
+                    @change="changeModule"
                   >
                     <el-option
                       v-for="item in proModelData[this.form.apiMesProjectName]"
@@ -244,11 +245,12 @@
                       :label="item.name"
                       :value="item"
                     ></el-option>
+                    <el-option label="全部" value="全部"></el-option>
                   </el-select>
                 </el-form-item>
-                <el-form-item label>
-                  <el-input placeholder="请输入用例" v-model="form.apiName" style="width: 150px"></el-input>
-                </el-form-item>
+<!--                <el-form-item label>-->
+<!--                  <el-input placeholder="请输入用例" v-model="form.apiName" style="width: 150px"></el-input>-->
+<!--                </el-form-item>-->
                 <el-form-item>
                   <el-button type="primary" @click.native="handleCurrentCase(1)" size="mini">搜索接口</el-button>
                   <el-button type="primary" size="mini" @click.native="addApiData()">添加</el-button>
@@ -257,7 +259,37 @@
               <hr
                 style="height:1px;border:none;border-top:1px solid rgb(241, 215, 215);margin-top: -5px"
               />
-              <el-row
+
+              <el-table
+                      ref="ApiMsgData"
+                      @selection-change="handleCaseApiMsgSelection"
+                      :data="ApiMsgData"
+                      stripe
+                      max-height="745">
+                <el-table-column
+                        type="selection"
+                        width="30">
+                </el-table-column>
+                <el-table-column
+                        type="index"
+                        label="编号"
+                        width="50"><!--prop="num"删除偶序号自动更新，添加type=index zjl 20190716-->
+                </el-table-column>
+                <el-table-column
+                        :show-overflow-tooltip=true
+                        prop="name"
+                        label="接口名称"
+                        width="200">
+                </el-table-column>
+                <el-table-column
+                        :show-overflow-tooltip=true
+                        prop="url"
+                        label="接口地址"
+                        width="200">
+                </el-table-column>
+              </el-table>
+
+<!--              <el-row
                 :gutter="18"
                 style="margin-top:10px;color: rgb(171, 139, 149);font-weight: 500;font-size: 14px;
                                             padding-left: 5px;padding-top: 3px;"
@@ -278,8 +310,6 @@
                     <el-row :gutter="24">
                       <el-col :span="1">
                         <el-radio v-model="radio" @change="addEvent(index)" :label="index">{{null}}</el-radio>
-                        <!--                                                <el-checkbox v-model="valu"  @change="addEvent(index,valu)" true-label="1" false-label="0">-->
-                        <!--                                                </el-checkbox>-->
                       </el-col>
                       <el-col :span="2">{{ _data.num }}</el-col>
                       <el-col
@@ -295,6 +325,7 @@
                   </div>
                 </transition-group>
               </draggable>
+              -->
               <!--<el-button @click="cancelSelection()" size="mini"-->
               <!--style="position: absolute;margin-top: 2px;">取消选择-->
               <!--</el-button>-->
@@ -302,9 +333,10 @@
                 <el-pagination
                   @current-change="handleCurrentCase"
                   @size-change="handleSizeCase"
+                  :pagerCount="3"
                   :current-page="apiMsgPage.currentPage"
                   :page-size="apiMsgPage.sizePage"
-                  :page-sizes="[15, 30, 45, 60]"
+                  :page-sizes="[5, 15, 30, 40]"
                   layout="total, sizes, prev, pager, next, jumper"
                   :total="apiMsgPage.total"
                 ></el-pagination>
@@ -351,6 +383,7 @@ export default {
   data() {
     return {
       apiMsgVessel: [], //接口用例容器，勾选的内容都存在此变量
+      apiMsgSelect: Array(), //临时保存勾选的接口
       ApiMsgData: [], // 接口信息里面的表格数据
       mainWidth: "50%",
       radio: "",
@@ -363,7 +396,7 @@ export default {
       apiMsgPage: {
         total: 1,
         currentPage: 1,
-        sizePage: 15
+        sizePage: 5
       },
       form: {
         config: {
@@ -376,7 +409,7 @@ export default {
         },
         module: {
           name: null,
-          moduleId: null
+          moduleId: null,
         },
         projectName: "",
         apiMesProjectName: "",
@@ -405,6 +438,10 @@ export default {
   methods: {
     addEvent(dex) {
       this.apiMsgVessel = this.ApiMsgData[dex];
+    },
+
+    handleCaseApiMsgSelection(val){
+      this.apiMsgSelect = val;
     },
 
     showApiData: function() {
@@ -583,7 +620,8 @@ export default {
         )
           .then(() => {
             this.$axios
-              .post("/api/apiCase/del", { id: this.caseData.apiCases[i]["id"] })
+              // .post("/api/apiCase/del", { id: this.caseData.apiCases[i]["id"] })
+              .post(this.$api.delApiCaseApi, { id: this.caseData.apiCases[i]["id"] })
               .then(() => {
                 this.caseData.apiCases.splice(i, 1);
               });
@@ -602,7 +640,11 @@ export default {
       this.apiMsgPage.sizePage = val;
       this.findApiMsg();
     },
-
+    changeModule(value){
+      if (value === "全部"){
+        this.form.module = {"name":"全部","moduleId":"-1"};
+      }
+    },
     findApiMsg() {
       this.radio = false;
       this.$axios
@@ -623,14 +665,14 @@ export default {
     },
     addApiData() {
       // if (this.apiMsgVessel.length === 0) {
-      //     this.$message({
-      //         showClose: true,
-      //         message: '请勾选接口信息',
-      //         type: 'warning',
-      //     });
-      //     return
+      //   this.$message({
+      //     showClose: true,
+      //     message: "请勾选接口信息",
+      //     type: "warning"
+      //   });
+      //   return;
       // }
-      if (this.apiMsgVessel.length === 0) {
+      if (this.apiMsgSelect.length === 0) {
         this.$message({
           showClose: true,
           message: "请勾选接口信息",
@@ -639,7 +681,7 @@ export default {
         return;
       }
       // this.caseData.apiCases = this.caseData.apiCases.concat(this.apiMsgVessel);
-      this.caseData.apiCases = this.caseData.apiCases.concat(this.apiMsgVessel);
+      this.caseData.apiCases = this.caseData.apiCases.concat(this.apiMsgSelect);
       this.caseData.apiCases = JSON.parse(
         JSON.stringify(this.caseData.apiCases)
       );
@@ -739,7 +781,8 @@ export default {
 };
 </script>
 <style>
-.list-complete-item {
+
+  .list-complete-item {
   padding: 4px;
   margin-top: 4px;
   border: solid 1px rgb(224, 221, 221);

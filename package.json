@@ -24,7 +24,8 @@
     "v-contextmenu": "^2.8.0",
     "vue-clipboard2": "^0.2.1",
     "vue2-ace-editor": "0.0.13",
-    "vuedraggable": "^2.17.0"
+    "vuedraggable": "^2.17.0",
+    "vue-json-viewer": "latest"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.4.0",
