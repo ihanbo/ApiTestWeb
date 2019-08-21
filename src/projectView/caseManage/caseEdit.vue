@@ -333,7 +333,6 @@
                 <el-pagination
                   @current-change="handleCurrentCase"
                   @size-change="handleSizeCase"
-                  :pagerCount="3"
                   :current-page="apiMsgPage.currentPage"
                   :page-size="apiMsgPage.sizePage"
                   :page-sizes="[5, 15, 30, 40]"
@@ -685,6 +684,7 @@ export default {
       this.caseData.apiCases = JSON.parse(
         JSON.stringify(this.caseData.apiCases)
       );
+      this.$refs.ApiMsgData.clearSelection();
       // this.$refs.multipleTable.clearSelection();
       // this.againSort()
     },

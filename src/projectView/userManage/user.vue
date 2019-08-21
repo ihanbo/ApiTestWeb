@@ -18,14 +18,17 @@
                 <el-table :data="tableData" stripe max-height="745">
                     <el-table-column
                             prop="user_id"
-                            label="id"
+                            type="index"
+                            label="序号"
                             width="80"
                     >
+<!--                        prop="user_id"-->
+<!--                        label="id"-->
                     </el-table-column>
                     <el-table-column
                             prop="userName"
                             label="用户名称"
-                            width="150">
+                            width="250">
                     </el-table-column>
                     <el-table-column
                             prop="status"
@@ -128,7 +131,7 @@
                 tableData: Array(),
                 total: 1,
                 currentPage: 1,
-                sizePage: 20,
+                sizePage: 10,
                 roleData:[],
                 form: {
                     userName: null,

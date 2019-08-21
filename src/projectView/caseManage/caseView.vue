@@ -82,9 +82,9 @@
                             </el-table-column>
                         </el-table>
 
-                        <el-button @click="cancelSelection()" size="mini"
-                                   style="position: absolute;margin-top: 2px;">取消选择
-                        </el-button>
+<!--                        <el-button @click="cancelSelection()" size="mini"-->
+<!--                                   style="position: absolute;margin-top: 2px;">取消选择-->
+<!--                        </el-button>-->
 
                         <div class="pagination">
                             <el-pagination
@@ -163,12 +163,12 @@
                 casePage: {
                     total: 1,
                     currentPage: 1,
-                    sizePage: 20,
+                    sizePage: 10,
                 },
                 setPage: {
                     total: 1,
                     currentPage: 1,
-                    sizePage: 30,
+                    sizePage: 10,
                 },
                 setTempData: {
                     name: null,

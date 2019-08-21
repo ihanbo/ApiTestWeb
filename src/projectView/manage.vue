@@ -201,9 +201,10 @@ export default {
 
     /*分页的基本样式*/
     .pagination {
-        float: right;
+        float: left;
         position: relative;
-        margin-right: 40px;
+        margin-left: 1px;
+        margin-top: 10px;
     }
 
     /**/
