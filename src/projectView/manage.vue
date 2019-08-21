@@ -92,7 +92,7 @@ export default {
         }
     },
     mounted() {
-        this.closeNavigation()
+        this.closeNavigation();
     },
 }
 </script>

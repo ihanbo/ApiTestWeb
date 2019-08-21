@@ -47,7 +47,7 @@ export default {
         is_free: false
       }).then(({ data }) => {
         console.log(data);
-        //使用三点运算符，把三个数组拼接成新的数组
+        //使用三点运算符，把两个数组拼接成新的数组
         if(data.status) this.deviceData = [...data.data.android,...data.data.ios];
         else this.$message.error('网络连接中断');
         console.log(this.deviceData)
