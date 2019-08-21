@@ -163,12 +163,12 @@
                 casePage: {
                     total: 1,
                     currentPage: 1,
-                    sizePage: 20,
+                    sizePage: 10,
                 },
                 setPage: {
                     total: 1,
                     currentPage: 1,
-                    sizePage: 30,
+                    sizePage: 10,
                 },
                 setTempData: {
                     name: null,
