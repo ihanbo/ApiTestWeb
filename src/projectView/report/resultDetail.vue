@@ -75,7 +75,7 @@
                     <el-table-column
                             prop="caseDataName"
                             label="用例步骤名"
-                            minWidth="300">
+                            minWidth="200">
                     </el-table-column>
 <!--                    <el-table-column-->
 <!--                            prop="apiMsgId"-->
@@ -85,7 +85,7 @@
                     <el-table-column
                             prop="apiMsgName"
                             label="接口名"
-                            minWidth="300">
+                            minWidth="200">
                     </el-table-column>
                     <el-table-column
                             prop="apiExecStatus"

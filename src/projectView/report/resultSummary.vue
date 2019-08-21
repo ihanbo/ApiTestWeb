@@ -32,7 +32,7 @@
                     <el-table-column
                             prop="projetName"
                             label="所属项目"
-                            minWidth="100">
+                            minWidth="80">
                     </el-table-column>
 <!--                    <el-table-column-->
 <!--                            prop="reportId"-->
@@ -42,27 +42,27 @@
 
                     <el-table-column
                             :show-overflow-tooltip=true
-                            minWidth="170"
+                            minWidth="150"
                             prop="startDatetime"
                             label="执行时间"
                     >
                     </el-table-column>
                     <el-table-column
-                        label="case通过率"
-                        minWidth="100">
+                        label="用例通过率"
+                        minWidth="80">
                         <template slot-scope="scope">
                             {{(scope.row.caseSuccess / scope.row.caseTotal * 100).toFixed(2)}}%
                         </template>
                     </el-table-column>
                     <el-table-column
                             prop="caseTotal"
-                            label="case总数"
+                            label="用例总数"
                             minWidth="80">
                     </el-table-column>
                     <el-table-column
                             prop="caseSuccess"
-                            label="case成功数"
-                            minWidth="100">
+                            label="用例成功数"
+                            minWidth="80">
                     </el-table-column>
 <!--                    <el-table-column-->
 <!--                            prop="caseFail"-->
@@ -72,17 +72,17 @@
                     <el-table-column
                             prop="stepSuccessRate"
                             label="api通过率"
-                            minWidth="90">
+                            minWidth="80">
                     </el-table-column>
                     <el-table-column
                             prop="stepTotal"
                             label="api总数"
-                            minWidth="70">
+                            minWidth="80">
                     </el-table-column>
                     <el-table-column
                             prop="stepSuccesses"
                             label="api成功数"
-                            minWidth="90">
+                            minWidth="80">
                     </el-table-column>
 <!--                    <el-table-column-->
 <!--                            prop="projetName"-->

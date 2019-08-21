@@ -82,9 +82,9 @@
                             </el-table-column>
                         </el-table>
 
-                        <el-button @click="cancelSelection()" size="mini"
-                                   style="position: absolute;margin-top: 2px;">取消选择
-                        </el-button>
+<!--                        <el-button @click="cancelSelection()" size="mini"-->
+<!--                                   style="position: absolute;margin-top: 2px;">取消选择-->
+<!--                        </el-button>-->
 
                         <div class="pagination">
                             <el-pagination
