@@ -38,7 +38,7 @@
 
             <!-- 输入case信息 开始 -->
             <!-- 输入框 -->
-            <el-form-item label="case名称" v-if="numTab !== 'third'">
+            <el-form-item label="case用例集名称" v-if="numTab !== 'third'">
                 <el-input placeholder="请输入" v-model="form.caseName" clearable style="width: 150px">
                 </el-input>
             </el-form-item>
@@ -88,7 +88,7 @@
                                     width="40">
                             </el-table-column>
                             <el-table-column
-                                    prop="num"
+                                    type="index"
                                     label="编号"
                                     width="60">
                             </el-table-column>
@@ -128,10 +128,10 @@
                             </el-table-column>
                         </el-table>
 
-                        <el-button @click="cancelSelection()" size="mini"
-                                   style="position: absolute;margin-top: 2px;">
-                            取消选择
-                        </el-button>
+<!--                        <el-button @click="cancelSelection()" size="mini"-->
+<!--                                   style="position: absolute;margin-top: 2px;">-->
+<!--                            取消选择-->
+<!--                        </el-button>-->
                         <!-- 分页部分 -->
                         <div class="pagination">
                             <el-pagination
@@ -159,6 +159,7 @@
                         :configData="form.config"
                         :proModelData="proModelData"
                         :proUrlData="proUrlData"
+                        :platformId="form.platformId"
                         @findCases="findCases()"
                         ref="apiFunc">
                 </apiEdit>
@@ -247,12 +248,12 @@
                 apiMsgPage: {
                     total: 1,
                     currentPage: 1,
-                    sizePage: 20,
+                    sizePage: 10,
                 },
                 modulePage: {
                     total: 1,
                     currentPage: 1,
-                    sizePage: 30,
+                    sizePage: 10,
                 },
                 platformData: [],
                 caseInfoList: [],
@@ -445,7 +446,7 @@
             // 切换到接口信息时的事件
             tabChange(tab) {
                 //  当tab切换到接口信息时，刷新列表
-                if (tab.label === 'case步骤') {
+                if (tab.label === 'case用例集') {
                     this.findCases();
                 }
             },

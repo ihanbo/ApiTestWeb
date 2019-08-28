@@ -29,14 +29,14 @@
                 </el-select>
             </el-form-item>
 
-            <el-form-item label="case名称" v-if="numTab !== 'third'">
+            <el-form-item label="case步骤名称" v-if="numTab !== 'third'">
                 <el-input placeholder="请输入" v-model="form.caseStepName" clearable style="width: 150px">
                 </el-input>
             </el-form-item>
 
             <el-form-item>
                 <el-button type="primary" icon="el-icon-search" @click.native="handleCurrentChange(1)">搜索</el-button>
-                <el-button type="primary" @click.native="initData()">录入信息</el-button>
+                <el-button type="primary" @click.native="initData()">录入case步骤信息</el-button>
             </el-form-item>
         </el-form>
         <el-tabs v-model="numTab" class="table_padding" @tab-click="tabChange">
@@ -99,7 +99,7 @@
                                     width="40">
                             </el-table-column>
                             <el-table-column
-                                    prop="num"
+                                    type="index"
                                     label="编号"
                                     width="60">
                             </el-table-column>
@@ -134,9 +134,9 @@
                             </el-table-column>
                         </el-table>
 
-                        <el-button @click="cancelSelection()" size="mini" style="position: absolute;margin-top: 2px;">
-                            取消选择
-                        </el-button>
+<!--                        <el-tableel-button @click="cancelSelection()" size="mini" style="position: absolute;margin-top: 2px;">-->
+<!--                            取消选择-->
+<!--                        </el-tableel-button>-->
                         <div class="pagination">
                             <el-pagination
                                     @current-change="handleCurrentChange"
@@ -169,8 +169,11 @@
 
         <el-dialog title="模块配置" :visible.sync="moduleData.viewStatus" width="30%">
             <el-form>
-                <el-form-item label="模块名称" label-width="100px">
-                    <el-input v-model="moduleData.name">
+                <el-form-item :required="true" label="模块名称" label-width="100px">
+                    <el-input v-model="moduleData.name"
+                              style="width:250px"
+                              :maxlength="20"
+                              >
                     </el-input>
                 </el-form-item>
             </el-form>
@@ -226,7 +229,7 @@
                 apiMsgPage: {
                     total: 1,
                     currentPage: 1,
-                    sizePage: 20,
+                    sizePage: 10,
                 },
                 modulePage: {
                     total: 1,
@@ -388,8 +391,9 @@
                 this.form.module = {name: null, moduleId: null,};
                 this.modulePage.currentPage = 1;
                 this.apiMsgPage.currentPage = 1;
-                this.form.platformId = null;
+                // this.form.platformId = null;
                 this.findModule()
+                this.findPlatform();
             },
             //  当平台选择项改变时，初始化模块和配置的数据
             initPlatformChoice() {

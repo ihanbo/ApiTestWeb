@@ -6,13 +6,16 @@
               stripe
               fit
               highlight-current-row>
-      <el-table-column prop="device" label="设备ID" width="341"></el-table-column>
-      <el-table-column prop="name" label="设备名称" width="341"></el-table-column>
-      <el-table-column prop="state" label="设备状态">
-        <template slot-scope="scope">
-          <font v-if="scope.row.state === '空闲'" class="device_info_free">空闲</font>
-          <font v-else class="device_info_busy">繁忙</font>
-        </template>
+      <el-table-column label="设 备 信 息" align="center">
+        <el-table-column type="index" label="序号" width="80"></el-table-column>
+        <el-table-column prop="device" label="设备ID" width="300"></el-table-column>
+        <el-table-column prop="name" label="设备名称" width="300"></el-table-column>
+        <el-table-column prop="state" label="设备状态">
+          <template slot-scope="scope">
+            <font v-if="scope.row.state === '空闲'" class="device_info_free">空闲</font>
+            <font v-else class="device_info_busy">繁忙</font>
+          </template>
+        </el-table-column>
       </el-table-column>
     </el-table>
   </div>
@@ -46,11 +49,11 @@ export default {
         platform: this.platformNum,
         is_free: false
       }).then(({ data }) => {
-        console.log(data);
+        // console.log(data);
         //使用三点运算符，把三个数组拼接成新的数组
         if(data.status) this.deviceData = [...data.data.android,...data.data.ios];
         else this.$message.error('网络连接中断');
-        console.log(this.deviceData)
+        // console.log(this.deviceData)
       });
     }
   },

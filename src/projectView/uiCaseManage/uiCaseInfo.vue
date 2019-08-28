@@ -39,12 +39,13 @@
 
             <el-form-item>
                 <el-button type="primary" icon="el-icon-search" @click.native="handleCurrentChange(1)">搜索</el-button>
-                <el-button type="primary" @click.native="initData()">录入信息</el-button>
+                <el-button type="primary" @click.native="initData()">录入case信息</el-button>
+                <el-button type="primary" @click.native="initImportData()">导入case信息</el-button>
                 <!-- <el-button type="primary" @click.native="$refs.importApiFunc.initData()">批量导入</el-button> -->
             </el-form-item>
         </el-form>
-        <el-tabs v-model="numTab" class="table_padding" @tab-click="tabChange">
-            <el-tab-pane label="case信息" name="first">
+        <el-tabs v-model="numTab" class="table_padding"  @tab-click="tabChange" @tab-remove="removeTab">
+            <el-tab-pane label="case信息" name="first" id="tabclick" >
                 <el-row>
                     <el-col :span="3"
                             style="border:1px solid;border-color: #ffffff rgb(234, 234, 234) #ffffff #ffffff;">
@@ -102,7 +103,7 @@
                                     width="40">
                             </el-table-column>
                             <el-table-column
-                                    prop="num"
+                                    type="index"
                                     label="编号"
                                     width="60">
                             </el-table-column>
@@ -122,7 +123,7 @@
                                     width="320">
                                 <template slot-scope="scope">
                                     <el-button type="primary" icon="el-icon-edit" size="mini"
-                                               @click.native="editCopyApi(ApiMsgTableData[scope.$index]['id'],'edit')">
+                                               @click.native="editCopyApi(ApiMsgTableData[scope.$index]['id'],ApiMsgTableData[scope.$index]['type'],'edit')">
                                         编辑
                                     </el-button>
                                     <!-- <el-button type="primary" icon="el-icon-tickets" size="mini" -->
@@ -143,9 +144,9 @@
                             </el-table-column>
                         </el-table>
 
-                        <el-button @click="cancelSelection()" size="mini" style="position: absolute;margin-top: 2px;">
-                            取消选择
-                        </el-button>
+<!--                        <el-button @click="cancelSelection()" size="mini" style="position: absolute;margin-top: 2px;">-->
+<!--                            取消选择-->
+<!--                        </el-button>-->
                         <div class="pagination">
                             <el-pagination
                                     @current-change="handleCurrentChange"
@@ -160,25 +161,44 @@
                 </el-row>
 
             </el-tab-pane>
-            <el-tab-pane label="编辑" name="second" v-if="apiEditViewStatus"
+
+            <el-tab-pane label="录入case信息" :closable="true" name="second" v-if="apiEditViewStatus"
                          style="background-color: rgb(250, 250, 250);min-height: 780px">
                 <apiEdit
                         :projectName="form.projectName"
-                        :module="form.module"
+                        :modules="form.module"
                         :configData="form.config"
+                        :platformId="form.platformId"
                         :proModelData="proModelData"
+                        :caseSortData="caseSortData"
                         :proUrlData="proUrlData"
                         @findCases="findCases"
                         ref="apiFunc">
                 </apiEdit>
+            </el-tab-pane>
 
+            <el-tab-pane label="导入case信息" :closable="true"  name="three" v-if="apiImportEditViewStatus"
+                         style="background-color: rgb(250, 250, 250);min-height: 780px">
+                <apiImportEdit
+                        :projectName="form.projectName"
+                        :module="form.module"
+                        :configData="form.config"
+                        :platformId="form.platformId"
+                        :proModelData="proModelData"
+                        :caseSortData="caseSortData"
+                        :proUrlData="proUrlData"
+                        @findCases="findCases"
+                        ref="apiImportFunc">
+                </apiImportEdit>
             </el-tab-pane>
         </el-tabs>
 
         <el-dialog title="模块配置" :visible.sync="moduleData.viewStatus" width="30%">
             <el-form>
-                <el-form-item label="模块名称" label-width="100px">
-                    <el-input v-model="moduleData.name">
+                <el-form-item :required="true" label="模块名称" label-width="100px">
+                    <el-input v-model="moduleData.name"
+                              style="width:250px"
+                              :maxlength="20">
                     </el-input>
                 </el-form-item>
             </el-form>
@@ -227,6 +247,7 @@
 
 <script>
     import importApi from './importCases.vue'
+    import apiImportEdit from './caseImportEdit.vue' //导入case信息
     import apiEdit from './caseEdit.vue'
     import errorView from '../common/errorView.vue'
     import configEdit from '../config/configEdit.vue'
@@ -239,6 +260,7 @@
             // result: result,
             importApi: importApi,
             apiEdit: apiEdit,
+            apiImportEdit:apiImportEdit,
             errorView: errorView,
             configEdit: configEdit,
 
@@ -246,14 +268,16 @@
         data() {
             return {
                 apiEditViewStatus: false,// 编辑组件显示控制
+                apiImportEditViewStatus:false,//导入case信息显示控制
                 numTab: 'first',
                 loading: false,  //  页面加载状态开关
 
                 dialogTableVisible: false,//控制运行按钮弹出层的显示隐藏
                 deviceData: [],//设备信息列表
-
+                type:null,
                 popup_case_id:null,
                 proModelData: '',
+                caseSortData: '',
                 proAndIdData: '',
                 configData: '',
                 proUrlData: null,
@@ -268,7 +292,7 @@
                 apiMsgPage: {
                     total: 1,
                     currentPage: 1,
-                    sizePage: 20,
+                    sizePage: 10,
                 },
                 modulePage: {
                     total: 1,
@@ -303,7 +327,8 @@
             //  初始化页面所需要的数据
             initBaseData() {
                 this.$axios.get(this.$api.baseUIDataApi).then((response) => {
-                        this.proModelData = response.data['data'];
+                        this.proModelData = response.data['pro'];
+                        this.caseSortData = response.data['casesort'];
                         this.proAndIdData = response.data['pro_and_id'];
                         if (response.data['user_pro']) {
                             this.form.projectName = response.data['user_pro']['pro_name'];
@@ -314,6 +339,21 @@
                             })
                     })
                 this.findPlatform();
+            },
+            //关闭标签
+            removeTab(targetName){
+                if(targetName === 'second'){
+                    this.apiEditViewStatus = false;
+                }else if (targetName === 'three'){
+                    this.apiImportEditViewStatus = false;
+                }else{
+                    this.$message({
+                        showClose: true,
+                        message: '删除参数错误',
+                        type: 'warning',
+                    });
+                    return
+                }
             },
             // 查询平台
             findPlatform(){
@@ -384,6 +424,22 @@
                     }
                 )
             },
+            //初始化数据并进入导入tab
+            initImportData(){
+                if (!this.form.module) {
+                    this.$message({
+                        showClose: true,
+                        message: '请先选择业务模块',
+                        type: 'warning',
+                    });
+                    return
+                }
+                this.apiImportEditViewStatus = true;
+                this.numTab = 'three';
+                setTimeout(() => {
+                    this.$refs.apiImportFunc.initApiMsgData();
+                }, 0)
+            },
             //  初始化数据并进入编辑tab
             initData() {
                 if (!this.form.module) {
@@ -401,18 +457,35 @@
                 }, 0)
             },
             //  编辑或者复制信息
-            editCopyApi(apiMsgId, status) {
-                this.apiEditViewStatus = true;
-                this.numTab = 'second';
-                setTimeout(() => {
-                    this.$refs.apiFunc.editCopyApiMsg(apiMsgId, status);
-                }, 0)
+            editCopyApi(apiMsgId, type, status) {
+                if(type == 0){
+                    this.apiEditViewStatus = true;
+                    this.numTab = 'second';
+                    setTimeout(() => {
+                        this.$refs.apiFunc.editCopyApiMsg(apiMsgId, type, status);
+                    }, 0)
+                }
+                else if(type == 1){
+                    this.apiImportEditViewStatus = true;
+                    this.numTab = 'three';
+                    setTimeout(() => {
+                        this.$refs.apiImportFunc.editCopyApiMsg(apiMsgId, type, status);
+                    }, 0)
+                }else{
+                    this.$message({
+                        showClose: true,
+                        message: '参数错误，请联系管理员查看解决',
+                        type: 'warning',
+                    });
+                    return
+                }
             },
             //  测试
             runApi(row) {
                 this.dialogTableVisible = !this.dialogTableVisible;
                 this.loading = true;
                 this.$axios.post(this.$api.runUIcaseApi, {
+                    'type': this.type,
                     'id': this.popup_case_id,
                     'udid':row.device,
                     'device_name':row.name,
@@ -445,8 +518,9 @@
                 this.form.module = {name: null, moduleId: null,};
                 this.modulePage.currentPage = 1;
                 this.apiMsgPage.currentPage = 1;
-                this.form.platformId = "";
+                // this.form.platformId = "";
                 this.findModule()
+                this.findPlatform();
             },
             //  当平台选择项改变时，初始化模块和配置的数据
             initPlatformChoice(id) {
@@ -454,14 +528,15 @@
             },   
             //  查询接口模块
             findModule() {
-                this.$axios.post(this.$api.findUIModuleApi, {
+                this.$axios.post(this.$api.findUICaseSortApi, {
                     'projectName': this.form.projectName,
                     'page': this.modulePage.currentPage,
                     'sizePage': this.modulePage.sizePage,
                 }).then((response) => {
                         if (this.messageShow(this, response)) {
                             this.moduleDataList = response.data['data'];
-                            this.proModelData[this.form.projectName] = response.data['all_module'];
+                            // this.proModelData[this.form.projectName] = response.data['all_module'];
+                            this.caseSortData[this.form.projectName] = response.data['all_module'];
                             this.modulePage.total = response.data['total'];
                             this.form.module = this.moduleDataList[0];
                             if (this.form.module) {
@@ -479,9 +554,10 @@
             },
             //  当tab切换到接口信息时，刷新列表
             tabChange(tab) {
-                if (tab.label === 'case步骤') {
+                if (tab.label === 'case信息') {
                     this.findCases()
                 }
+
             },
             //  点击节点时，初始化数据并获取对应的接口信息
             treeClick(data) {
@@ -518,7 +594,7 @@
             },
             //  添加模块
             addModule() {
-                this.$axios.post(this.$api.addUIModuleApi, {
+                this.$axios.post(this.$api.addUICaseSortApi, {
                     'projectName': this.form.projectName,
                     'name': this.moduleData.name,
                     'id': this.moduleData.id,
@@ -533,7 +609,7 @@
             },
             //  删除模块
             delModule() {
-                this.$axios.post(this.$api.delUIModuleApi, {'id': this.form.module.moduleId}).then((response) => {
+                this.$axios.post(this.$api.delUICaseSortApi, {'id': this.form.module.moduleId}).then((response) => {
                         this.messageShow(this, response);
                         this.moduleData.name = '';
                         if ((this.modulePage.currentPage - 1) * this.modulePage.sizePage + 1 === this.modulePage.total) {
@@ -545,7 +621,7 @@
             },
             //  置顶模块
             stickModule() {
-                this.$axios.post(this.$api.stickUIModuleApi, {
+                this.$axios.post(this.$api.stickUICaseSortApi, {
                     'id': this.form.module.moduleId,
                     'projectName': this.form.projectName,
                 }).then((response) => {
@@ -558,6 +634,7 @@
             getDevices(row){
                 localStorage.id = row.id;
                 this.popup_case_id = row.id;
+                this.type = row.type;
                 this.dialogTableVisible = !this.dialogTableVisible;
                 this.$axios.post(this.$api.getDevices,{
                         platform: this.form.platformId,

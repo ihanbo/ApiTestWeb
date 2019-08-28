@@ -22,15 +22,15 @@
 
                 <el-table :data="tableData" stripe max-height="745">
                     <el-table-column
-                            prop="id"
-                            label="id"
+                            type="index"
+                            label="序号"
                             width="80"
                     >
                     </el-table-column>
                     <el-table-column
                             prop="name"
                             label="项目名称"
-                            width="150">
+                            width="200">
                     </el-table-column>
                     <!--<el-table-column-->
                     <!--prop="host_two"-->
@@ -40,7 +40,7 @@
                     <el-table-column
                             prop="principal"
                             label="负责人"
-                            width="150">
+                            width="200">
                     </el-table-column>
                     <el-table-column
                             label="操作"
@@ -70,7 +70,7 @@
             </el-tab-pane>
         </el-tabs>
 
-        <el-dialog title="项目配置" :visible.sync="projectData.modelFormVisible" width="40%"
+        <el-dialog title="项目配置" :visible.sync="projectData.modelFormVisible" width="50%"
                    :modal-append-to-body="false"
                    :append-to-body="false"
                    :close-on-click-modal="false"
@@ -78,20 +78,21 @@
             <el-tabs>
                 <el-tab-pane label="基础信息" style="margin-top: 10px">
                     <el-form :inline="true">
-                        <el-form-item label="项目名称" :label-width="projectData.formLabelWidth">
+                        <el-form-item :required="true" label="项目名称" :label-width="projectData.formLabelWidth">
                             <el-input v-model="projectData.projectName"
                                       size="mini"
                                       id="project_name"
+                                      :maxlength="20"
                                       clearable
-                                      style="width: 150px">
+                                      style="width: 165px">
                             </el-input>
                         </el-form-item>
-                        <el-form-item label="项目负责人" label-width="88px">
+                        <el-form-item :required="true" label="项目负责人" label-width="95px">
                             <el-select v-model="form.user"
                                        value-key="user_id"
                                        id="user" 
                                        size="mini"
-                                       style="width: 150px">
+                                       style="width: 170px">
                                 <el-option
                                         v-for="item in userData"
                                         :key="item.user_id"
@@ -107,31 +108,31 @@
                                       size="mini"
                                       id="android_package"
                                       clearable
-                                      style="width: 150px">
+                                      style="width: 165px">
                             </el-input>
                         </el-form-item>
-                        <el-form-item label="安卓启动页" label-width="88px">
+                        <el-form-item label="安卓启动页" label-width="95px">
                             <el-input v-model="projectData.android_launch"
                                       size="mini"
                                       id="android_launch"
                                       clearable
-                                      style="width: 150px">
+                                      style="width: 170px">
                             </el-input>
                         </el-form-item>
-                        <el-form-item label="ios bundle id" label-width="103px">
+                        <el-form-item label="IOS包名ID" label-width="80px">
                             <el-input v-model="projectData.ios_bundle_id"
                                       size="mini"
                                       id="ios_bundle_id"
                                       clearable
-                                      style="width: 120px">
+                                      style="width: 165px">
                             </el-input>
                         </el-form-item>
 
-                        <el-form-item label="函数文件" :label-width="projectData.formLabelWidth">
+                        <el-form-item label="函数文件" label-width="95px">
                             <el-select v-model="projectData.funcFile" placeholder="请选择导入函数文件"
                                        size="mini" 
                                        clearable
-                                       style="width: 165px">
+                                       style="width: 170px">
                                 <el-option
                                         v-for="item in funcAddress"
                                         :key="item.value"
@@ -234,7 +235,7 @@
                 funcAddress: '',
                 userData: [],
                 currentPage: 1,
-                sizePage: 20,
+                sizePage: 10,
                 form: {
                     projectName: null,
                     user: {
@@ -320,6 +321,23 @@
                 return host
             },
             addProjectBtn() {
+                //判断项目名称和负责人是否为空（包括无效的空格）
+                if(!this.projectData.projectName || !this.projectData.projectName.replace(/(^\s*)|(\s*$)/g, "")){
+                    this.$message({
+                        showClose: true,
+                        message: '项目名称不能为空',
+                        type: 'warning',
+                    });
+                    return
+                }
+                if(!this.form.user.user_id){
+                    this.$message({
+                        showClose: true,
+                        message: '项目负责人不能为空',
+                        type: 'warning',
+                    });
+                    return
+                }
                 this.addProject()
             },
             addProject() {
@@ -335,7 +353,7 @@
                     'id': this.projectData.id,
                     'variable': JSON.stringify(this.projectData.variable),
                 }).then((response) => {
-                        console.log(3333,response);
+                        // console.log(3333,response);
                         if (this.messageShow(this, response)) {
                             this.projectData.modelFormVisible = false;
                             this.findProject();
@@ -386,7 +404,7 @@
         mounted() {
             this.findProject();
             this.findFuncAddress();
-            console.log(1111111,this.projectData.android_package);
+            // console.log(1111111,this.projectData.android_package);
         },
     }
 </script>

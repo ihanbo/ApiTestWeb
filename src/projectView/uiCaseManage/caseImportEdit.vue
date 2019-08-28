@@ -1,5 +1,5 @@
 <template>
-  <div class="uiCaseEdit">
+  <div class="uiCaseImportEdit">
     <el-form :inline="true" style="padding: 10px 20px -10px 10px;">
       <el-form-item :required="true" label="基础信息" labelWidth="80px" style="margin-bottom: 10px;margin-top:10px">
         <el-select
@@ -53,157 +53,171 @@
       </el-form-item>
     </el-form>
     <hr style="height:1px;border:none;border-top:1px solid rgb(241, 215, 215);margin-top: -5px" />
+    <el-form  style="padding: 10px 20px -10px 10px;">
+      <el-form-item :required="true" label="请输入录屏内容"  style="margin-bottom: 5px">
+<!--          :autosize="{ minRows: 2, maxRows: 4}"-->
+          <el-input
+              ref="contentText"
+              type="textarea"
+              :autosize="{ minRows: 10}"
+              placeholder="请输入录屏内容"
+              v-model="form.contentText">
+          </el-input>
+      </el-form-item>
+    </el-form>
 
-    <div>
-      <el-row :gutter="20">
-        <el-col :span="12">
-          <el-row
-            :gutter="12"
-            style="margin-top:10px;color: rgb(171, 139, 149);font-weight: 500;font-size: 14px;
-                                           width: 100%;border-style:solid;border-width: 1px;
-                                           border-color: #ffffff #ffffff rgb(234, 234, 234) #ffffff;"
-          >
-            <el-col :span="4">编号</el-col>
-            <el-col :span="7">步骤名称</el-col>
-            <el-col :span="5">步骤描述</el-col>
-            <el-col :span="5" style="padding-left: 50px;">操作</el-col>
-          </el-row>
-          <draggable
-            v-model="caseData.steps"
-            :options="{group:'apiData',animation:300}"
-            style="width: 99%;min-height: 10px;"
-          >
-            <div v-for="(_data, index) in caseData.steps" :key="index" class="list-complete-item">
-              <el-row :gutter="12">
-                <el-col
-                  :span="2"
-                  style="padding-top: 3px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"
-                >{{sortNum(index)}}</el-col>
-                <el-col
-                  :span="8"
-                  style="padding-top: 3px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"
-                >{{ _data.name }}</el-col>
-                <el-col
-                  :span="7"
-                  style="padding-top: 3px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"
-                >{{ _data.desc }}</el-col>
-                <el-col :span="3" style="padding-left: 50px;padding-top: 3px">
-                  <el-button type="danger" size="mini" @click.native="delStepInCase(index)">删除</el-button>
-                </el-col>
-              </el-row>
-            </div>
-          </draggable>
-        </el-col>
 
-        <el-col :span="12">
-          <el-form :inline="true" style="padding-top: 10px;" size="small">
-            <el-form-item label=" " labelWidth="10px">
-<!--              v-model="stepsInfo.apiMesProjectName"-->
-              <el-select
-                v-model="stepsInfo.apiMesProjectName"
-                style="width: 150px;padding-right:5px"
-                placeholder="请选择项目">
-                <el-option v-for="(item, key) in proModelData" :key="key" :value="key"></el-option>
-              </el-select>
-<!--              v-model="stepsInfo.module"-->
-              <el-select
-                v-model="stepsInfo.module"
-                value-key="moduleId"
-                style="width: 150px;padding-right:5px"
-                placeholder="请选择模块">
-<!--                v-for="item in proModelData[this.stepsInfo.apiMesProjectName]"-->
-                <el-option
-                  v-for="item in proModelData[this.stepsInfo.apiMesProjectName]"
-                  :key="item.moduleId"
-                  :label="item.name"
-                  :value="item"></el-option>
-              </el-select>
-            </el-form-item>
-<!--            <el-form-item label>-->
-<!--              <el-input placeholder="请输入用例" v-model="stepsInfo.apiName" style="width: 150px"></el-input>-->
+<!--    -->
+<!--    <div>-->
+<!--      <el-row :gutter="20">-->
+<!--        <el-col :span="12">-->
+<!--          <el-row-->
+<!--            :gutter="12"-->
+<!--            style="margin-top:10px;color: rgb(171, 139, 149);font-weight: 500;font-size: 14px;-->
+<!--                                           width: 100%;border-style:solid;border-width: 1px;-->
+<!--                                           border-color: #ffffff #ffffff rgb(234, 234, 234) #ffffff;"-->
+<!--          >-->
+<!--            <el-col :span="4">编号</el-col>-->
+<!--            <el-col :span="7">步骤名称</el-col>-->
+<!--            <el-col :span="5">步骤描述</el-col>-->
+<!--            <el-col :span="5" style="padding-left: 50px;">操作</el-col>-->
+<!--          </el-row>-->
+<!--          <draggable-->
+<!--            v-model="caseData.steps"-->
+<!--            :options="{group:'apiData',animation:300}"-->
+<!--            style="width: 99%;min-height: 10px;"-->
+<!--          >-->
+<!--            <div v-for="(_data, index) in caseData.steps" :key="index" class="list-complete-item">-->
+<!--              <el-row :gutter="12">-->
+<!--                <el-col-->
+<!--                  :span="2"-->
+<!--                  style="padding-top: 3px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"-->
+<!--                >{{sortNum(index)}}</el-col>-->
+<!--                <el-col-->
+<!--                  :span="8"-->
+<!--                  style="padding-top: 3px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"-->
+<!--                >{{ _data.name }}</el-col>-->
+<!--                <el-col-->
+<!--                  :span="7"-->
+<!--                  style="padding-top: 3px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"-->
+<!--                >{{ _data.desc }}</el-col>-->
+<!--                <el-col :span="3" style="padding-left: 50px;padding-top: 3px">-->
+<!--                  <el-button type="danger" size="mini" @click.native="delStepInCase(index)">删除</el-button>-->
+<!--                </el-col>-->
+<!--              </el-row>-->
+<!--            </div>-->
+<!--          </draggable>-->
+<!--        </el-col>-->
+
+<!--        <el-col :span="12">-->
+<!--          <el-form :inline="true" style="padding-top: 10px;" size="small">-->
+<!--            <el-form-item label=" " labelWidth="10px">-->
+<!--&lt;!&ndash;              v-model="stepsInfo.apiMesProjectName"&ndash;&gt;-->
+<!--              <el-select-->
+<!--                v-model="stepsInfo.apiMesProjectName"-->
+<!--                style="width: 150px;padding-right:5px"-->
+<!--                placeholder="请选择项目">-->
+<!--                <el-option v-for="(item, key) in proModelData" :key="key" :value="key"></el-option>-->
+<!--              </el-select>-->
+<!--&lt;!&ndash;              v-model="stepsInfo.module"&ndash;&gt;-->
+<!--              <el-select-->
+<!--                v-model="stepsInfo.module"-->
+<!--                value-key="moduleId"-->
+<!--                style="width: 150px;padding-right:5px"-->
+<!--                placeholder="请选择模块">-->
+<!--&lt;!&ndash;                v-for="item in proModelData[this.stepsInfo.apiMesProjectName]"&ndash;&gt;-->
+<!--                <el-option-->
+<!--                  v-for="item in proModelData[this.stepsInfo.apiMesProjectName]"-->
+<!--                  :key="item.moduleId"-->
+<!--                  :label="item.name"-->
+<!--                  :value="item"></el-option>-->
+<!--              </el-select>-->
 <!--            </el-form-item>-->
-            <el-form-item>
-              <el-button type="primary" @click.native="handleCurrentCase(1)" size="mini">搜索</el-button>
-              <el-button type="primary" size="mini" @click.native="addUiStepData()">添加</el-button>
-            </el-form-item>
-          </el-form>
-          <hr
-            style="height:1px;border:none;border-top:1px solid rgb(241, 215, 215);margin-top: -5px"
-          />
+<!--&lt;!&ndash;            <el-form-item label>&ndash;&gt;-->
+<!--&lt;!&ndash;              <el-input placeholder="请输入用例" v-model="stepsInfo.apiName" style="width: 150px"></el-input>&ndash;&gt;-->
+<!--&lt;!&ndash;            </el-form-item>&ndash;&gt;-->
+<!--            <el-form-item>-->
+<!--              <el-button type="primary" @click.native="handleCurrentCase(1)" size="mini">搜索</el-button>-->
+<!--              <el-button type="primary" size="mini" @click.native="addUiStepData()">添加</el-button>-->
+<!--            </el-form-item>-->
+<!--          </el-form>-->
+<!--          <hr-->
+<!--            style="height:1px;border:none;border-top:1px solid rgb(241, 215, 215);margin-top: -5px"-->
+<!--          />-->
 
-          <el-table
-                  ref="ApiMsgData"
-                  @selection-change="handleCaseUiStepSelection"
-                  :data="ApiMsgData"
-                  stripe
-                  max-height="745">
-            <el-table-column
-                    type="selection"
-                    width="30">
-            </el-table-column>
-            <el-table-column
-                    type="index"
-                    label="编号"
-                    width="50"><!--prop="num"删除偶序号自动更新，添加type=index zjl 20190716-->
-            </el-table-column>
-            <el-table-column
-                    :show-overflow-tooltip=true
-                    prop="name"
-                    label="步骤名称"
-                    width="200">
-            </el-table-column>
-            <el-table-column
-                    :show-overflow-tooltip=true
-                    prop="desc"
-                    label="步骤描述"
-                    >
-            </el-table-column>
-          </el-table>
+<!--          <el-table-->
+<!--                  ref="ApiMsgData"-->
+<!--                  @selection-change="handleCaseUiStepSelection"-->
+<!--                  :data="ApiMsgData"-->
+<!--                  stripe-->
+<!--                  max-height="745">-->
+<!--            <el-table-column-->
+<!--                    type="selection"-->
+<!--                    width="30">-->
+<!--            </el-table-column>-->
+<!--            <el-table-column-->
+<!--                    type="index"-->
+<!--                    label="编号"-->
+<!--                    width="50">&lt;!&ndash;prop="num"删除偶序号自动更新，添加type=index zjl 20190716&ndash;&gt;-->
+<!--            </el-table-column>-->
+<!--            <el-table-column-->
+<!--                    :show-overflow-tooltip=true-->
+<!--                    prop="name"-->
+<!--                    label="步骤名称"-->
+<!--                    width="200">-->
+<!--            </el-table-column>-->
+<!--            <el-table-column-->
+<!--                    :show-overflow-tooltip=true-->
+<!--                    prop="desc"-->
+<!--                    label="步骤描述"-->
+<!--                    >-->
+<!--            </el-table-column>-->
+<!--          </el-table>-->
 
-          <!--
-          <el-row
-            :gutter="20"
-            style="margin-top:10px;color: rgb(171, 139, 149);font-weight: 500;font-size: 14px;
-                                            padding-left: 5px;padding-top: 3px;"
-          >
-            <el-col :span="1">&nbsp;</el-col>
-            <el-col :span="3">编号</el-col>
-            <el-col :span="8">用例名称</el-col>
-            <el-col :span="8">用例描述</el-col>
-          </el-row>
-          <draggable v-model="ApiMsgData" :options="this.draggableOptions">
-            <transition-group name="list-complete">
-              <div v-for="(_data, index) in ApiMsgData" :key="_data.num" class="list-complete-item">
-                <el-row :gutter="24">
-                  <el-col :span="1">
-                    <el-radio v-model="radio" @change="addEvent(index)" :label="index">{{null}}</el-radio>
-                  </el-col>
-                  <el-col :span="3">{{ _data.num }}</el-col>
-                  <el-col
-                    :span="8"
-                    style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"
-                  >{{ _data.name }}</el-col>
-                  <el-col
-                    :span="8"
-                    style="padding-top: 1px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"
-                  >{{ _data.desc }}</el-col>
-                </el-row>
-              </div>
-            </transition-group>
-          </draggable>
-          -->
-          <el-pagination
-            @current-change="handleCurrentCase"
-            @size-change="handleSizeCase"
-            :current-page="apiMsgPage.currentPage"
-            :page-size="apiMsgPage.sizePage"
-            :page-sizes="[5, 10, 20, 30]"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="apiMsgPage.total"
-          ></el-pagination>
-        </el-col>
-      </el-row>
-    </div>
+<!--          &lt;!&ndash;-->
+<!--          <el-row-->
+<!--            :gutter="20"-->
+<!--            style="margin-top:10px;color: rgb(171, 139, 149);font-weight: 500;font-size: 14px;-->
+<!--                                            padding-left: 5px;padding-top: 3px;"-->
+<!--          >-->
+<!--            <el-col :span="1">&nbsp;</el-col>-->
+<!--            <el-col :span="3">编号</el-col>-->
+<!--            <el-col :span="8">用例名称</el-col>-->
+<!--            <el-col :span="8">用例描述</el-col>-->
+<!--          </el-row>-->
+<!--          <draggable v-model="ApiMsgData" :options="this.draggableOptions">-->
+<!--            <transition-group name="list-complete">-->
+<!--              <div v-for="(_data, index) in ApiMsgData" :key="_data.num" class="list-complete-item">-->
+<!--                <el-row :gutter="24">-->
+<!--                  <el-col :span="1">-->
+<!--                    <el-radio v-model="radio" @change="addEvent(index)" :label="index">{{null}}</el-radio>-->
+<!--                  </el-col>-->
+<!--                  <el-col :span="3">{{ _data.num }}</el-col>-->
+<!--                  <el-col-->
+<!--                    :span="8"-->
+<!--                    style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"-->
+<!--                  >{{ _data.name }}</el-col>-->
+<!--                  <el-col-->
+<!--                    :span="8"-->
+<!--                    style="padding-top: 1px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"-->
+<!--                  >{{ _data.desc }}</el-col>-->
+<!--                </el-row>-->
+<!--              </div>-->
+<!--            </transition-group>-->
+<!--          </draggable>-->
+<!--          &ndash;&gt;-->
+<!--          <el-pagination-->
+<!--            @current-change="handleCurrentCase"-->
+<!--            @size-change="handleSizeCase"-->
+<!--            :current-page="apiMsgPage.currentPage"-->
+<!--            :page-size="apiMsgPage.sizePage"-->
+<!--            :page-sizes="[5, 10, 20, 30]"-->
+<!--            layout="total, sizes, prev, pager, next, jumper"-->
+<!--            :total="apiMsgPage.total"-->
+<!--          ></el-pagination>-->
+<!--        </el-col>-->
+<!--      </el-row>-->
+<!--    </div>-->
     <!-- <result ref="resultFunc"></result> -->
 
     <errorView ref="errorViewFunc"></errorView>
@@ -222,8 +236,8 @@ export default {
     errorView: errorView,
     draggable: draggable
   },
-  name: "uiCaseEdit",
-  props: ["proModelData", "projectName", "modules", "proUrlData", "platformId", "caseSortData"],
+  name: "uiCaseImportEdit",
+  props: ["proModelData", "projectName", "module", "proUrlData", "platformId", "caseSortData"],
   data() {
     return {
       apiMsgVessel: [], //接口用例容器，勾选的内容都存在此变量
@@ -243,17 +257,18 @@ export default {
       apiMsgPage: {
         total: 1,
         currentPage: 1,
-        sizePage: 5
+        sizePage: 15
       },
       form: {
         projectName: null,
         module: {
           name: null,
-          moduleId: ""
+          moduleId: null
         },
         platform: null,
         platformId:null,
-        apiName: ""
+        apiName: "",
+        contentText:""
       },
       stepsInfo: {
         apiMesProjectName: null,
@@ -267,7 +282,7 @@ export default {
       caseData: {
         module: {
           name: null,
-          moduleId: ""
+          moduleId: null
         },
         id: null,
         name: null,
@@ -308,10 +323,11 @@ export default {
         // this.caseData.extraParam=null,
         this.form.projectName = this.projectName;
         this.form.platformId = this.platformId;
-        this.form.module = this.modules;
+        this.form.module = this.module;
         this.stepsInfo.apiMesProjectName = this.projectName;
-        this.stepsInfo.module = this.proModelData[this.projectName][0];
-        this.findApiMsg();
+        this.stepsInfo.module = this.module;
+        this.form.contentText = "";
+        // this.findApiMsg();
     },
     editorInit() {
       require("brace/ext/language_tools");
@@ -464,8 +480,19 @@ export default {
         });
         return;
       }
+      if (!this.form.contentText || !this.form.contentText .replace(/(^\s*)|(\s*$)/g, "")) {
+        this.$message({
+            showClose: true,
+            message: "请输入录屏内容",
+            type: "warning"
+        });
+        this.form.contentText='';
+        this.$refs.contentText.focus();
+        return;
+      }
+
       return this.$axios
-        .post(this.$api.addUIcaseApi, {
+        .post(this.$api.importUIcaseApi, {
           moduleId: this.form.module.moduleId,
           projectName: this.form.projectName,
           caseId: this.caseData.id,
@@ -474,7 +501,8 @@ export default {
           desc: this.caseData.desc,
           // platform: this.form.platform.id,
           platform: this.form.platformId,
-          steps: this.caseData.steps
+          contentText: this.form.contentText,
+          // steps: this.caseData.steps
         })
         .then(response => {
           if (messageClose) {
@@ -491,27 +519,26 @@ export default {
       // 
       this.$axios
         .post(this.$api.editUIcaseApi, { id: apiMsgId,
-                                         type:type,})
+                                         type:type,
+                                        })
         .then(response => {
           // console.log(2222222,response);
           // console.log(44444,apiMsgId);
           this.caseData.name = response.data["data"]["name"];
           this.caseData.desc = response.data["data"]["desc"];
-          this.caseData.steps = response.data["data"]["steps"];
-          // this.form.platform = response.data["data"]["platform"]["id"];
+          // this.caseData.steps = response.data["data"]["steps"];
+          // this.form.platform = response.data["data"]["platform"];
           this.form.platformId = response.data["data"]["platform"]["id"];
-          this.stepsInfo.apiMesProjectName = this.projectName;
-          this.stepsInfo.module = this.proModelData[this.projectName][0];
           if (status === "edit") {
             this.caseData.num = response.data["data"]["num"];
             this.caseData.id = apiMsgId;
-            this.findApiMsg();
+            this.form.contentText = response.data["data"]["contentText"];
           } else {
             this.caseData.num = "";
             this.caseData.id = "";
           }
           this.form.projectName = this.projectName;
-          this.form.module = this.modules;
+          this.form.module = this.module;
         });
     },
   },

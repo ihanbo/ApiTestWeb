@@ -2,7 +2,7 @@
     <div class="uiCaseEdit">
 
         <el-form :inline="true" style="padding: 10px 20px -10px 10px;">
-            <el-form-item label="基础信息" labelWidth="80px"
+            <el-form-item :required="true" label="基础信息" labelWidth="80px"
                           style="margin-bottom: 10px;margin-top:10px">
                 <el-select v-model="form.projectName"
                            placeholder="请选择项目"
@@ -47,14 +47,14 @@
         </el-form>
         <hr style="height:1px;border:none;border-top:1px solid rgb(241, 215, 215);margin-top: -5px"/>
         <el-form :inline="true" style="padding: 10px 20px -10px 10px;">
-            <el-form-item label="详细信息" labelWidth="80px" style="margin-bottom: 5px">
+            <el-form-item  :required="true" label="详细信息" labelWidth="80px" style="margin-bottom: 5px">
                 <el-form-item prop="name" style="margin-bottom: 5px">
-                    <el-input v-model="caseStepData.name" placeholder="case名称" size="small">
+                    <el-input v-model="caseStepData.name" placeholder="case步骤名称" size="small">
                     </el-input>
                 </el-form-item>
 
                 <el-form-item prop="desc" style="margin-bottom: 5px">
-                    <el-input v-model="caseStepData.desc" placeholder="case描述" size="small">
+                    <el-input v-model="caseStepData.desc" placeholder="case步骤描述" size="small">
                     </el-input>
                 </el-form-item>
 
@@ -73,7 +73,7 @@
             </el-form-item>
         </el-form>
         <el-form :inline="true" style="padding: 10px 20px -10px 10px;">
-            <el-form-item label="元素定位" labelWidth="80px" style="margin-bottom: 5px">
+            <el-form-item :required="true" label="元素定位" labelWidth="80px" style="margin-bottom: 5px">
                 <el-form-item prop="resourceid" style="margin-bottom: 5px">
                     <el-input v-model="caseStepData.resourceid" placeholder="元素id" size="small">
                     </el-input>
@@ -265,23 +265,7 @@
                 if (!this.form.module) {
                     this.$message({
                         showClose: true,
-                        message: '请选择业务模块',
-                        type: 'warning',
-                    });
-                    return
-                }
-                if (!this.caseStepData.name) {
-                    this.$message({
-                        showClose: true,
-                        message: '请输入名称',
-                        type: 'warning',
-                    });
-                    return
-                }
-                if (!this.caseStepData.desc) {
-                    this.$message({
-                        showClose: true,
-                        message: '请输入名称',
+                        message: '请选择模块',
                         type: 'warning',
                     });
                     return
@@ -289,16 +273,43 @@
                 if (!this.caseStepData.platform) {
                     this.$message({
                         showClose: true,
-                        message: '请选择平台',
+                        message: '请选择操作平台',
+                        type: 'warning',
+                    });
+                    return
+                }
+                if (!this.caseStepData.name || !this.caseStepData.name.replace(/(^\s*)|(\s*$)/g, "")) {
+                    this.$message({
+                        showClose: true,
+                        message: '请输入case步骤名称',
+                        type: 'warning',
+                    });
+                    return
+                }
+                if (!this.caseStepData.desc || !this.caseStepData.desc.replace(/(^\s*)|(\s*$)/g, "")) {
+                    this.$message({
+                        showClose: true,
+                        message: '请输入case步骤描述',
+                        type: 'warning',
+                    });
+                    return
+                }
+                if(!this.caseStepData.action ){
+                    this.$message({
+                        showClose: true,
+                        message: '请输入元素行为',
                         type: 'warning',
                     });
                     return
                 }
                 if (this.caseStepData.action.action == 'click' || this.caseStepData.action.action == 'input') {
-                    if (!this.caseStepData.xpath && !this.caseStepData.resourceid && !this.caseStepData.text&& !this.caseStepData.ui_selector) {
+                    if ((!this.caseStepData.xpath || !this.caseStepData.xpath.replace(/(^\s*)|(\s*$)/g, ""))
+                        && (!this.caseStepData.resourceid || !this.caseStepData.resourceid.replace(/(^\s*)|(\s*$)/g, ""))
+                        && (!this.caseStepData.text || !this.caseStepData.text.replace(/(^\s*)|(\s*$)/g, ""))
+                        && (!this.caseStepData.ui_selector|| !this.caseStepData.ui_selector.replace(/(^\s*)|(\s*$)/g, ""))) {
                         this.$message({
                             showClose: true,
-                            message: '必填！路径，资源id，文本至少整一个',
+                            message: '元素定位方式：元素id、元素path、元素文本至少填写一个',
                             type: 'warning',
                         });
                         return
@@ -355,6 +366,7 @@
                         this.caseStepData.set_down_hooks = response.data['data']['tear_down'];
                         this.caseStepData.resourceid = response.data['data']['resourceid'];
                         this.caseStepData.extraParam = response.data['data']['extraParam'];
+                        this.caseStepData.ui_selector = response.data['data']['ui_selector'];
                         this.form.projectName = this.projectName;
                         this.form.module = this.module;
                     }

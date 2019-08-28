@@ -1,7 +1,7 @@
 <template>
   <div class="uiCaseEdit">
     <el-form :inline="true" style="padding: 10px 20px -10px 10px;">
-      <el-form-item label="基础信息" labelWidth="80px" style="margin-bottom: 10px;margin-top:10px">
+      <el-form-item :required="true" label="基础信息" labelWidth="80px" style="margin-bottom: 10px;margin-top:10px">
         <!-- 选择项目 -->
         <el-select
           v-model="form.projectName"
@@ -29,25 +29,26 @@
         <!-- 选择模块 END -->
 
         <!-- 选择平台 -->
+<!--        v-model="form.platform"-->
         <el-select
-          v-model="form.platform"
+          v-model="form.platformId"
           placeholder="操作平台"
           value-key="id"
           size="small"
           style="width: 120px;padding-right:5px">
-          <el-option v-for="item in platformData" :key="item.id" :label="item.name" :value="item"></el-option>
+          <el-option v-for="item in platformData" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
         <!-- 选择平台 END -->
 
         <!-- case名称输入框 -->
         <el-form-item prop="name" style="margin-bottom: 5px">
-          <el-input v-model="caseGatherData.name" placeholder="case名称" size="small"></el-input>
+          <el-input v-model="caseGatherData.name" placeholder="case用例集名称" size="small"></el-input>
         </el-form-item>
         <!-- case名称输入框 END -->
 
         <!-- case描述输入框 -->
         <el-form-item prop="desc" style="margin-bottom: 5px">
-          <el-input v-model="caseGatherData.desc" placeholder="case描述" size="small"></el-input>
+          <el-input v-model="caseGatherData.desc" placeholder="case用例集描述" size="small"></el-input>
         </el-form-item>
         <!-- case名称输入框 END -->
 
@@ -73,9 +74,9 @@
                                            border-color: #ffffff #ffffff rgb(234, 234, 234) #ffffff;"
           >
             <el-col :span="4">编号</el-col>
-            <el-col :span="8">用例名称</el-col>
+            <el-col :span="7">用例名称</el-col>
             <el-col :span="5">描述</el-col>
-            <el-col :span="4" style="padding-left: 50px;">操作</el-col>
+            <el-col :span="5" style="padding-left: 50px;">操作</el-col>
           </el-row>
           <draggable
             v-model="caseGatherData.steps"
@@ -87,7 +88,7 @@
                 <el-col
                   :span="2"
                   style="padding-top: 3px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"
-                >{{ _data.num}}</el-col>
+                >{{sortNum(index)}}</el-col>
                 <el-col
                   :span="8"
                   style="padding-top: 3px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"
@@ -131,7 +132,7 @@
               </el-select> -->
             </el-form-item>
             <el-form-item label>
-              <el-input placeholder="请输入用例" v-model="stepsInfo.apiName" style="width: 150px"></el-input>
+              <el-input placeholder="请输入用例名称" v-model="stepsInfo.apiName" style="width: 150px"></el-input>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click.native="handleCurrentCaseGather(1)" size="mini">搜索</el-button>
@@ -140,8 +141,35 @@
           </el-form>
           <hr style="height:1px;border:none;border-top:1px solid rgb(241, 215, 215);margin-top: -5px"/>
           <!-- 上半部分---搜索 END -->
-
-          <!-- 搜索之后的操作区 -->
+          <el-table
+                  ref="ApiMsgData"
+                  @selection-change="handleCaseUiSetSelection"
+                  :data="ApiMsgData"
+                  stripe
+                  max-height="745">
+            <el-table-column
+                    type="selection"
+                    width="30">
+            </el-table-column>
+            <el-table-column
+                    type="index"
+                    label="编号"
+                    width="50"><!--prop="num"删除偶序号自动更新，添加type=index zjl 20190716-->
+            </el-table-column>
+            <el-table-column
+                    :show-overflow-tooltip=true
+                    prop="name"
+                    label="用例名称"
+                    width="200">
+            </el-table-column>
+            <el-table-column
+                    :show-overflow-tooltip=true
+                    prop="desc"
+                    label="用例描述"
+            >
+            </el-table-column>
+          </el-table>
+          <!-- 搜索之后的操作区
           <el-row
             :gutter="20"
             style="margin-top:10px;
@@ -154,8 +182,9 @@
             <el-col :span="8">用例名称</el-col>
             <el-col :span="8">用例描述</el-col>
           </el-row>
+          -->
           <!-- 搜索之后的操作区 END -->
-          <!-- 搜索之后的内容显示 -->
+          <!-- 搜索之后的内容显示
           <draggable v-model="ApiMsgData" :options="this.draggableOptions">
             <transition-group name="list-complete">
               <div v-for="(_data, index) in ApiMsgData" :key="_data.num" class="list-complete-item">
@@ -176,6 +205,7 @@
               </div>
             </transition-group>
           </draggable>
+           -->
           <!-- 搜索之后的内容显示 END -->
 
           <!-- 分页 -->
@@ -184,7 +214,7 @@
             @size-change="handleSizeCaseGather"
             :current-page="apiMsgPage.currentPage"
             :page-size="apiMsgPage.sizePage"
-            :page-sizes="[15, 30, 45, 60]"
+            :page-sizes="[5, 10, 20, 30]"
             layout="total, sizes, prev, pager, next, jumper"
             :total="apiMsgPage.total"
           ></el-pagination>
@@ -213,11 +243,12 @@ export default {
     draggable: draggable
   },
   name: "uiCaseGatherEdit",
-  props: ["proModelData", "projectName", "module", "proUrlData"],
+  props: ["proModelData", "projectName", "module", "proUrlData", "platformId"],
   data() {
     return {
       apiMsgVessel: [], //接口用例容器，勾选的内容都存在此变量
       ApiMsgData: [], // 接口信息里面的表格数据
+      apiMsgSelect: Array(), //临时保存勾选的用例信息
       bodyShow: "second",
       paramTypes: ["string", "file"],
       radio: "",
@@ -232,7 +263,7 @@ export default {
       apiMsgPage: {
         total: 1,
         currentPage: 1,
-        sizePage: 15
+        sizePage: 5
       },
       form: {
         projectName: null,
@@ -241,6 +272,7 @@ export default {
           moduleId: null
         },
         platform: null,
+        platformId:null,
         apiName: ""
       },
       stepsInfo: {
@@ -266,6 +298,14 @@ export default {
     };
   },
   methods: {
+    //添加序号
+    sortNum(n){
+      return n+1;
+    },
+    //用例信息选择
+    handleCaseUiSetSelection(val){
+      this.apiMsgSelect = val;
+    },
     //  页面数据初始化
     initBaseData() {
       this.$axios.get(this.$api.findPlatformApi)
@@ -279,11 +319,14 @@ export default {
         this.caseGatherData.num = null;
         this.caseGatherData.desc = null;
         this.caseGatherData.id = null;
-        this.caseGatherData.steps = null;
+        this.caseGatherData.steps = [];
         this.caseGatherData.module.name = null,
         this.caseGatherData.module.moduleId = null,
         this.form.projectName = this.projectName;
         this.form.module = this.module;
+        this.form.platformId = this.platformId;
+        this.stepsInfo.apiMesProjectName = this.projectName;
+        this.findApiMsg();
     },
     // 编辑初始化
     editorInit() {
@@ -355,12 +398,13 @@ export default {
       this.$axios.post(this.$api.findUIcaseApi, {
           projectName: this.stepsInfo.apiMesProjectName,
           caseStepName: this.stepsInfo.apiName,
-          platform: this.form.platform.id,
+          // platform: this.form.platform.id,
+          platform: this.form.platformId,
           page: this.apiMsgPage.currentPage,
           sizePage: this.apiMsgPage.sizePage
         })
         .then(response => {
-          console.log(11111111,response)
+          // console.log(11111111,response)
           if (this.messageShow(this, response)) {
             this.radio = false;
             this.ApiMsgData = response.data["data"];
@@ -370,16 +414,18 @@ export default {
     },
     // 添加接口
     addApiData() {
-      if (this.apiMsgVessel.length === 0) {
+      if (this.apiMsgSelect.length === 0) {
         this.$message({
           showClose: true,
-          message: "请勾选接口信息",
+          message: "请勾选用例信息",
           type: "warning"
         });
         return;
       }
-      this.caseGatherData.steps = this.caseGatherData.steps.concat(this.apiMsgVessel);
+      // this.caseGatherData.steps = this.caseGatherData.steps.concat(this.apiMsgVessel);
+      this.caseGatherData.steps = this.caseGatherData.steps.concat(this.apiMsgSelect);
       this.caseGatherData.steps = JSON.parse(JSON.stringify(this.caseGatherData.steps));
+      this.$refs.ApiMsgData.clearSelection();
     },
     // 文件改变时的事件
     fileChange(response, file) {
@@ -416,7 +462,7 @@ export default {
     },
     // 添加用例信息
     addCaseInfo(messageClose = false) {
-      if (!this.form.projectName) {
+      if (!this.form.projectName ) {
         this.$message({
           showClose: true,
           message: "请选择项目",
@@ -424,15 +470,14 @@ export default {
         });
         return;
       }
-      if (!this.caseGatherData.name) {
+      if (!this.caseGatherData.name || !this.caseGatherData.name.replace(/(^\s*)|(\s*$)/g, "")) {
         this.$message({
           showClose: true,
-          message: "请输入名称",
+          message: "请输入用例集名称",
           type: "warning"
         });
         return;
       }
-
       return this.$axios
         .post(this.$api.addUIcaseSetApi, {
           projectName: this.form.projectName,
@@ -440,7 +485,8 @@ export default {
           caseSetName: this.caseGatherData.name,
           num: this.caseGatherData.num,
           caseSetDesc: this.caseGatherData.desc,
-          platform: this.form.platform.id,
+          // platform: this.form.platform.id,
+          platform: this.form.platformId,
           steps: this.caseGatherData.steps
         })
         .then(response => {
@@ -450,6 +496,7 @@ export default {
             if (this.messageShow(this, response)) {
               this.caseGatherData.id = response.data["caseId"];
               this.caseGatherData.num = response.data["num"];
+              this.initApiMsgData();
               return true;
             }
           }

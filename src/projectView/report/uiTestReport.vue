@@ -12,7 +12,7 @@
         <!-- 基本信息预览 -->
         <el-row :gutter="20">
           <el-col :span="12" :offset="6">
-            <p class="grid-content bg-purple">测试名称：{{ item.test_desc }}</p>
+            <p class="grid-content bg-purple">测试名称：{{ item.test_name }}</p>
           </el-col>
         </el-row>
         <el-row :gutter="20">
@@ -59,9 +59,10 @@
             <!-- 详细信息内部表格结束 -->
 
             <!-- 图片开始 -->
-            <div class="demo-image__placeholder">
+            <div class="demo-image__placeholder" id="imagediv" v-show="imagediv"> <p style="color:red">异常图片截图：</p>
               <div class="block">
-                <el-image :src="'http://172.20.15.54:9000/api/'+props.row.cases[caseIndex].case_step[caseIndexLast].pic">
+<!--                <el-image :src="'http://172.20.15.54:9000/api/'+props.row.cases[caseIndex].case_step[caseIndexLast].pic">-->
+                  <el-image :src="'http://localhost:8080/api/'+props.row.cases[caseIndex].case_step[caseIndexLast].pic">
                   <div slot="placeholder" class="image-slot">
                     加载中<span class="dot">...</span>
                   </div>
@@ -81,6 +82,7 @@ export default {
   name: "ui_test_report",
   data() {
     return {
+      imagediv:true,
       caseIndex: 0,
       caseIndexLast: 0,
       tableData: [],
@@ -97,15 +99,23 @@ export default {
       this.$axios.post(this.$api.seeUiReportApi,{
         "report_id": this.$route.query.report_id
       }).then(({data})=>{
-        console.log("data是===>",data);
+        // console.log("data是===>",data);
         if(data.status){
           //得到的json对象添加进空数组tableData
           this.tableData.push(JSON.parse(data.msg));
-          console.log(this.tableData[this.caseIndex].succ);
+          // console.log(this.tableData[this.caseIndex].succ);
           // 把得到的数据中关于步骤的内容添加进空数组tableData2
           this.tableData2.push(this.tableData[this.caseIndex].cases[this.caseIndex].case_step);
+          // console.log("<1111==data是>===>",this.tableData2[0][0]);
+          // console.log("<222==data是>===>",this.tableData2[0][0]['stepName']);
           // tableData2的length-1 得到图片
           this.caseIndexLast = this.tableData2[this.caseIndex].length - 1;
+          // console.log(22222222222,this.tableData);
+          // console.log(22222222222,this.tableData[0]['succ']);
+          if (this.tableData[0]['succ']){
+              // console.log('0000000000');
+              this.imagediv = false;
+          }
         }else{
           this.$message.error('网络连接中断');
         }

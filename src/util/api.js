@@ -102,6 +102,7 @@ const delUIcaseApi = baseUrl+'uicases/delete';
 const runUIcaseApi = baseUrl+'uicases/run_ui_case';
 const findUIcaseApi = baseUrl+'uicases/list';
 const addUIcaseApi = baseUrl+'uicases/add';
+const importUIcaseApi = baseUrl+'uicases/import';
 const delStepInCaseApi = baseUrl+'uicases/delStep';
 const importCasesApi = baseUrl+'uicases/importCases';
 const getDevices = baseUrl+'uicases/get_devices';//调取设备信息接口（运行接口）
@@ -112,6 +113,11 @@ const findUIProApi = baseUrl+'project/find_ui';
 const addUIProApi = baseUrl+'project/add_ui';
 const editUIProApi = baseUrl+'project/edit_ui';
 const delUIProApi = baseUrl+'project/del_ui';
+
+const findUICaseSortApi = baseUrl+'casesort/find_casesort_ui';
+const addUICaseSortApi = baseUrl+'casesort/add_casesort_ui';
+const stickUICaseSortApi = baseUrl+'casesort/stick_casesort_ui';
+const delUICaseSortApi = baseUrl+'casesort/del_casesort_ui';
 
 const findUIModuleApi = baseUrl+'module/find_ui';
 const addUIModuleApi = baseUrl+'module/add_ui';
@@ -238,6 +244,7 @@ export default {
     editUIcaseApi,
     runUIcaseApi,
     addUIcaseApi,
+    importUIcaseApi,
     findUIcaseApi,
     delUIcaseApi,
     delStepInCaseApi,
@@ -256,6 +263,11 @@ export default {
     editUIModuleApi,
     delUIModuleApi ,
     stickUIModuleApi ,
+
+    findUICaseSortApi,
+    addUICaseSortApi,
+    stickUICaseSortApi,
+    delUICaseSortApi,
 
     findUiReportApi,
     seeUiReportApi,

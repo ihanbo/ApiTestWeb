@@ -13,15 +13,15 @@
 
                 <el-table :data="tableData" stripe max-height="745">
                     <el-table-column
-                            prop="id"
-                            label="id"
+                            type="index"
+                            label="序号"
                             width="80"
                     >
                     </el-table-column>
                     <el-table-column
                             prop="name"
                             label="操作平台"
-                            width="150">
+                            width="200">
                     </el-table-column>
 
                     <el-table-column
@@ -42,9 +42,10 @@
         <el-dialog title="添加平台信息" :visible.sync="modelFormVisible" width="40%">
             <el-tabs>
                     <el-form :inline="true">
-                        <el-form-item label="操作平台名称" >
+                        <el-form-item :required="true" label="操作平台名称" >
                             <el-input v-model="form.platformName"
-                                      placeholder="Android/iOS">
+                                      :maxlength="20"
+                                      placeholder="Android/IOS">
                             </el-input>
                         </el-form-item>
                     </el-form>
@@ -98,6 +99,14 @@
                 this.modelFormVisible = true;
             },        
             addPlatform() {
+                if(!this.form.platformName || !this.form.platformName.replace(/(^\s*)|(\s*$)/g, "")){
+                    this.$message({
+                        showClose: true,
+                        message: '操作平台名称不能为空',
+                        type: 'warning',
+                    });
+                    return
+                }
                 this.$axios.post(this.$api.addPlatformApi, {
                     'platformName': this.form.platformName,
                 }).then((response) => {
