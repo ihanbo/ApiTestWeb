@@ -32,8 +32,8 @@
 
                     <p class="page-login--content-footer-copyright">
                         <a href="https://github.com/pencil1/ApiTestWeb" target="view_window">ApiTestWeb 作品</a> |
-                        <a href="https://github.com/kouwuzhelan" target="view_window">大迪爷</a> |
-                        <a href="https://github.com/ihanbo" target="view_window">波老师</a>
+                        <a href="https://github.com/kouwuzhelan" target="view_window">服务端</a> |
+                        <a href="https://github.com/ihanbo" target="view_window">客户端</a>
                     </p>
 
                 </div>
