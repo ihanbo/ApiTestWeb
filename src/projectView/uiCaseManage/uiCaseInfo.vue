@@ -32,21 +32,22 @@
                 </el-select>
             </el-form-item>
 
-            <el-form-item label="case名称" v-if="numTab !== 'third'">
+            <el-form-item label="step名称" v-if="numTab !== 'third'">
                 <el-input placeholder="请输入" v-model="form.caseName" clearable style="width: 150px">
                 </el-input>
             </el-form-item>
 
             <el-form-item>
                 <el-button type="primary" icon="el-icon-search" @click.native="handleCurrentChange(1)">搜索</el-button>
-                <el-button type="primary" @click.native="initData()">录入case信息</el-button>
-                <el-button type="primary" @click.native="initImportData()">导入case信息</el-button>
+                <el-button style="display: none"  type="primary" @click.native="initData()">录入step信息</el-button>
+                <el-button type="primary" @click.native="initImportData()">添加step信息</el-button>
                 <!-- <el-button type="primary" @click.native="$refs.importApiFunc.initData()">批量导入</el-button> -->
             </el-form-item>
         </el-form>
         <el-tabs v-model="numTab" class="table_padding"  @tab-click="tabChange" @tab-remove="removeTab">
-            <el-tab-pane label="case信息" name="first" id="tabclick" >
+            <el-tab-pane label="step信息" name="first" id="tabclick" >
                 <el-row>
+                    <!--
                     <el-col :span="3"
                             style="border:1px solid;border-color: #ffffff rgb(234, 234, 234) #ffffff #ffffff;">
                         <el-row>
@@ -89,7 +90,7 @@
                             </el-pagination>
                         </el-row>
                     </el-col>
-
+                    -->
                     <el-col :span="21" style="padding-left: 5px;">
                         <el-table
                                 ref="apiMultipleTable"
@@ -98,9 +99,8 @@
                                 stripe
                                 max-height="745">
                             <el-table-column
-
                                     type="selection"
-                                    width="40">
+                                    width="45">
                             </el-table-column>
                             <el-table-column
                                     type="index"
@@ -110,13 +110,13 @@
                             <el-table-column
                                     :show-overflow-tooltip=true
                                     prop="name"
-                                    label="case名称"
-                                    width="200">
+                                    label="step名称"
+                                    width="300">
                             </el-table-column>
                             <el-table-column
                                     :show-overflow-tooltip=true
                                     prop="desc"
-                                    label="case描述">
+                                    label="step描述">
                             </el-table-column>
                             <el-table-column
                                     label="操作"
@@ -177,7 +177,7 @@
                 </apiEdit>
             </el-tab-pane>
 
-            <el-tab-pane label="导入case信息" :closable="true"  name="three" v-if="apiImportEditViewStatus"
+            <el-tab-pane label="添加step信息" :closable="true"  name="three" v-if="apiImportEditViewStatus"
                          style="background-color: rgb(250, 250, 250);min-height: 780px">
                 <apiImportEdit
                         :projectName="form.projectName"
@@ -333,6 +333,7 @@
                         if (response.data['user_pro']) {
                             this.form.projectName = response.data['user_pro']['pro_name'];
                             this.findModule()
+                            // this.findCases();
                         }
                         this.$axios.post(this.$api.getFuncAddressApi).then((response) => {
                                 this.funcAddress = response['data']['data'];
@@ -400,19 +401,19 @@
                     });
                     return
                 }
-                if (this.form.platformId === null) {
-                    this.$message({
-                        showClose: true,
-                        message: '请选择平台',
-                        type: 'warning',
-                    });
-                    return
-                }
+                // if (this.form.platformId === null) {
+                //     this.$message({
+                //         showClose: true,
+                //         message: '请选择平台',
+                //         type: 'warning',
+                //     });
+                //     return
+                // }
                 this.$axios.post(this.$api.findUIcaseApi, {
                     'platform': this.form.platformId,
                     'projectName': this.form.projectName,
                     'caseName': this.form.caseName,
-                    'moduleId': this.form.module.moduleId,
+                    // 'moduleId': this.form.module.moduleId,
                     'page': this.apiMsgPage.currentPage,
                     'sizePage': this.apiMsgPage.sizePage,
                 }).then((response) => {
@@ -426,14 +427,14 @@
             },
             //初始化数据并进入导入tab
             initImportData(){
-                if (!this.form.module) {
-                    this.$message({
-                        showClose: true,
-                        message: '请先选择业务模块',
-                        type: 'warning',
-                    });
-                    return
-                }
+                // if (!this.form.module) {
+                //     this.$message({
+                //         showClose: true,
+                //         message: '请先选择业务模块',
+                //         type: 'warning',
+                //     });
+                //     return
+                // }
                 this.apiImportEditViewStatus = true;
                 this.numTab = 'three';
                 setTimeout(() => {
@@ -442,14 +443,14 @@
             },
             //  初始化数据并进入编辑tab
             initData() {
-                if (!this.form.module) {
-                    this.$message({
-                        showClose: true,
-                        message: '请先创建业务模块',
-                        type: 'warning',
-                    });
-                    return
-                }
+                // if (!this.form.module) {
+                //     this.$message({
+                //         showClose: true,
+                //         message: '请先创建业务模块',
+                //         type: 'warning',
+                //     });
+                //     return
+                // }
                 this.apiEditViewStatus = true;
                 this.numTab = 'second';
                 setTimeout(() => {
@@ -520,6 +521,7 @@
                 this.apiMsgPage.currentPage = 1;
                 // this.form.platformId = "";
                 this.findModule()
+                // this.findCases();
                 this.findPlatform();
             },
             //  当平台选择项改变时，初始化模块和配置的数据
@@ -533,6 +535,7 @@
                     'page': this.modulePage.currentPage,
                     'sizePage': this.modulePage.sizePage,
                 }).then((response) => {
+                        this.findCases();
                         if (this.messageShow(this, response)) {
                             this.moduleDataList = response.data['data'];
                             // this.proModelData[this.form.projectName] = response.data['all_module'];
@@ -540,9 +543,9 @@
                             this.modulePage.total = response.data['total'];
                             this.form.module = this.moduleDataList[0];
                             if (this.form.module) {
-                                this.$nextTick(function () {
-                                    this.$refs.testTree.setCurrentKey(this.form.module.moduleId);  //"vuetree"是你自己在树形控件上设置的 ref="vuetree" 的名称
-                                });
+                                // this.$nextTick(function () {
+                                //     this.$refs.testTree.setCurrentKey(this.form.module.moduleId);  //"vuetree"是你自己在树形控件上设置的 ref="vuetree" 的名称
+                                // });
                                 this.findCases();
                             } else {
                                 this.ApiMsgTableData = []
@@ -554,7 +557,7 @@
             },
             //  当tab切换到接口信息时，刷新列表
             tabChange(tab) {
-                if (tab.label === 'case信息') {
+                if (tab.label === 'step信息') {
                     this.findCases()
                 }
 

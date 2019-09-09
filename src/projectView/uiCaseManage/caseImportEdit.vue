@@ -11,7 +11,7 @@
         >
           <el-option v-for="(item, key) in proModelData" :key="key" :value="key"></el-option>
         </el-select>
-
+<!--
         <el-select
           v-model="form.module"
           placeholder="请选择模块"
@@ -27,6 +27,7 @@
             :value="item"
           ></el-option>
         </el-select>
+        -->
         <el-select
           v-model="form.platformId"
           placeholder="操作平台"
@@ -38,11 +39,11 @@
         </el-select>
 
         <el-form-item prop="name" style="margin-bottom: 5px">
-          <el-input v-model="caseData.name" placeholder="case名称" size="small"></el-input>
+          <el-input v-model="caseData.name" placeholder="step名称" size="small"></el-input>
         </el-form-item>
 
         <el-form-item prop="desc" style="margin-bottom: 5px">
-          <el-input v-model="caseData.desc" placeholder="case描述" size="small"></el-input>
+          <el-input v-model="caseData.desc" placeholder="step描述" size="small"></el-input>
         </el-form-item>
         <el-button
           type="primary"
@@ -54,13 +55,13 @@
     </el-form>
     <hr style="height:1px;border:none;border-top:1px solid rgb(241, 215, 215);margin-top: -5px" />
     <el-form  style="padding: 10px 20px -10px 10px;">
-      <el-form-item :required="true" label="请输入录屏内容"  style="margin-bottom: 5px">
+      <el-form-item :required="true" label="请输入操作步骤"  style="margin-bottom: 5px">
 <!--          :autosize="{ minRows: 2, maxRows: 4}"-->
           <el-input
               ref="contentText"
               type="textarea"
               :autosize="{ minRows: 10}"
-              placeholder="请输入录屏内容"
+              placeholder="请输入操作步骤"
               v-model="form.contentText">
           </el-input>
       </el-form-item>
@@ -464,18 +465,18 @@ export default {
         });
         return;
       }
-      if (!this.form.module) {
-        this.$message({
-          showClose: true,
-          message: "请选择模块",
-          type: "warning"
-        });
-        return;
-      }
+      // if (!this.form.module) {
+      //   this.$message({
+      //     showClose: true,
+      //     message: "请选择模块",
+      //     type: "warning"
+      //   });
+      //   return;
+      // }
       if (!this.caseData.name || !this.caseData.name.replace(/(^\s*)|(\s*$)/g, "")) {
         this.$message({
           showClose: true,
-          message: "请输入case名称",
+          message: "请输入step名称",
           type: "warning"
         });
         return;
@@ -483,7 +484,7 @@ export default {
       if (!this.form.contentText || !this.form.contentText .replace(/(^\s*)|(\s*$)/g, "")) {
         this.$message({
             showClose: true,
-            message: "请输入录屏内容",
+            message: "请输入操作步骤",
             type: "warning"
         });
         this.form.contentText='';
@@ -493,7 +494,7 @@ export default {
 
       return this.$axios
         .post(this.$api.importUIcaseApi, {
-          moduleId: this.form.module.moduleId,
+          // moduleId: this.form.module.moduleId,
           projectName: this.form.projectName,
           caseId: this.caseData.id,
           caseName: this.caseData.name,

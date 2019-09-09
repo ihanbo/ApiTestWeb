@@ -45,9 +45,14 @@
                           stripe>
 
                     <el-table-column
+                            type="index"
+                            label="序号"
+                            minWidth="30">
+                    </el-table-column>
+                    <el-table-column
                             prop="project_name"
                             label="所属项目"
-                            minWidth="50">
+                            minWidth="100">
                     </el-table-column>
 
                     <el-table-column
@@ -60,7 +65,7 @@
                     <el-table-column
                             prop="create_time"
                             label="时间"
-                            minWidth="100">
+                            minWidth="150">
                     </el-table-column>
                     <el-table-column
                             prop="performer"
@@ -122,7 +127,7 @@
                 tableData: [],
                 total: 1,
                 currentPage: 1,
-                sizePage: 20,
+                sizePage: 10,
                 form: {
                     projectName: '',
                     gathers: [],

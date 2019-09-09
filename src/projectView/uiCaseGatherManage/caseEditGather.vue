@@ -14,18 +14,18 @@
         <!-- 选择项目 END -->
 
         <!-- 选择模块 -->
-        <!-- <el-select
+        <el-select
           v-model="form.module"
           placeholder="请选择模块"
           value-key="moduleId"
           size="small"
           style="width: 120px;padding-right:5px">
           <el-option
-            v-for="item in proModelData[this.form.projectName]"
+            v-for="item in caseSortData[this.form.projectName]"
             :key="item.moduleId"
             :label="item.name"
             :value="item"></el-option>
-        </el-select> -->
+        </el-select>
         <!-- 选择模块 END -->
 
         <!-- 选择平台 -->
@@ -42,13 +42,13 @@
 
         <!-- case名称输入框 -->
         <el-form-item prop="name" style="margin-bottom: 5px">
-          <el-input v-model="caseGatherData.name" placeholder="case用例集名称" size="small"></el-input>
+          <el-input v-model="caseGatherData.name" placeholder="业务测试名称" size="small"></el-input>
         </el-form-item>
         <!-- case名称输入框 END -->
 
         <!-- case描述输入框 -->
         <el-form-item prop="desc" style="margin-bottom: 5px">
-          <el-input v-model="caseGatherData.desc" placeholder="case用例集描述" size="small"></el-input>
+          <el-input v-model="caseGatherData.desc" placeholder="业务测试描述" size="small"></el-input>
         </el-form-item>
         <!-- case名称输入框 END -->
 
@@ -119,20 +119,20 @@
                 <el-option v-for="(item, key) in proModelData" :key="key" :value="key"></el-option>
               </el-select>
 
-              <!-- <el-select
-                v-model="stepsInfo.module"
-                value-key="moduleId"
-                style="width: 150px;padding-right:5px"
-                placeholder="请选择模块">
-                <el-option
-                  v-for="item in proModelData[this.stepsInfo.apiMesProjectName]"
-                  :key="item.moduleId"
-                  :label="item.name"
-                  :value="item"></el-option>
-              </el-select> -->
+<!--              <el-select-->
+<!--                v-model="stepsInfo.module"-->
+<!--                value-key="moduleId"-->
+<!--                style="width: 150px;padding-right:5px"-->
+<!--                placeholder="请选择模块">-->
+<!--                <el-option-->
+<!--                  v-for="item in proModelData[this.stepsInfo.apiMesProjectName]"-->
+<!--                  :key="item.moduleId"-->
+<!--                  :label="item.name"-->
+<!--                  :value="item"></el-option>-->
+<!--              </el-select>-->
             </el-form-item>
             <el-form-item label>
-              <el-input placeholder="请输入用例名称" v-model="stepsInfo.apiName" style="width: 150px"></el-input>
+              <el-input placeholder="请输入step名称" v-model="stepsInfo.apiName" style="width: 150px"></el-input>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click.native="handleCurrentCaseGather(1)" size="mini">搜索</el-button>
@@ -159,13 +159,13 @@
             <el-table-column
                     :show-overflow-tooltip=true
                     prop="name"
-                    label="用例名称"
+                    label="step信息名称"
                     width="200">
             </el-table-column>
             <el-table-column
                     :show-overflow-tooltip=true
                     prop="desc"
-                    label="用例描述"
+                    label="step信息描述"
             >
             </el-table-column>
           </el-table>
@@ -243,7 +243,7 @@ export default {
     draggable: draggable
   },
   name: "uiCaseGatherEdit",
-  props: ["proModelData", "projectName", "module", "proUrlData", "platformId"],
+  props: ["proModelData", "projectName", "module", "proUrlData", "platformId","caseSortData"],
   data() {
     return {
       apiMsgVessel: [], //接口用例容器，勾选的内容都存在此变量
@@ -376,11 +376,13 @@ export default {
       //  改变项目选项时，清空模块和基础url的选择
       this.form.platform = "";
       this.form.module = "";
+      this.changeModuleChoice();
     },
-    //看不懂的事件
+    // 改变模块时，清空平台
     changeModuleChoice(){
-
+      this.form.platform = "";
     },
+
     // 当前页变化时的事件
     handleCurrentCaseGather(val) {
       this.apiMsgPage.currentPage = val;
@@ -478,8 +480,9 @@ export default {
         });
         return;
       }
-      return this.$axios
+      this.$axios
         .post(this.$api.addUIcaseSetApi, {
+          moduleId: this.form.module.moduleId,
           projectName: this.form.projectName,
           caseSetId: this.caseGatherData.id,
           caseSetName: this.caseGatherData.name,
@@ -513,14 +516,19 @@ export default {
           this.caseGatherData.desc = response.data["data"]["desc"];
           this.caseGatherData.steps = response.data["data"]["steps"];
           this.form.platform = response.data["data"]["platform"];
+          this.form.platformId = response.data["data"]["platform"]["id"]
           if (status === "edit") {
             this.caseGatherData.num = response.data["data"]["num"];
             this.caseGatherData.id = apiMsgId;
+            this.form.module = response.data["data"]["module"];
           } else {
             this.caseGatherData.num = "";
             this.caseGatherData.id = "";
           }
           this.form.projectName = this.projectName;
+          this.stepsInfo.apiMesProjectName = this.projectName;
+          this.form.module = this.module;
+          this.findApiMsg();
         });
     }
   },
