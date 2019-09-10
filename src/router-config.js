@@ -367,16 +367,16 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     if (to.matched.some(r => r.meta.requireAuth)) {
-        // next();
-        if (store.state.token) {
-            next();
-        }
-        else {
-            next({
-                path: '/errors',
-                // query: {redirect: to.fullPath}
-            })
-        }
+        next();
+        // if (store.state.token) {
+        //     next();
+        // }
+        // else {
+        //     next({
+        //         path: '/errors',
+        //         // query: {redirect: to.fullPath}
+        //     })
+        // }
     }
     else {
         next();
