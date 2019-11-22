@@ -29,17 +29,7 @@
                             :value="item">
                     </el-option>
                 </el-select>
-                <el-select v-model="caseStepData.platform"
-                           placeholder="请选择操作平台"
-                           value-key="id"
-                           size="small">
-                    <el-option
-                            v-for="item in platformData"
-                            :key="item.id"
-                            :label="item.name"
-                            :value="item">
-                    </el-option>
-                </el-select>
+
                 <el-button type="primary" @click.native="addCaseInfo()" size="small"
                            style="margin-left: 50px">Save
                 </el-button>
@@ -58,13 +48,13 @@
                     </el-input>
                 </el-form-item>
 
-                <el-form-item prop="set_up_hooks" style="margin-bottom: 5px">
+                <el-form-item prop="set_up_hooks" style="margin-bottom: 5px;display:none">
                     <el-input v-model="caseStepData.set_up_hooks" placeholder="set_up_hooks"
                               size="small">
                     </el-input>
                 </el-form-item>
 
-                <el-form-item prop="set_down_hooks" style="margin-bottom: 5px">
+                <el-form-item prop="set_down_hooks" style="margin-bottom: 5px;display:none">
                     <el-input v-model="caseStepData.set_down_hooks" placeholder="set_down_hooks"
                               size="small">
                     </el-input>
@@ -73,23 +63,35 @@
             </el-form-item>
         </el-form>
         <el-form :inline="true" style="padding: 10px 20px -10px 10px;">
-            <el-form-item :required="true" label="元素定位" labelWidth="80px" style="margin-bottom: 5px">
-                <el-form-item prop="resourceid" style="margin-bottom: 5px">
+            <el-form-item :required="true" label="操作对象" labelWidth="80px" style="margin-bottom: 5px">
+                <el-form-item prop="resourceid" style="margin-bottom: 5px;display:none">
                     <el-input v-model="caseStepData.resourceid" placeholder="元素id" size="small">
                     </el-input>
                 </el-form-item>
-
-                <el-form-item prop="xpath" style="margin-bottom: 5px">
-                    <el-input v-model="caseStepData.xpath" placeholder="元素path" size="small">
+                <el-select v-model="caseStepData.platform"
+                           placeholder="请选择操作平台"
+                           value-key="id"
+                           size="small"
+                           style="width: 150px"
+                >
+                    <el-option
+                            v-for="item in platformData"
+                            :key="item.id"
+                            :label="item.name"
+                            :value="item">
+                    </el-option>
+                </el-select>
+                <el-form-item prop="xpath" style="margin-bottom: 5px;margin-left: 10px">
+                    <el-input v-model="caseStepData.xpath" placeholder="元素xpath" size="small">
                     </el-input>
                 </el-form-item>
 
-                <el-form-item prop="text" style="margin-bottom: 5px">
+                <el-form-item prop="text" style="margin-bottom: 5px;display:none">
                     <el-input v-model="caseStepData.text" placeholder="元素文本（不推荐）" size="small">
                     </el-input>
                 </el-form-item>
 
-                <el-form-item prop="ui_selector" style="margin-bottom: 5px">
+                <el-form-item prop="ui_selector" style="margin-bottom: 5px;display:none">
                     <el-input v-model="caseStepData.ui_selector" placeholder="ui_selector" size="small">
                     </el-input>
                 </el-form-item>
@@ -97,21 +99,30 @@
                 <el-select v-model="caseStepData.action"
                            placeholder="元素行为"
                            value-key="id"
-                           size="small">
+                           size="small"
+                           style="width: 150px"
+                >
                     <el-option
                             v-for="(item) in action"
                             :key="item.id"
                             :label="item.action_name"
                             :value="item">
                     </el-option>
-                </el-select><br/>
+                </el-select>
 
-                <el-form-item prop="extraParam" style="margin-bottom: 5px">
-                    <el-input v-model="caseStepData.extraParam" placeholder="携带参数" size="small">
+                <el-form-item prop="extraParam" style="margin-bottom: 5px;margin-left: 10px">
+                    <el-input v-model="caseStepData.extraParam" placeholder="参数" size="small">
+                    </el-input>
+                </el-form-item><br/>
+            </el-form-item>
+            <el-form-item :required="true" label="预期值" labelWidth="80px" style="margin-bottom: 5px">
+                <el-form-item prop="resourceid" style="margin-bottom: 5px">
+                    <el-input  placeholder="元素xpath" size="small">
                     </el-input>
                 </el-form-item>
             </el-form-item>
         </el-form>
+
         <hr style="height:1px;border:none;border-top:1px solid rgb(241, 215, 215);margin-top: -5px"/>
 
         <result ref="resultFunc">
@@ -240,7 +251,7 @@
                         );
                     }).catch(() => {
 
-                    });
+            });
                 } else {
                     if (response['msg']) {
                         this.$message({

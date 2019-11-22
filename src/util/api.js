@@ -93,6 +93,9 @@ const findPlatformApi = baseUrl+'platform/list';
 
 const findActionsApi = baseUrl+'action/list';
 const editUIcaseStepApi = baseUrl+'uicasestep/editAndCopy';
+const queryUIcaseStepApi = baseUrl+'uicasestep/queryUIcaseStep';
+const addCaseStepApi = baseUrl+'uicasestep/addUIcaseStep';
+const deleteCaseStepApi = baseUrl+'uicasestep/deleteUIcaseStep';
 const delUIcaseStepApi = baseUrl+'uicasestep/delete';
 const findUIcaseStepApi = baseUrl+'uicasestep/list';
 const addUIcaseStepApi = baseUrl+'uicasestep/add';
@@ -236,6 +239,9 @@ export default {
 
     findActionsApi,
     editUIcaseStepApi,
+    queryUIcaseStepApi,
+    addCaseStepApi,
+    deleteCaseStepApi,
     addUIcaseStepApi,
     findUIcaseStepApi,
     delUIcaseStepApi,

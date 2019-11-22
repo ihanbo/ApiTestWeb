@@ -24,9 +24,10 @@
                 <el-menu-item index="/manage/projectManageUI">项目管理</el-menu-item>
                 <el-menu-item index="/manage/platformManage">应用平台</el-menu-item>
                 <el-menu-item index="/manage/deviceInfo">设备信息</el-menu-item>
-<!--                <el-menu-item index="/manage/uiCaseStepManager">case步骤</el-menu-item>-->
-                <el-menu-item index="/manage/uiCaseManager">步骤信息</el-menu-item>
-                <el-menu-item index="/manage/uiCaseGather">业务测试信息</el-menu-item>
+                <el-menu-item index="/manage/uiCaseStepManager">步骤信息</el-menu-item>
+                <el-menu-item index="/manage/uiCaseManager">业务case信息</el-menu-item>
+                <el-menu-item index="/manage/uiRunManager">执行测试用例</el-menu-item>
+                <el-menu-item style="display: none;" index="/manage/uiCaseGather">业务测试信息</el-menu-item>
                 <el-menu-item index="/manage/reportUiManage">UI测试报告</el-menu-item>
             </el-submenu>
             <el-submenu index="3">

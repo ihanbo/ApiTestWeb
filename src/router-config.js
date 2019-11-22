@@ -8,6 +8,7 @@ import caseManage from './projectView/apiMessage/apiMsg.vue'
 import moduleInfo from './projectView/moduleManage/module.vue'
 import uiCaseStepManager from './projectView/uiCaseStepManage/uiCaseStepInfo.vue'
 import uiCaseManager from './projectView/uiCaseManage/uiCaseInfo.vue'
+import uiRunManager from './projectView/uiRunManage/uiRunManage.vue'
 import deviceInfo from './projectView/device/deviceInfo.vue'//设备信息页面
 import uiCaseGather from './projectView/uiCaseGatherManage/uiCaseGather.vue'//用例集
 // import caseEditGather from './projectView/uiCaseGatherManage/caseEditGather.vue'
@@ -164,6 +165,17 @@ const routes = [
                 components: {
                     Header: Header,
                     Manage: uiCaseGather,
+                }
+            },
+            //uiRunManager
+            {
+                path: 'uiRunManager',//用例集路由
+                meta: {
+                    requireAuth: true,
+                },
+                components: {
+                    Header: Header,
+                    Manage: uiRunManager,
                 }
             },
             {

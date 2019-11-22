@@ -32,20 +32,20 @@
                 </el-select>
             </el-form-item>
 
-            <el-form-item label="step名称" v-if="numTab !== 'third'">
+            <el-form-item label="case名称" v-if="numTab !== 'third'">
                 <el-input placeholder="请输入" v-model="form.caseName" clearable style="width: 150px">
                 </el-input>
             </el-form-item>
 
             <el-form-item>
                 <el-button type="primary" icon="el-icon-search" @click.native="handleCurrentChange(1)">搜索</el-button>
-                <el-button style="display: none"  type="primary" @click.native="initData()">录入step信息</el-button>
-                <el-button type="primary" @click.native="initImportData()">添加step信息</el-button>
+                <el-button type="primary" @click.native="initData()">添加case信息</el-button>
+                <el-button style="display: none" type="primary" @click.native="initImportData()">添加step信息</el-button>
                 <!-- <el-button type="primary" @click.native="$refs.importApiFunc.initData()">批量导入</el-button> -->
             </el-form-item>
         </el-form>
         <el-tabs v-model="numTab" class="table_padding"  @tab-click="tabChange" @tab-remove="removeTab">
-            <el-tab-pane label="step信息" name="first" id="tabclick" >
+            <el-tab-pane label="case信息" name="first" id="tabclick" >
                 <el-row>
                     <!--
                     <el-col :span="3"
@@ -110,13 +110,13 @@
                             <el-table-column
                                     :show-overflow-tooltip=true
                                     prop="name"
-                                    label="step名称"
+                                    label="case名称"
                                     width="300">
                             </el-table-column>
                             <el-table-column
                                     :show-overflow-tooltip=true
                                     prop="desc"
-                                    label="step描述">
+                                    label="case描述">
                             </el-table-column>
                             <el-table-column
                                     label="操作"
@@ -162,7 +162,7 @@
 
             </el-tab-pane>
 
-            <el-tab-pane label="录入case信息" :closable="true" name="second" v-if="apiEditViewStatus"
+            <el-tab-pane label="添加case信息" name="second" v-if="apiEditViewStatus"
                          style="background-color: rgb(250, 250, 250);min-height: 780px">
                 <apiEdit
                         :projectName="form.projectName"
@@ -389,7 +389,6 @@
             handleSizeChange(val) {
                 this.apiMsgPage.sizePage = val;
                 this.findCases();
-
             },
             //  查询用例信息
             findCases() {
@@ -557,8 +556,9 @@
             },
             //  当tab切换到接口信息时，刷新列表
             tabChange(tab) {
-                if (tab.label === 'step信息') {
-                    this.findCases()
+                if (tab.label === 'case信息') {
+                    this.findModule()
+                    // this.findCases()
                 }
 
             },
