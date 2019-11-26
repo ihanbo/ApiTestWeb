@@ -64,11 +64,12 @@
                                            border-color: #ffffff #ffffff rgb(234, 234, 234) #ffffff;"
           >
             <el-col :span="2">编号</el-col>
-            <el-col :span="5">步骤名称</el-col>
-            <el-col :span="4">定位元素</el-col>
+            <el-col :span="4">步骤名称</el-col>
+            <el-col :span="5">定位元素</el-col>
             <el-col :span="4">操作动作</el-col>
-            <el-col :span="5">预期值</el-col>
-            <el-col :span="4" style="padding-left: 5px;">操作</el-col>
+            <el-col :span="4">预期值</el-col>
+            <el-col :span="3">是否返回</el-col>
+            <el-col :span="2" style="padding-left: 5px;">操作</el-col>
           </el-row>
           <draggable
             v-model="caseData.steps"
@@ -84,12 +85,12 @@
                 >{{sortNum(index)}}</el-col>
 <!--                  步骤名称5-->
                 <el-col
-                  :span="5"
+                  :span="4"
                   style="padding-top: 3px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"
                 >{{ _data.name }}</el-col>
 <!--                  定位元素4-->
                 <el-col
-                  :span="4"
+                  :span="5"
                   style="padding-top: 3px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"
                 >{{ _data.xpath }}</el-col>
 <!--                  操作动作4-->
@@ -97,13 +98,18 @@
                           :span="4"
                           style="padding-top: 3px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"
                 >{{ _data.action }}</el-col>
-<!--                  预期值5-->
+<!--                  预期值4-->
                 <el-col
-                          :span="5"
+                          :span="4"
                           style="padding-top: 3px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"
                 >{{ _data.expected_value }}</el-col>
-<!--                  操作4-->
-                <el-col :span="4" style="padding-left: 5px;padding-top: 3px">
+                  <!--                  是否返回3-->
+                  <el-col
+                          :span="3"
+                          style="padding-top: 3px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"
+                  ><el-switch v-model="_data.back" > </el-switch></el-col>
+<!--                  操作2-->
+                <el-col :span="2" style="padding-left: 1px;padding-top: 3px">
                   <el-button type="danger" size="mini" @click.native="delStepInCase(index)">删除</el-button>
                 </el-col>
               </el-row>
@@ -117,7 +123,7 @@
 <!--              v-model="stepsInfo.apiMesProjectName"-->
               <el-select
                 v-model="stepsInfo.apiMesProjectName"
-                style="width: 150px;padding-right:5px"
+                style="width: 120px;padding-right:5px"
                 placeholder="请选择项目">
                 <el-option v-for="(item, key) in proModelData" :key="key" :value="key"></el-option>
               </el-select>
@@ -125,7 +131,7 @@
               <el-select
                 v-model="stepsInfo.module"
                 value-key="moduleId"
-                style="width: 150px;padding-right:5px"
+                style="width: 120px;padding-right:5px"
                 placeholder="请选择模块">
 <!--                v-for="item in proModelData[this.stepsInfo.apiMesProjectName]"-->
                 <el-option
@@ -135,9 +141,9 @@
                   :value="item"></el-option>
               </el-select>
             </el-form-item>
-<!--            <el-form-item label>-->
-<!--              <el-input placeholder="请输入用例" v-model="stepsInfo.apiName" style="width: 150px"></el-input>-->
-<!--            </el-form-item>-->
+            <el-form-item label>
+              <el-input placeholder="请输入步骤名称" v-model="stepsInfo.apiName" style="width: 150px"></el-input>
+            </el-form-item>
             <el-form-item>
               <el-button type="primary" @click.native="handleCurrentCase(1)" size="mini">搜索</el-button>
               <el-button type="primary" size="mini" @click.native="addUiStepData()">添加</el-button>
@@ -172,21 +178,21 @@
                     :show-overflow-tooltip=true
                     prop="xpath"
                     label="定位元素"
-                    width="120"
+                    width="150"
                     >
             </el-table-column>
             <el-table-column
                       :show-overflow-tooltip=true
                       prop="action"
                       label="操作动作"
-                      width="100"
+                      width="80"
                         >
             </el-table-column>
             <el-table-column
                       :show-overflow-tooltip=true
                       prop="expected_value"
                       label="预期值"
-                      width="150"
+                      width="130"
               >
             </el-table-column>
           </el-table>
@@ -396,6 +402,7 @@ export default {
     handleCurrentCase(val) {
       this.apiMsgPage.currentPage = val;
       this.findApiMsg();
+      this.stepsInfo.apiName = null;
     },
     handleSizeCase(val) {
         this.apiMsgPage.sizePage = val;
@@ -407,7 +414,7 @@ export default {
       this.$axios.post(this.$api.findUIcaseStepApi, {
           projectName: this.stepsInfo.apiMesProjectName,
           moduleId: this.stepsInfo.module.moduleId,
-          // caseStepName: this.stepsInfo.apiName,
+          caseStepName: this.stepsInfo.apiName,
           // platform: this.form.platform.id,
           // projectName: this.form.projectName,
           // moduleId: this.form.module.moduleId,
@@ -522,10 +529,11 @@ export default {
       // 
       this.$axios
         .post(this.$api.editUIcaseApi, { id: apiMsgId,
-                                         type:type,})
+                                         type:type,
+                                         projectName: this.form.projectName,
+                                         platform: this.form.platformId
+                                        })
         .then(response => {
-          // console.log(2222222,response);
-          // console.log(44444,apiMsgId);
           this.caseData.name = response.data["data"]["name"];
           this.caseData.desc = response.data["data"]["desc"];
           this.caseData.steps = response.data["data"]["steps"];

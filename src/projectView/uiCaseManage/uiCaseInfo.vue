@@ -39,7 +39,8 @@
 
             <el-form-item>
                 <el-button type="primary" icon="el-icon-search" @click.native="handleCurrentChange(1)">搜索</el-button>
-                <el-button type="primary" @click.native="initData()">添加case信息</el-button>
+                <el-button type="primary" icon="el-icon-plus" @click.native="initData()">添加case信息</el-button>
+                <el-button type="primary" icon="el-icon-d-arrow-right" @click.native="getDevicesInfo(apiMsgList)">批量运行</el-button>
                 <el-button style="display: none" type="primary" @click.native="initImportData()">添加step信息</el-button>
                 <!-- <el-button type="primary" @click.native="$refs.importApiFunc.initData()">批量导入</el-button> -->
             </el-form-item>
@@ -111,7 +112,7 @@
                                     :show-overflow-tooltip=true
                                     prop="name"
                                     label="case名称"
-                                    width="300">
+                                    width="200">
                             </el-table-column>
                             <el-table-column
                                     :show-overflow-tooltip=true
@@ -120,7 +121,7 @@
                             </el-table-column>
                             <el-table-column
                                     label="操作"
-                                    width="320">
+                                    width="380">
                                 <template slot-scope="scope">
                                     <el-button type="primary" icon="el-icon-edit" size="mini"
                                                @click.native="editCopyApi(ApiMsgTableData[scope.$index]['id'],ApiMsgTableData[scope.$index]['type'],'edit')">
@@ -135,10 +136,13 @@
                                         删除
                                     </el-button>
 
-                                    <!-- @click.native="runApi(ApiMsgTableData[scope.$index]['id'],'copy')" -->
-                                    <el-button type="primary" icon="el-icon-run" size="mini" ref="runBtn" 
+                                    <el-button type="primary" icon="el-icon-caret-right" size="mini" ref="runBtn"
                                                @click.native="getDevices(scope.row)">
                                         运行
+                                    </el-button>
+                                    <el-button type="primary" icon="el-icon-caret-right" size="mini" ref="runBtn"
+                                               @click.native="runUiCaseWithConfig(scope.row)">
+                                        {{scope.row.isStop ? '停止':"yaml文件运行"}}
                                     </el-button>
                                 </template>
                             </el-table-column>
@@ -271,11 +275,13 @@
                 apiImportEditViewStatus:false,//导入case信息显示控制
                 numTab: 'first',
                 loading: false,  //  页面加载状态开关
-
                 dialogTableVisible: false,//控制运行按钮弹出层的显示隐藏
                 deviceData: [],//设备信息列表
                 type:null,
+                isStop:false,
                 popup_case_id:null,
+                popup_cases:[],
+                run_type:0,
                 proModelData: '',
                 caseSortData: '',
                 proAndIdData: '',
@@ -340,6 +346,32 @@
                             })
                     })
                 this.findPlatform();
+            },
+            //批量运行
+            batchRun(val){
+                let caseIds = [];
+                if (val.length === 0) {
+                    this.$message({
+                        showClose: true,
+                        message: '请选择测试case',
+                        type: 'warning',
+                    });
+                    return
+                }
+                for (let i = 0; i < val.length; i++) {
+                    caseIds.push(val[i].id);
+                }
+                this.loading = true;
+                this.$axios.post(this.$api.batchRunUiCaseApi, {
+                    'caseIds': caseIds,
+                }).then((response) => {
+                    this.messageShow(this, response);
+                    this.loading = false;
+                })
+                this.loading = false;
+
+
+
             },
             //关闭标签
             removeTab(targetName){
@@ -484,17 +516,35 @@
             runApi(row) {
                 this.dialogTableVisible = !this.dialogTableVisible;
                 this.loading = true;
-                this.$axios.post(this.$api.runUIcaseApi, {
-                    'type': this.type,
-                    'id': this.popup_case_id,
-                    'udid':row.device,
-                    'device_name':row.name,
-                }).then((response) => {
-                    this.loading = false;
-                    this.messageShow(this, response);
-                    // console.log(1111,apiMsgId);
-                    // console.log(2222,udid);
-                })
+
+                if(this.run_type === 0){
+                    this.$axios.post(this.$api.runUIcaseApi, {
+                        'type': this.type,
+                        'id': this.popup_case_id,
+                        'udid':row.device,
+                        'device_name':row.name,
+                    }).then((response) => {
+                        this.loading = false;
+                        this.messageShow(this, response);
+                    })
+                }else if(this.run_type === 1){
+                    let caseIds = [];
+                    for (let i = 0; i < this.popup_cases.length; i++) {
+                        caseIds.push(this.popup_cases[i].id);
+                    }
+                    this.loading = true;
+                    this.$axios.post(this.$api.batchRunUiCaseApi, {
+                        'caseIds': caseIds,
+                        'type': this.type,
+                        'udid':row.device,
+                        'device_name':row.name,
+                    }).then((response) => {
+                        this.messageShow(this, response);
+                        this.loading = false;
+                    })
+                }
+                this.loading = false;
+
             },
             //  删除接口信息
             delApi(apiMsgId) {
@@ -633,6 +683,52 @@
                     }
                 )
             },
+            //生成yaml文件运行
+            runUiCaseWithConfig(row){
+                if(!row.isStop){//运行
+                    alert("生成yaml文件运行")
+                    return
+                    row.isStop = true;
+                    alert('id@@@@'+row.id)
+                    this.$axios.post(this.$api.runWithConfigApi,{
+                        id : row.id
+                    }).then((response)=>{
+                        //把得到的数据push进定义的空数组内
+                        if(response.data['status']) {
+                            this.deviceData=response.data['data'];
+                        } else {
+                            this.$message.error('网络连接中断');
+                        }
+                    })
+                }else{//停止
+                    row.isStop = false;
+                    alert("停止yaml文件运行")
+                    return
+                }
+
+            },
+            getDevicesInfo(list_datas){
+                if (list_datas.length === 0) {
+                    this.$message({
+                        showClose: true,
+                        message: '请选择测试case',
+                        type: 'warning',
+                    });
+                    return
+                }
+                this.popup_cases = list_datas;
+                this.dialogTableVisible = !this.dialogTableVisible;
+                this.$axios.post(this.$api.getDevices,{
+                    platform: this.form.platformId,
+                    is_free: true,
+                }).then(({data})=>{
+                    //把得到的数据push进定义的空数组内
+                    if(data.status) {
+                        this.deviceData=data.data;
+                        this.run_type = 1
+                    } else this.$message.error('网络连接中断');
+                })
+            },
             //调取设备信息接口----弹出层
             getDevices(row){
                 localStorage.id = row.id;
@@ -640,12 +736,14 @@
                 this.type = row.type;
                 this.dialogTableVisible = !this.dialogTableVisible;
                 this.$axios.post(this.$api.getDevices,{
-                        platform: this.form.platformId,
-                        is_free: true
-                    }).then(({data})=>{
-                        //把得到的数据push进定义的空数组内
-                        if(data.status) this.deviceData=data.data;
-                        else this.$message.error('网络连接中断');
+                    platform: this.form.platformId,
+                    is_free: true,
+                }).then(({data})=>{
+                    //把得到的数据push进定义的空数组内
+                    if(data.status) {
+                        this.deviceData=data.data;
+                        this.run_type = 0
+                    } else this.$message.error('网络连接中断');
                 })
             }
         },

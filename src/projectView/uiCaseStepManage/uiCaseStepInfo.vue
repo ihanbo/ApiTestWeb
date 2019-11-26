@@ -331,13 +331,21 @@
                             this.$message.warning("操作动作请填写【输入】或【点击】");
                             return
                         }
+                        var extraParam = "";
+                        if(!this.isEmptyState(this.caseStepData_columns.sel.extraParam)){
+                            extraParam = this.caseStepData_columns.sel.extraParam.trim()
+                        }
+                        var expected_value = "";
+                        if(!this.isEmptyState(this.caseStepData_columns.sel.expected_value)){
+                            expected_value = this.caseStepData_columns.sel.expected_value.trim()
+                        }
                         this.$axios.post(this.$api.addCaseStepApi, {
                             'id' : row.id,
                             'name' : this.caseStepData_columns.sel.name.trim(),
                             'xpath' : this.caseStepData_columns.sel.xpath.trim(),
                             'action' : this.caseStepData_columns.sel.action.trim(),
-                            'extraParam': this.caseStepData_columns.sel.extraParam.trim(),
-                            'expected_value': this.caseStepData_columns.sel.expected_value.trim(),
+                            'extraParam': extraParam,
+                            'expected_value': expected_value,
                             'moduleId': this.form.module.moduleId,
                             'projectName': this.form.projectName,
                             'platformId': this.form.platformId,

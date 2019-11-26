@@ -71,7 +71,7 @@ const editCaseApi = baseUrl+'case/edit';
 const addCaseApi = baseUrl+'case/add';
 const configDataApi = baseUrl+'config/data';
 
-
+const apkFileUploadApi = baseUrl+'apkFileUpload'
 const fileUploadingApi = baseUrl+'upload';
 const checkFileApi = baseUrl+'checkFile';
 const importApiApi = baseUrl+'apiMsg/fileChange';
@@ -91,6 +91,9 @@ const addPlatformApi = baseUrl+'platform/add';
 const delPlatformApi = baseUrl+'platform/delete';
 const findPlatformApi = baseUrl+'platform/list';
 
+const addAppRunConfigApi = baseUrl+'uirun/uiRunConfig';
+const queryAppRunConfigApi = baseUrl+'uirun/queryRunConfig';
+
 const findActionsApi = baseUrl+'action/list';
 const editUIcaseStepApi = baseUrl+'uicasestep/editAndCopy';
 const queryUIcaseStepApi = baseUrl+'uicasestep/queryUIcaseStep';
@@ -100,9 +103,12 @@ const delUIcaseStepApi = baseUrl+'uicasestep/delete';
 const findUIcaseStepApi = baseUrl+'uicasestep/list';
 const addUIcaseStepApi = baseUrl+'uicasestep/add';
 
+const batchRunUiCaseApi = baseUrl+'uicases/batchRunUiCase';
+const runWithConfigApi = baseUrl+'uicases/runWithConfig';
 const editUIcaseApi = baseUrl+'uicases/editAndCopy';
 const delUIcaseApi = baseUrl+'uicases/delete';
 const runUIcaseApi = baseUrl+'uicases/run_ui_case';
+const stopUiCase = baseUrl+'uicases/stop_ui_case';
 const findUIcaseApi = baseUrl+'uicases/list';
 const addUIcaseApi = baseUrl+'uicases/add';
 const importUIcaseApi = baseUrl+'uicases/import';
@@ -228,6 +234,7 @@ export default {
     editAndCopyApiApi,
     findApiResult,
 
+    apkFileUploadApi,
     fileUploadingApi,
     importApiApi,
     uploadFileApi,
@@ -236,6 +243,8 @@ export default {
     delPlatformApi,
     findPlatformApi,
 
+    addAppRunConfigApi,
+    queryAppRunConfigApi,
 
     findActionsApi,
     editUIcaseStepApi,
@@ -246,9 +255,11 @@ export default {
     findUIcaseStepApi,
     delUIcaseStepApi,
 
-
+    batchRunUiCaseApi,
+    runWithConfigApi,
     editUIcaseApi,
     runUIcaseApi,
+    stopUiCase,
     addUIcaseApi,
     importUIcaseApi,
     findUIcaseApi,
